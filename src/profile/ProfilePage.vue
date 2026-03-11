@@ -108,7 +108,7 @@ const sections = [
 }
 
 .profile-name {
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: $font-headline;
   font-size: 1.25rem;
   color: $color-text-primary;
   margin: 0;

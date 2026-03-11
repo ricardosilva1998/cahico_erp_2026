@@ -127,7 +127,7 @@ async function handleRegister() {
 }
 
 .register-title {
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: $font-brand;
   color: $color-marine;
   font-size: 1.75rem;
   text-align: center;

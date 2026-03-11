@@ -1,40 +1,49 @@
 <script setup lang="ts">
 import Header from './header/Header.vue'
-import { onMounted, ref } from 'vue'
+import Footer from './footer/Footer.vue'
 import { useTabManager } from '@/composables/useTabManager'
 import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore()
 
-const tabs = ref([
-  {
-    name: 'Stock',
-  },
-  {
-    name: 'Orders',
-  },
-  {
-    name: 'Materials',
-  },
-])
-
 // Initialize tab manager with no tab selected — home page shows by default
 const { currentTab } = useTabManager()
-
-onMounted(() => {
-  document.body.style.backgroundColor = '#FDF6EC'
-})
 </script>
 
 <template>
   <div class="app-container">
-    <Header :tabs="tabs" />
-    <router-view />
+    <Header />
+    <main class="app-main">
+      <router-view />
+    </main>
+    <Footer />
   </div>
 </template>
+
+<style>
+body {
+  font-family: 'DM Sans', sans-serif;
+  background-color: #ffffff;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+</style>
 
 <style scoped>
 .app-container {
   width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-main {
+  flex: 1;
+  padding: 0 1rem;
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 </style>

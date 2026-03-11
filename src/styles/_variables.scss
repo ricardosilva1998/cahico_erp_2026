@@ -1,19 +1,50 @@
-// Jewelry Store Color Palette
-$color-cream: #FDF6EC;
-$color-beige: #F5E6D0;
-$color-sand: #EDE0D4;
-$color-marine: #1B3A5C;
-$color-navy: #132B45;
-$color-brown: #6B4226;
-$color-brown-light: #8B6543;
-$color-gold: #C6A664;
-$color-gold-light: #D4BC84;
-$color-text-primary: #3D2B1F;
-$color-text-secondary: #7A6652;
-$color-text-on-dark: #FAF3EB;
+// Cahico Store Color Palette (matching cahicoporcelanas.com)
+
+// Core palette
+$color-dark-brown: #261C15;
+$color-teal: #175976;
+$color-teal-dark: #0E3F55;
+$color-gold: #BAA030;
+$color-gold-light: #D4C060;
+$color-off-white: #F7F7F2;
+$color-tan: #B9B294;
+$color-white: #FFFFFF;
+$color-light-gray: #F6F6F6;
+
+// Semantic aliases
+$color-primary: $color-teal;
+$color-primary-dark: $color-teal-dark;
+$color-accent: $color-gold;
+$color-bg-body: $color-white;
+$color-bg-section: $color-light-gray;
+$color-bg-alt: $color-off-white;
+
+// Text
+$color-text-primary: $color-dark-brown;
+$color-text-secondary: #5A4A3A;
+$color-text-on-dark: $color-white;
+$color-text-muted: $color-tan;
+
+// Status
 $color-error: #C0392B;
 $color-error-bg: rgba(192, 57, 43, 0.1);
 $color-success: #5D7A3A;
 $color-success-bg: rgba(93, 122, 58, 0.1);
-$color-border: #D4C4B0;
+
+// Borders
+$color-border: #E0D8C8;
 $color-input-border: #C9B99A;
+
+// Typography
+$font-headline: 'Barlow Condensed', sans-serif;
+$font-body: 'DM Sans', sans-serif;
+$font-brand: 'Albert Sans', sans-serif;
+
+// Legacy aliases (for backward compatibility during migration)
+$color-cream: $color-off-white;
+$color-beige: $color-light-gray;
+$color-sand: $color-off-white;
+$color-marine: $color-teal;
+$color-navy: $color-teal-dark;
+$color-brown: $color-dark-brown;
+$color-brown-light: #5A4A3A;

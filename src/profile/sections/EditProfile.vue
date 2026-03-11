@@ -72,7 +72,7 @@ async function handleSave() {
 @use '@/styles/variables' as *;
 
 .section-title {
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: $font-headline;
   font-size: 1.1rem;
   color: $color-text-primary;
   margin: 0 0 1rem;

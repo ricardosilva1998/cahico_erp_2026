@@ -34,11 +34,11 @@ function goHome() {
 }
 
 .logo-text {
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: 1.2rem;
+  font-family: $font-brand;
+  font-size: 1.5rem;
   font-weight: 700;
-  color: $color-marine;
-  letter-spacing: 3px;
+  color: $color-dark-brown;
+  letter-spacing: 4px;
   text-align: center;
 }
 </style>

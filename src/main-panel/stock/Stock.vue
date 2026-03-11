@@ -24,6 +24,8 @@ import Bubble from '../bubble-items/Bubble.vue'
   </div>
 </template>
 <style lang="scss" scoped>
+@use '@/styles/variables' as *;
+
 .stock-row {
   display: flex;
   flex-direction: row;
@@ -40,9 +42,9 @@ import Bubble from '../bubble-items/Bubble.vue'
   display: flex;
   justify-content: center;
   align-content: center;
-  background-color: #6B4226;
-  border: 1px solid #6B4226;
-  color: #FAF3EB;
+  background-color: $color-teal;
+  border: 1px solid $color-teal;
+  color: $color-text-on-dark;
   border-radius: 10px;
   margin-bottom: 10px;
 }

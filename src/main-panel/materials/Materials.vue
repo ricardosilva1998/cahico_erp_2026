@@ -42,9 +42,9 @@ import Bubble from '../bubble-items/Bubble.vue'
   display: flex;
   justify-content: center;
   align-content: center;
-  background-color: #6B4226;
-  border: 1px solid #6B4226;
-  color: #FAF3EB;
+  background-color: #175976;
+  border: 1px solid #175976;
+  color: #FFFFFF;
   border-radius: 10px;
   margin-bottom: 10px;
 }

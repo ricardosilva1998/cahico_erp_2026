@@ -78,8 +78,8 @@ function goToProfile() {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: $color-beige;
-  color: $color-brown;
+  background-color: $color-bg-alt;
+  color: $color-text-secondary;
 }
 
 .account-name {
@@ -93,18 +93,21 @@ function goToProfile() {
 }
 
 .login-btn {
-  background-color: $color-marine;
+  background-color: $color-teal;
   color: $color-text-on-dark;
   border: none;
   padding: 0.5rem 1.25rem;
-  border-radius: 8px;
-  font-size: 0.85rem;
+  border-radius: 6px;
+  font-family: $font-headline;
+  font-size: 0.9rem;
   font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
   cursor: pointer;
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: $color-navy;
+    background-color: $color-primary-dark;
   }
 }
 </style>

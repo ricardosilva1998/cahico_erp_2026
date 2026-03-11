@@ -159,11 +159,6 @@ function handleLogin() {
         </div>
       </div>
     </section>
-
-    <!-- Footer Banner -->
-    <section class="footer-banner">
-      <p class="footer-tagline">✦ Handcrafted with love · Portugal · Since 1987 ✦</p>
-    </section>
   </div>
 </template>
 
@@ -181,7 +176,7 @@ function handleLogin() {
   align-items: center;
   justify-content: space-between;
   padding: 4rem 3rem 3.5rem;
-  background: linear-gradient(135deg, $color-cream 0%, $color-beige 60%, $color-sand 100%);
+  background: linear-gradient(135deg, $color-white 0%, $color-off-white 60%, $color-light-gray 100%);
   border-radius: 12px;
   margin-bottom: 1.5rem;
   min-height: 340px;
@@ -196,7 +191,7 @@ function handleLogin() {
     width: 300px;
     height: 300px;
     border-radius: 50%;
-    background: rgba(198, 166, 100, 0.08);
+    background: rgba(186, 160, 48, 0.06);
     pointer-events: none;
   }
 }
@@ -208,7 +203,8 @@ function handleLogin() {
 }
 
 .hero-tagline {
-  font-size: 0.78rem;
+  font-family: $font-headline;
+  font-size: 0.85rem;
   letter-spacing: 2px;
   color: $color-gold;
   text-transform: uppercase;
@@ -217,20 +213,20 @@ function handleLogin() {
 }
 
 .hero-title {
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: $font-brand;
   font-size: 3.5rem;
   font-weight: 700;
-  color: $color-marine;
+  color: $color-teal;
   letter-spacing: 8px;
   margin: 0 0 0.5rem;
   line-height: 1;
 }
 
 .hero-subtitle {
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: $font-headline;
   font-size: 1.5rem;
   font-weight: 400;
-  color: $color-brown;
+  color: $color-dark-brown;
   margin: 0 0 1rem;
   line-height: 1.4;
 }
@@ -250,38 +246,42 @@ function handleLogin() {
 }
 
 .btn-primary {
-  background-color: $color-marine;
+  background-color: $color-teal;
   color: $color-text-on-dark;
   border: none;
   padding: 0.75rem 1.75rem;
-  border-radius: 8px;
-  font-size: 0.9rem;
+  border-radius: 6px;
+  font-family: $font-headline;
+  font-size: 0.95rem;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   cursor: pointer;
   transition: all 0.2s;
-  letter-spacing: 0.5px;
 
   &:hover {
-    background-color: $color-navy;
+    background-color: $color-primary-dark;
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(27, 58, 92, 0.25);
+    box-shadow: 0 4px 12px rgba(23, 89, 118, 0.25);
   }
 }
 
 .btn-outline {
   background: transparent;
-  color: $color-marine;
-  border: 1.5px solid $color-marine;
+  color: $color-teal;
+  border: 1.5px solid $color-teal;
   padding: 0.75rem 1.75rem;
-  border-radius: 8px;
-  font-size: 0.9rem;
+  border-radius: 6px;
+  font-family: $font-headline;
+  font-size: 0.95rem;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   cursor: pointer;
   transition: all 0.2s;
-  letter-spacing: 0.5px;
 
   &:hover {
-    background-color: $color-marine;
+    background-color: $color-teal;
     color: $color-text-on-dark;
     transform: translateY(-1px);
   }
@@ -323,7 +323,7 @@ function handleLogin() {
   color: $color-gold;
   position: relative;
   z-index: 1;
-  text-shadow: 0 2px 8px rgba(198, 166, 100, 0.4);
+  text-shadow: 0 2px 8px rgba(186, 160, 48, 0.4);
 }
 
 @keyframes rotate-slow {
@@ -338,11 +338,13 @@ function handleLogin() {
 }
 
 .section-title {
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: $font-headline;
   font-size: 1.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
   color: $color-text-primary;
   margin: 0 0 0.4rem;
-  letter-spacing: 1px;
 }
 
 .section-subtitle {
@@ -355,7 +357,7 @@ function handleLogin() {
 .collections {
   margin-bottom: 1.5rem;
   padding: 2.5rem 2rem;
-  background-color: white;
+  background-color: $color-white;
   border: 1px solid $color-border;
   border-radius: 12px;
 }
@@ -371,7 +373,7 @@ function handleLogin() {
 }
 
 .collection-card {
-  background-color: $color-cream;
+  background-color: $color-off-white;
   border: 1px solid $color-border;
   border-radius: 10px;
   padding: 1.75rem 1.25rem;
@@ -382,7 +384,7 @@ function handleLogin() {
   &:hover {
     border-color: $color-gold;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(198, 166, 100, 0.15);
+    box-shadow: 0 6px 20px rgba(186, 160, 48, 0.12);
   }
 }
 
@@ -393,8 +395,11 @@ function handleLogin() {
 }
 
 .collection-name {
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: 1.05rem;
+  font-family: $font-headline;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   color: $color-text-primary;
   margin: 0 0 0.5rem;
 }
@@ -408,18 +413,20 @@ function handleLogin() {
 
 .collection-btn {
   background: none;
-  border: 1px solid $color-brown;
-  color: $color-brown;
+  border: 1px solid $color-teal;
+  color: $color-teal;
   padding: 0.4rem 1rem;
   border-radius: 6px;
+  font-family: $font-headline;
   font-size: 0.8rem;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   cursor: pointer;
   transition: all 0.2s;
-  letter-spacing: 0.5px;
 
   &:hover {
-    background-color: $color-brown;
+    background-color: $color-teal;
     color: $color-text-on-dark;
   }
 }
@@ -428,7 +435,7 @@ function handleLogin() {
 .featured {
   margin-bottom: 1.5rem;
   padding: 2.5rem 2rem;
-  background-color: $color-beige;
+  background-color: $color-light-gray;
   border: 1px solid $color-border;
   border-radius: 12px;
 }
@@ -444,7 +451,7 @@ function handleLogin() {
 }
 
 .piece-card {
-  background: white;
+  background: $color-white;
   border: 1px solid $color-border;
   border-radius: 10px;
   overflow: hidden;
@@ -452,13 +459,13 @@ function handleLogin() {
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(61, 43, 31, 0.1);
+    box-shadow: 0 8px 24px rgba(38, 28, 21, 0.08);
     border-color: $color-gold;
   }
 }
 
 .piece-image {
-  background: linear-gradient(135deg, $color-sand, $color-beige);
+  background: linear-gradient(135deg, $color-off-white, $color-light-gray);
   height: 130px;
   display: flex;
   align-items: center;
@@ -467,7 +474,7 @@ function handleLogin() {
 
 .piece-emoji {
   font-size: 3rem;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
 }
 
 .piece-info {
@@ -475,8 +482,9 @@ function handleLogin() {
 }
 
 .piece-name {
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: $font-headline;
   font-size: 1rem;
+  font-weight: 600;
   color: $color-text-primary;
   margin: 0 0 0.25rem;
 }
@@ -489,7 +497,7 @@ function handleLogin() {
 
 .piece-price {
   font-weight: 700;
-  color: $color-marine;
+  color: $color-teal;
   font-size: 1rem;
   margin: 0;
 }
@@ -498,7 +506,7 @@ function handleLogin() {
 .brand-story {
   margin-bottom: 1.5rem;
   padding: 3rem 2.5rem;
-  background-color: white;
+  background-color: $color-white;
   border: 1px solid $color-border;
   border-radius: 12px;
 }
@@ -516,7 +524,8 @@ function handleLogin() {
 }
 
 .story-label {
-  font-size: 0.78rem;
+  font-family: $font-headline;
+  font-size: 0.85rem;
   letter-spacing: 2px;
   color: $color-gold;
   text-transform: uppercase;
@@ -525,8 +534,9 @@ function handleLogin() {
 }
 
 .story-title {
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: $font-headline;
   font-size: 1.6rem;
+  font-weight: 700;
   color: $color-text-primary;
   margin: 0 0 1.25rem;
   line-height: 1.3;
@@ -552,7 +562,7 @@ function handleLogin() {
 }
 
 .story-badge {
-  background: linear-gradient(135deg, $color-marine, $color-navy);
+  background: linear-gradient(135deg, $color-teal, $color-primary-dark);
   color: white;
   border-radius: 12px;
   padding: 2rem 2.5rem;
@@ -562,6 +572,7 @@ function handleLogin() {
 
   .badge-year {
     display: block;
+    font-family: $font-headline;
     font-size: 0.78rem;
     letter-spacing: 2px;
     opacity: 0.7;
@@ -571,7 +582,7 @@ function handleLogin() {
 
   .badge-number {
     display: block;
-    font-family: Georgia, 'Times New Roman', serif;
+    font-family: $font-headline;
     font-size: 3rem;
     font-weight: 700;
     color: $color-gold-light;
@@ -598,32 +609,14 @@ function handleLogin() {
 
 .stat-number {
   display: block;
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: $font-headline;
   font-size: 1.6rem;
   font-weight: 700;
-  color: $color-marine;
+  color: $color-teal;
 }
 
 .stat-label {
   font-size: 0.78rem;
   color: $color-text-secondary;
-}
-
-// ── Footer Banner ────────────────────────────────────────────────────────────
-.footer-banner {
-  text-align: center;
-  padding: 1.25rem;
-  background-color: $color-sand;
-  border: 1px solid $color-border;
-  border-radius: 10px;
-  margin-bottom: 1rem;
-}
-
-.footer-tagline {
-  font-size: 0.8rem;
-  letter-spacing: 2px;
-  color: $color-text-secondary;
-  margin: 0;
-  text-transform: uppercase;
 }
 </style>
