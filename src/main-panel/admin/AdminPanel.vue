@@ -1,9 +1,24 @@
 <script setup lang="ts">
-import { useAdminStore } from '@/stores/admin'
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import AdminCollections from './tabs/AdminCollections.vue'
+import AdminProducts from './tabs/AdminProducts.vue'
+import AdminSalesDiscounts from './tabs/AdminSalesDiscounts.vue'
+import AdminStock from './tabs/AdminStock.vue'
+import AdminSettings from './tabs/AdminSettings.vue'
 
-const adminStore = useAdminStore()
 const { t } = useI18n()
+
+type TabKey = 'collections' | 'products' | 'sales' | 'stock' | 'settings'
+const activeTab = ref<TabKey>('collections')
+
+const tabs: { key: TabKey; labelKey: string }[] = [
+  { key: 'collections', labelKey: 'admin.tabCollections' },
+  { key: 'products', labelKey: 'admin.tabProducts' },
+  { key: 'sales', labelKey: 'admin.tabSales' },
+  { key: 'stock', labelKey: 'admin.tabStock' },
+  { key: 'settings', labelKey: 'admin.tabSettings' },
+]
 </script>
 
 <template>
@@ -13,89 +28,23 @@ const { t } = useI18n()
       <p class="panel-subtitle">{{ t('admin.subtitle') }}</p>
     </div>
 
-    <!-- Home Page Sections -->
-    <div class="admin-section">
-      <h3 class="section-title">{{ t('admin.homeSections') }}</h3>
-      <div class="toggle-list">
-        <div class="toggle-item">
-          <span class="toggle-label">{{ t('admin.hero') }}</span>
-          <button
-            :class="['toggle-btn', { active: adminStore.config.heroVisible }]"
-            @click="adminStore.toggleHeroVisible()"
-          >
-            {{ adminStore.config.heroVisible ? t('admin.visible') : t('admin.hidden') }}
-          </button>
-        </div>
-        <div class="toggle-item">
-          <span class="toggle-label">{{ t('admin.story') }}</span>
-          <button
-            :class="['toggle-btn', { active: adminStore.config.storyVisible }]"
-            @click="adminStore.toggleStoryVisible()"
-          >
-            {{ adminStore.config.storyVisible ? t('admin.visible') : t('admin.hidden') }}
-          </button>
-        </div>
-      </div>
-    </div>
+    <nav class="admin-nav">
+      <button
+        v-for="tab in tabs"
+        :key="tab.key"
+        :class="['nav-btn', { active: activeTab === tab.key }]"
+        @click="activeTab = tab.key"
+      >
+        {{ t(tab.labelKey) }}
+      </button>
+    </nav>
 
-    <!-- Collections -->
-    <div class="admin-section">
-      <h3 class="section-title">{{ t('admin.collections') }}</h3>
-      <div class="toggle-list">
-        <div
-          v-for="item in adminStore.config.collections"
-          :key="item.id"
-          class="toggle-item"
-        >
-          <span class="toggle-label">{{ item.name }}</span>
-          <button
-            :class="['toggle-btn', { active: item.visible }]"
-            @click="adminStore.toggleCollectionVisibility(item.id)"
-          >
-            {{ item.visible ? t('admin.visible') : t('admin.hidden') }}
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Materials -->
-    <div class="admin-section">
-      <h3 class="section-title">{{ t('admin.materials') }}</h3>
-      <div class="toggle-list">
-        <div
-          v-for="item in adminStore.config.materials"
-          :key="item.id"
-          class="toggle-item"
-        >
-          <span class="toggle-label">{{ item.name }}</span>
-          <button
-            :class="['toggle-btn', { active: item.visible }]"
-            @click="adminStore.toggleMaterialVisibility(item.id)"
-          >
-            {{ item.visible ? t('admin.visible') : t('admin.hidden') }}
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Featured Pieces -->
-    <div class="admin-section">
-      <h3 class="section-title">{{ t('admin.featured') }}</h3>
-      <div class="toggle-list">
-        <div
-          v-for="item in adminStore.config.featuredPieces"
-          :key="item.id"
-          class="toggle-item"
-        >
-          <span class="toggle-label">{{ item.name }}</span>
-          <button
-            :class="['toggle-btn', { active: item.visible }]"
-            @click="adminStore.toggleFeaturedVisibility(item.id)"
-          >
-            {{ item.visible ? t('admin.visible') : t('admin.hidden') }}
-          </button>
-        </div>
-      </div>
+    <div class="admin-content">
+      <AdminCollections v-if="activeTab === 'collections'" />
+      <AdminProducts v-else-if="activeTab === 'products'" />
+      <AdminSalesDiscounts v-else-if="activeTab === 'sales'" />
+      <AdminStock v-else-if="activeTab === 'stock'" />
+      <AdminSettings v-else-if="activeTab === 'settings'" />
     </div>
   </div>
 </template>
@@ -109,7 +58,7 @@ const { t } = useI18n()
 }
 
 .panel-header {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .panel-title {
@@ -129,74 +78,40 @@ const { t } = useI18n()
   margin: 0;
 }
 
-.admin-section {
-  background: var(--color-white);
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
-  padding: 1.5rem;
-  margin-bottom: 1.25rem;
-  transition: background-color 0.3s, border-color 0.3s;
-}
-
-.section-title {
-  font-family: $font-headline;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--color-text-primary);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin: 0 0 1rem;
-}
-
-.toggle-list {
+.admin-nav {
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
-.toggle-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.6rem 0.75rem;
-  border-radius: 8px;
-  background-color: var(--color-off-white);
-  border: 1px solid var(--color-border);
-  transition: background-color 0.2s;
-}
-
-.toggle-label {
+.nav-btn {
+  padding: 0.75rem 1.25rem;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--color-text-secondary);
   font-family: $font-body;
   font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--color-text-primary);
-}
-
-.toggle-btn {
-  font-family: $font-headline;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  border: 1px solid var(--color-border);
-  border-radius: 6px;
-  padding: 0.35rem 0.85rem;
   cursor: pointer;
   transition: all 0.2s;
-  min-width: 80px;
-  text-align: center;
-  background-color: var(--color-bg-alt);
-  color: var(--color-text-secondary);
-
-  &.active {
-    background-color: var(--color-teal);
-    color: var(--color-text-on-dark);
-    border-color: var(--color-teal);
-  }
+  white-space: nowrap;
+  min-height: 44px;
 
   &:hover {
-    opacity: 0.85;
+    color: var(--color-text-primary);
   }
+
+  &.active {
+    color: var(--color-teal);
+    border-bottom-color: var(--color-teal);
+    font-weight: 600;
+  }
+}
+
+.admin-content {
+  min-height: 300px;
 }
 
 @media (max-width: 600px) {
