@@ -23,7 +23,7 @@ function maxOf(items: { count?: number; avg?: number }[], key: 'count' | 'avg'):
     <div class="chart-card">
       <h4 class="chart-title">{{ t('admin.statsOrdersPerDay') }}</h4>
       <div class="mini-bar-chart" v-if="ordersPerDay.length > 0">
-        <div class="bars-container">
+        <div class="bars-area">
           <div
             v-for="day in ordersPerDay"
             :key="day.date"
@@ -34,8 +34,10 @@ function maxOf(items: { count?: number; avg?: number }[], key: 'count' | 'avg'):
               class="mini-bar"
               :style="{ height: `${(day.count / maxOf(ordersPerDay, 'count')) * 100}%` }"
             />
-            <span class="mini-bar-label">{{ formatDate(day.date) }}</span>
           </div>
+        </div>
+        <div class="labels-row">
+          <span v-for="day in ordersPerDay" :key="day.date" class="mini-bar-label">{{ formatDate(day.date) }}</span>
         </div>
       </div>
       <p v-else class="no-data">{{ t('admin.statsNoData') }}</p>
@@ -43,7 +45,7 @@ function maxOf(items: { count?: number; avg?: number }[], key: 'count' | 'avg'):
     <div class="chart-card">
       <h4 class="chart-title">{{ t('admin.statsAvgPurchaseValue') }}</h4>
       <div class="mini-bar-chart" v-if="avgValuePerDay.length > 0">
-        <div class="bars-container">
+        <div class="bars-area">
           <div
             v-for="day in avgValuePerDay"
             :key="day.date"
@@ -54,8 +56,10 @@ function maxOf(items: { count?: number; avg?: number }[], key: 'count' | 'avg'):
               class="mini-bar gold"
               :style="{ height: `${(day.avg / maxOf(avgValuePerDay, 'avg')) * 100}%` }"
             />
-            <span class="mini-bar-label">{{ formatDate(day.date) }}</span>
           </div>
+        </div>
+        <div class="labels-row">
+          <span v-for="day in avgValuePerDay" :key="day.date" class="mini-bar-label">{{ formatDate(day.date) }}</span>
         </div>
       </div>
       <p v-else class="no-data">{{ t('admin.statsNoData') }}</p>
@@ -93,7 +97,7 @@ function maxOf(items: { count?: number; avg?: number }[], key: 'count' | 'avg'):
   overflow-x: auto;
 }
 
-.bars-container {
+.bars-area {
   display: flex;
   align-items: flex-end;
   gap: 2px;
@@ -102,18 +106,17 @@ function maxOf(items: { count?: number; avg?: number }[], key: 'count' | 'avg'):
 }
 
 .mini-bar-col {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   flex: 1;
   min-width: 16px;
   height: 100%;
-  justify-content: flex-end;
+  display: flex;
+  align-items: flex-end;
 }
 
 .mini-bar {
   width: 100%;
   max-width: 20px;
+  margin: 0 auto;
   background: var(--color-teal);
   border-radius: 2px 2px 0 0;
   min-height: 2px;
@@ -124,10 +127,18 @@ function maxOf(items: { count?: number; avg?: number }[], key: 'count' | 'avg'):
   }
 }
 
+.labels-row {
+  display: flex;
+  gap: 2px;
+  margin-top: 2px;
+}
+
 .mini-bar-label {
+  flex: 1;
+  min-width: 16px;
   font-size: 0.55rem;
   color: var(--color-text-secondary);
-  margin-top: 2px;
+  text-align: center;
   writing-mode: vertical-rl;
   transform: rotate(180deg);
   height: 30px;
