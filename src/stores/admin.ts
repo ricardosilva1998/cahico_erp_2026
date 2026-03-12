@@ -38,6 +38,17 @@ export interface DiscountCode {
   active: boolean
 }
 
+export interface GiftCard {
+  id: string
+  code: string
+  valueEur: number
+  remainingEur: number
+  recipientEmail: string
+  expiryDate: string
+  active: boolean
+  createdAt: string
+}
+
 export interface StockLogEntry {
   id: string
   productId: string
@@ -55,6 +66,7 @@ export interface AdminConfig {
   productOverrides: Record<string, ProductOverride>
   sales: Sale[]
   discountCodes: DiscountCode[]
+  giftCards: GiftCard[]
   stockLog: StockLogEntry[]
 }
 
@@ -97,6 +109,7 @@ function defaultConfig(): AdminConfig {
     productOverrides: {},
     sales: [],
     discountCodes: [],
+    giftCards: [],
     stockLog: [],
   }
 }
@@ -125,6 +138,7 @@ export const useAdminStore = defineStore('admin', () => {
           productOverrides: parsed.productOverrides ?? {},
           sales: parsed.sales ?? [],
           discountCodes: parsed.discountCodes ?? [],
+          giftCards: parsed.giftCards ?? [],
           stockLog: parsed.stockLog ?? [],
         }
       }
@@ -314,6 +328,52 @@ export const useAdminStore = defineStore('admin', () => {
     return { valid: true, discount: dc.discountPercent }
   }
 
+  // Gift Cards
+  function addGiftCard(card: Omit<GiftCard, 'id'>): GiftCard {
+    const newCard: GiftCard = { ...card, id: genId() }
+    config.value.giftCards.push(newCard)
+    saveConfig()
+    return newCard
+  }
+
+  function updateGiftCard(id: string, updates: Partial<GiftCard>) {
+    const idx = config.value.giftCards.findIndex(c => c.id === id)
+    if (idx !== -1) {
+      config.value.giftCards[idx] = { ...config.value.giftCards[idx], ...updates } as GiftCard
+      saveConfig()
+    }
+  }
+
+  function deleteGiftCard(id: string) {
+    config.value.giftCards = config.value.giftCards.filter(c => c.id !== id)
+    saveConfig()
+  }
+
+  function toggleGiftCardActive(id: string) {
+    const card = config.value.giftCards.find(c => c.id === id)
+    if (card) {
+      card.active = !card.active
+      saveConfig()
+    }
+  }
+
+  function validateGiftCard(code: string): { valid: boolean; remainingEur: number } {
+    const now = new Date().toISOString().slice(0, 10)
+    const card = config.value.giftCards.find(
+      c => c.code === code.toUpperCase() && c.active && c.expiryDate >= now,
+    )
+    if (!card || card.remainingEur <= 0) return { valid: false, remainingEur: 0 }
+    return { valid: true, remainingEur: card.remainingEur }
+  }
+
+  function redeemGiftCard(code: string, amount: number): boolean {
+    const card = config.value.giftCards.find(c => c.code === code.toUpperCase())
+    if (!card || !card.active || card.remainingEur < amount) return false
+    card.remainingEur = Math.round((card.remainingEur - amount) * 100) / 100
+    saveConfig()
+    return true
+  }
+
   // Stock
   function adjustStock(productId: string, delta: number, reason: string) {
     const override = config.value.productOverrides[productId] ?? {}
@@ -371,6 +431,12 @@ export const useAdminStore = defineStore('admin', () => {
     updateDiscountCode,
     deleteDiscountCode,
     validateDiscountCode,
+    addGiftCard,
+    updateGiftCard,
+    deleteGiftCard,
+    toggleGiftCardActive,
+    validateGiftCard,
+    redeemGiftCard,
     adjustStock,
     getStockLog,
   }

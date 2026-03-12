@@ -7,6 +7,7 @@ import ProductGallery from './ProductGallery.vue'
 import ProductInfo from './ProductInfo.vue'
 import ProductStory from './ProductStory.vue'
 import SocialShare from './SocialShare.vue'
+import ProductReviews from './ProductReviews.vue'
 import RelatedProducts from './RelatedProducts.vue'
 
 const route = useRoute()
@@ -32,6 +33,7 @@ const productName = computed(() =>
       </div>
     </div>
     <ProductStory :product-id="product.id" />
+    <ProductReviews :product-id="product.id" />
     <RelatedProducts :products="related" />
   </div>
 

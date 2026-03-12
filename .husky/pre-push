@@ -3,4 +3,5 @@ echo "Running pre-push checks..."
 npm run type-check || exit 1
 npm run test:unit -- --run || exit 1
 npx playwright test --project="Desktop Chrome" e2e/smoke.spec.ts || exit 1
+npx playwright test --project="iPhone 12" e2e/smoke.spec.ts e2e/mobile-header.spec.ts || exit 1
 echo "All checks passed!"

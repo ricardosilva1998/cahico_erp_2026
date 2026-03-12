@@ -2,11 +2,13 @@
 import { ref } from 'vue'
 import { useCartStore } from '@/stores/cart'
 import { useAuthStore } from '@/stores/auth'
+import { useReviewsStore } from '@/stores/reviews'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 
 const cartStore = useCartStore()
 const authStore = useAuthStore()
+const reviewsStore = useReviewsStore()
 const router = useRouter()
 const { t } = useI18n()
 
@@ -38,6 +40,9 @@ function formatPrice(cents: number) {
 
 function completePurchase() {
   purchaseCompleted.value = true
+  for (const item of cartStore.cartItems) {
+    reviewsStore.addPurchase(item.productId)
+  }
   cartStore.clearCart()
 }
 

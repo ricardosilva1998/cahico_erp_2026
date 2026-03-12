@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useAdminStore, type Sale, type DiscountCode } from '@/stores/admin'
+import { useAdminStore, type Sale, type DiscountCode, type GiftCard } from '@/stores/admin'
 import { useToast } from '@/composables/useToast'
 import { useI18n } from 'vue-i18n'
 import SaleForm from '../components/SaleForm.vue'
 import DiscountCodeForm from '../components/DiscountCodeForm.vue'
+import GiftCardForm from '../components/GiftCardForm.vue'
 
 const adminStore = useAdminStore()
 const { show: showToast } = useToast()
@@ -14,6 +15,8 @@ const showSaleForm = ref(false)
 const editingSale = ref<Sale | undefined>(undefined)
 const showCodeForm = ref(false)
 const editingCode = ref<DiscountCode | undefined>(undefined)
+const showGiftCardForm = ref(false)
+const editingGiftCard = ref<GiftCard | undefined>(undefined)
 
 function openCreateSale() {
   editingSale.value = undefined
@@ -61,6 +64,30 @@ function deleteCode(id: string) {
 
 function toggleCodeActive(code: DiscountCode) {
   adminStore.updateDiscountCode(code.id, { active: !code.active })
+}
+
+function openCreateGiftCard() {
+  editingGiftCard.value = undefined
+  showGiftCardForm.value = true
+}
+
+function openEditGiftCard(card: GiftCard) {
+  editingGiftCard.value = card
+  showGiftCardForm.value = true
+}
+
+function closeGiftCardForm() {
+  showGiftCardForm.value = false
+  editingGiftCard.value = undefined
+}
+
+function deleteGiftCard(id: string) {
+  adminStore.deleteGiftCard(id)
+  showToast(t('admin.giftCardDeleted'), 'info')
+}
+
+function toggleGiftCardActive(card: GiftCard) {
+  adminStore.toggleGiftCardActive(card.id)
 }
 </script>
 
@@ -158,6 +185,58 @@ function toggleCodeActive(code: DiscountCode) {
             </button>
             <button class="edit-btn" @click="openEditCode(code)">{{ t('admin.editProduct') }}</button>
             <button class="delete-btn" @click="deleteCode(code.id)">{{ t('admin.delete') }}</button>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gift Cards Section -->
+    <div class="section-block">
+      <div class="section-header">
+        <h3 class="section-heading">{{ t('admin.giftCards') }}</h3>
+        <button v-if="!showGiftCardForm" class="btn-primary" @click="openCreateGiftCard">
+          + {{ t('admin.createGiftCard') }}
+        </button>
+      </div>
+
+      <GiftCardForm
+        v-if="showGiftCardForm"
+        :edit-card="editingGiftCard"
+        @close="closeGiftCardForm"
+      />
+
+      <div v-if="adminStore.config.giftCards.length === 0 && !showGiftCardForm" class="empty-state">
+        {{ t('admin.inactive') }} - {{ t('admin.createGiftCard') }}
+      </div>
+
+      <div class="codes-table" v-if="adminStore.config.giftCards.length > 0">
+        <div class="codes-header">
+          <span>{{ t('admin.giftCardCode') }}</span>
+          <span>{{ t('admin.giftCardValue') }}</span>
+          <span>{{ t('admin.giftCardRemaining') }}</span>
+          <span>{{ t('admin.giftCardRecipient') }}</span>
+          <span>{{ t('admin.giftCardExpiry') }}</span>
+          <span></span>
+        </div>
+        <div
+          v-for="card in adminStore.config.giftCards"
+          :key="card.id"
+          class="codes-row"
+        >
+          <span class="code-value">{{ card.code }}</span>
+          <span>&euro;{{ card.valueEur }}</span>
+          <span>&euro;{{ card.remainingEur }}</span>
+          <span>{{ card.recipientEmail || '—' }}</span>
+          <span class="date-range">{{ card.expiryDate }}</span>
+          <span class="row-actions">
+            <button
+              :class="['status-btn', { active: card.active }]"
+              @click="toggleGiftCardActive(card)"
+            >
+              {{ card.active ? t('admin.active') : t('admin.inactive') }}
+            </button>
+            <button class="edit-btn" @click="openEditGiftCard(card)">{{ t('admin.editProduct') }}</button>
+            <button class="delete-btn" @click="deleteGiftCard(card.id)">{{ t('admin.delete') }}</button>
           </span>
         </div>
       </div>

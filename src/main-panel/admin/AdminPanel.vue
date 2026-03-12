@@ -6,10 +6,11 @@ import AdminProducts from './tabs/AdminProducts.vue'
 import AdminSalesDiscounts from './tabs/AdminSalesDiscounts.vue'
 import AdminStock from './tabs/AdminStock.vue'
 import AdminSettings from './tabs/AdminSettings.vue'
+import AdminStatistics from './tabs/AdminStatistics.vue'
 
 const { t } = useI18n()
 
-type TabKey = 'collections' | 'products' | 'sales' | 'stock' | 'settings'
+type TabKey = 'collections' | 'products' | 'sales' | 'stock' | 'statistics' | 'settings'
 const activeTab = ref<TabKey>('collections')
 
 const tabs: { key: TabKey; labelKey: string }[] = [
@@ -17,6 +18,7 @@ const tabs: { key: TabKey; labelKey: string }[] = [
   { key: 'products', labelKey: 'admin.tabProducts' },
   { key: 'sales', labelKey: 'admin.tabSales' },
   { key: 'stock', labelKey: 'admin.tabStock' },
+  { key: 'statistics', labelKey: 'admin.tabStatistics' },
   { key: 'settings', labelKey: 'admin.tabSettings' },
 ]
 </script>
@@ -44,6 +46,7 @@ const tabs: { key: TabKey; labelKey: string }[] = [
       <AdminProducts v-else-if="activeTab === 'products'" />
       <AdminSalesDiscounts v-else-if="activeTab === 'sales'" />
       <AdminStock v-else-if="activeTab === 'stock'" />
+      <AdminStatistics v-else-if="activeTab === 'statistics'" />
       <AdminSettings v-else-if="activeTab === 'settings'" />
     </div>
   </div>

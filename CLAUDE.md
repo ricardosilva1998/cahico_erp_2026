@@ -20,6 +20,12 @@ npm run test:e2e -- tests/example.spec.ts # Single E2E file
 npm run test:e2e -- --debug               # E2E debug mode
 ```
 
+## Git Workflow
+
+- Default push target is `dev` branch (exists locally + remote). Never push to `main` unless the user explicitly says "push to prod".
+- After changes: open `http://localhost:5173` in Chrome for visual review + run E2E tests before pushing.
+- Only push to `main` / deploy to Netlify when the user says "push to prod".
+
 ## Architecture
 
 This is a Vue 3 + TypeScript SPA (Vite) for the Cahico jewelry ERP. It combines a customer-facing jewelry store homepage with ERP management panels (stock, orders, materials, contact).
