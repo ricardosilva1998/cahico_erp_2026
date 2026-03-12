@@ -2,41 +2,44 @@
 import { useAuthStore } from '@/stores/auth'
 import { useTabManager } from '@/composables/useTabManager'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import { computed } from 'vue'
 
 const authStore = useAuthStore()
 const { setTab } = useTabManager()
 const router = useRouter()
+const { t } = useI18n()
 
-const collections = [
+const collections = computed(() => [
   {
-    icon: '💍',
-    name: 'Rings',
-    description: 'From delicate bands to statement pieces — find your perfect ring.',
+    img: 'https://cdnx.jumpseller.com/cahico/image/73462296/thumb/299/399?1771499425',
+    name: t('home.rings'),
+    description: t('home.ringsDesc'),
   },
   {
-    icon: '📿',
-    name: 'Necklaces',
-    description: 'Elegant pendants and chains crafted in gold and silver.',
+    img: 'https://cdnx.jumpseller.com/cahico/image/73507472/thumb/299/399?1771500213',
+    name: t('home.necklaces'),
+    description: t('home.necklacesDesc'),
   },
   {
-    icon: '✨',
-    name: 'Bracelets',
-    description: 'Refined bracelets for every occasion, day and night.',
+    img: 'https://cdnx.jumpseller.com/cahico/image/73508788/thumb/299/399?1771514251',
+    name: t('home.bracelets'),
+    description: t('home.braceletsDesc'),
   },
   {
-    icon: '🌟',
-    name: 'Earrings',
-    description: 'From subtle studs to dramatic drops, always in style.',
+    img: 'https://cdnx.jumpseller.com/cahico/image/73464402/thumb/299/399?1771427526',
+    name: t('home.earrings'),
+    description: t('home.earringsDesc'),
   },
-]
+])
 
 const featuredPieces = [
-  { name: 'Lunar Ring', material: '18k Gold · Diamond', price: '€1,240', emoji: '💍' },
-  { name: 'Marina Necklace', material: 'Sterling Silver · Pearl', price: '€680', emoji: '📿' },
-  { name: 'Amber Bracelet', material: '18k Rose Gold', price: '€920', emoji: '✨' },
-  { name: 'Soleil Earrings', material: '14k Gold · Topaz', price: '€540', emoji: '🌟' },
-  { name: 'Dune Ring', material: 'Sterling Silver · Onyx', price: '€380', emoji: '💍' },
-  { name: 'Cascade Necklace', material: '18k Gold · Emerald', price: '€1,580', emoji: '📿' },
+  { name: 'Alfama Ring', material: '18k Gold · Diamond', price: '€1,240', img: 'https://cdnx.jumpseller.com/cahico/image/73462296/thumb/299/399?1771499425' },
+  { name: 'Alfama Necklace', material: 'Sterling Silver · Pearl', price: '€680', img: 'https://cdnx.jumpseller.com/cahico/image/73507472/thumb/299/399?1771500213' },
+  { name: 'Alfama Bracelet', material: '18k Rose Gold', price: '€920', img: 'https://cdnx.jumpseller.com/cahico/image/73508788/thumb/299/399?1771514251' },
+  { name: 'Alfama Earrings', material: '14k Gold · Topaz', price: '€540', img: 'https://cdnx.jumpseller.com/cahico/image/73464402/thumb/299/399?1771427526' },
+  { name: 'Chiado Ring', material: 'Sterling Silver · Onyx', price: '€380', img: 'https://cdnx.jumpseller.com/cahico/image/74201642/thumb/299/399?1772729926' },
+  { name: 'Chiado Necklace', material: '18k Gold · Emerald', price: '€1,580', img: 'https://cdnx.jumpseller.com/cahico/image/74201707/thumb/299/399?1772730169' },
 ]
 
 function handleExplore() {
@@ -53,36 +56,35 @@ function handleLogin() {
     <!-- Hero Section -->
     <section class="hero">
       <div class="hero-content">
-        <p class="hero-tagline">✦ Handcrafted in Portugal ✦</p>
-        <h1 class="hero-title">CAHICO</h1>
-        <h2 class="hero-subtitle">Timeless Elegance,<br />Crafted with Love</h2>
-        <p class="hero-description">
-          Discover our exquisite collection of fine jewelry — each piece a story of craftsmanship,
-          tradition, and enduring beauty.
-        </p>
+        <p class="hero-tagline">{{ t('home.tagline') }}</p>
+        <h1 class="hero-title">{{ t('home.title') }}</h1>
+        <h2 class="hero-subtitle" v-html="t('home.subtitle').replace('\\n', '<br />')"></h2>
+        <p class="hero-description">{{ t('home.description') }}</p>
         <div class="hero-actions">
-          <button class="btn-primary" @click="handleExplore">Explore Collection</button>
+          <button class="btn-primary" @click="handleExplore">{{ t('home.exploreCollection') }}</button>
           <button
             v-if="!authStore.isAuthenticated"
             class="btn-outline"
             @click="handleLogin"
           >
-            Sign In
+            {{ t('home.signIn') }}
           </button>
         </div>
       </div>
-      <div class="hero-ornament">
-        <div class="ornament-ring outer"></div>
-        <div class="ornament-ring inner"></div>
-        <span class="ornament-gem">◈</span>
+      <div class="hero-image-wrap">
+        <img
+          src="https://assets.jumpseller.com/store/cahico/themes/951526/settings/e1cc539c24b52a7db590/984c28e3-9209-4d77-85b1-6019bdd75bc7.jpg?1773135834"
+          alt="CAHICO jewellery collection"
+          class="hero-photo"
+        />
       </div>
     </section>
 
     <!-- Collections Section -->
     <section class="collections">
       <div class="section-header">
-        <h2 class="section-title">Our Collections</h2>
-        <p class="section-subtitle">Discover pieces crafted for every moment</p>
+        <h2 class="section-title">{{ t('home.ourCollections') }}</h2>
+        <p class="section-subtitle">{{ t('home.collectionsSubtitle') }}</p>
       </div>
       <div class="collections-grid">
         <div
@@ -90,10 +92,10 @@ function handleLogin() {
           :key="collection.name"
           class="collection-card"
         >
-          <span class="collection-icon">{{ collection.icon }}</span>
+          <img :src="collection.img" :alt="collection.name" class="collection-img" />
           <h3 class="collection-name">{{ collection.name }}</h3>
           <p class="collection-desc">{{ collection.description }}</p>
-          <button class="collection-btn" @click="handleExplore">Explore</button>
+          <button class="collection-btn" @click="handleExplore">{{ t('home.explore') }}</button>
         </div>
       </div>
     </section>
@@ -101,13 +103,13 @@ function handleLogin() {
     <!-- Featured Pieces -->
     <section class="featured">
       <div class="section-header">
-        <h2 class="section-title">Featured Pieces</h2>
-        <p class="section-subtitle">Curated selections from our artisans</p>
+        <h2 class="section-title">{{ t('home.featuredPieces') }}</h2>
+        <p class="section-subtitle">{{ t('home.featuredSubtitle') }}</p>
       </div>
       <div class="featured-grid">
         <div v-for="piece in featuredPieces" :key="piece.name" class="piece-card">
           <div class="piece-image">
-            <span class="piece-emoji">{{ piece.emoji }}</span>
+            <img :src="piece.img" :alt="piece.name" class="piece-photo" />
           </div>
           <div class="piece-info">
             <h3 class="piece-name">{{ piece.name }}</h3>
@@ -122,38 +124,30 @@ function handleLogin() {
     <section class="brand-story">
       <div class="story-grid">
         <div class="story-text-block">
-          <p class="story-label">Our Story</p>
-          <h2 class="story-title">Where Heritage Meets Modern Beauty</h2>
-          <p class="story-body">
-            CAHICO was born from a deep passion for Portuguese goldsmithing traditions. For
-            generations, our master artisans have shaped precious metals and gemstones into works
-            of art that carry meaning — for weddings, anniversaries, milestones, and quiet
-            everyday moments.
-          </p>
-          <p class="story-body">
-            Every piece is handcrafted with intention, using ethically sourced materials and
-            time-honoured techniques passed down through the centuries.
-          </p>
-          <button class="btn-outline story-btn" @click="handleExplore">Discover More</button>
+          <p class="story-label">{{ t('home.ourStory') }}</p>
+          <h2 class="story-title">{{ t('home.storyTitle') }}</h2>
+          <p class="story-body">{{ t('home.storyBody1') }}</p>
+          <p class="story-body">{{ t('home.storyBody2') }}</p>
+          <button class="btn-outline story-btn" @click="handleExplore">{{ t('home.discoverMore') }}</button>
         </div>
         <div class="story-visual">
           <div class="story-badge">
-            <span class="badge-year">Est.</span>
+            <span class="badge-year">{{ t('home.estLabel') }}</span>
             <span class="badge-number">1987</span>
-            <span class="badge-text">Years of Craft</span>
+            <span class="badge-text">{{ t('home.yearsOfCraft') }}</span>
           </div>
           <div class="story-stats">
             <div class="stat">
               <span class="stat-number">500+</span>
-              <span class="stat-label">Unique Pieces</span>
+              <span class="stat-label">{{ t('home.uniquePieces') }}</span>
             </div>
             <div class="stat">
               <span class="stat-number">12k+</span>
-              <span class="stat-label">Happy Clients</span>
+              <span class="stat-label">{{ t('home.happyClients') }}</span>
             </div>
             <div class="stat">
               <span class="stat-number">38</span>
-              <span class="stat-label">Years of Excellence</span>
+              <span class="stat-label">{{ t('home.yearsOfExcellence') }}</span>
             </div>
           </div>
         </div>
@@ -287,48 +281,25 @@ function handleLogin() {
   }
 }
 
-.hero-ornament {
-  position: relative;
-  width: 180px;
-  height: 180px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.hero-image-wrap {
   flex-shrink: 0;
+  width: 260px;
+  height: 320px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid $color-gold;
+  box-shadow: 0 8px 32px rgba(38, 28, 21, 0.18);
   margin-left: 2rem;
-}
 
-.ornament-ring {
-  position: absolute;
-  border-radius: 50%;
-  border: 1.5px solid $color-gold;
-  opacity: 0.5;
-
-  &.outer {
-    width: 160px;
-    height: 160px;
-    animation: rotate-slow 20s linear infinite;
-  }
-
-  &.inner {
-    width: 110px;
-    height: 110px;
-    border-style: dashed;
-    animation: rotate-slow 14s linear infinite reverse;
+  @media (max-width: 768px) {
+    display: none;
   }
 }
 
-.ornament-gem {
-  font-size: 3rem;
-  color: $color-gold;
-  position: relative;
-  z-index: 1;
-  text-shadow: 0 2px 8px rgba(186, 160, 48, 0.4);
-}
-
-@keyframes rotate-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.hero-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 // ── Section Common ──────────────────────────────────────────────────────────
@@ -388,10 +359,13 @@ function handleLogin() {
   }
 }
 
-.collection-icon {
-  font-size: 2.25rem;
-  display: block;
+.collection-img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 6px;
   margin-bottom: 0.75rem;
+  display: block;
 }
 
 .collection-name {
@@ -465,16 +439,19 @@ function handleLogin() {
 }
 
 .piece-image {
-  background: linear-gradient(135deg, $color-off-white, $color-light-gray);
-  height: 130px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 180px;
+  overflow: hidden;
 }
 
-.piece-emoji {
-  font-size: 3rem;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+.piece-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+
+  .piece-card:hover & {
+    transform: scale(1.04);
+  }
 }
 
 .piece-info {

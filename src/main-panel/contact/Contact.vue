@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const form = reactive({
   name: '',
@@ -14,10 +17,10 @@ const errors = reactive({ name: '', email: '', subject: '', message: '' })
 
 function validate(): boolean {
   let valid = true
-  errors.name = form.name.trim() ? '' : 'Please enter your name.'
-  errors.email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email) ? '' : 'Please enter a valid email address.'
-  errors.subject = form.subject ? '' : 'Please select a subject.'
-  errors.message = form.message.trim().length >= 10 ? '' : 'Please enter a message (min. 10 characters).'
+  errors.name = form.name.trim() ? '' : t('contact.errors.name')
+  errors.email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email) ? '' : t('contact.errors.email')
+  errors.subject = form.subject ? '' : t('contact.errors.subject')
+  errors.message = form.message.trim().length >= 10 ? '' : t('contact.errors.message')
   valid = !errors.name && !errors.email && !errors.subject && !errors.message
   return valid
 }
@@ -43,8 +46,8 @@ function resetForm() {
 <template>
   <div class="contact-panel">
     <div class="panel-header">
-      <h2 class="panel-title">Contact Us</h2>
-      <p class="panel-subtitle">We'd love to hear from you. Send us a message and we'll reply within 24 hours.</p>
+      <h2 class="panel-title">{{ t('contact.title') }}</h2>
+      <p class="panel-subtitle">{{ t('contact.subtitle') }}</p>
     </div>
 
     <div class="contact-layout">
@@ -54,34 +57,34 @@ function resetForm() {
           <!-- Success state -->
           <div v-if="submitted" class="success-state" key="success">
             <div class="success-icon">✉️</div>
-            <h3 class="success-title">Message Sent!</h3>
-            <p class="success-text">Thank you for reaching out. We'll reply to <strong>{{ form.email || 'you' }}</strong> within 24 hours.</p>
-            <button class="send-btn" @click="resetForm">Send Another Message</button>
+            <h3 class="success-title">{{ t('contact.successTitle') }}</h3>
+            <p class="success-text">{{ t('contact.successText', { email: form.email || 'you' }) }}</p>
+            <button class="send-btn" @click="resetForm">{{ t('contact.sendAnother') }}</button>
           </div>
 
           <!-- Form -->
           <form v-else key="form" @submit.prevent="handleSubmit" novalidate>
             <div class="form-row">
               <div class="form-group">
-                <label class="form-label">Full Name *</label>
+                <label class="form-label">{{ t('contact.fullName') }} *</label>
                 <input
                   v-model="form.name"
                   type="text"
                   class="form-input"
                   :class="{ error: errors.name }"
-                  placeholder="Maria Santos"
+                  :placeholder="t('contact.fullNamePlaceholder')"
                   autocomplete="name"
                 />
                 <span v-if="errors.name" class="field-error">{{ errors.name }}</span>
               </div>
               <div class="form-group">
-                <label class="form-label">Email Address *</label>
+                <label class="form-label">{{ t('contact.emailAddress') }} *</label>
                 <input
                   v-model="form.email"
                   type="email"
                   class="form-input"
                   :class="{ error: errors.email }"
-                  placeholder="maria@exemplo.pt"
+                  :placeholder="t('contact.emailPlaceholder')"
                   autocomplete="email"
                 />
                 <span v-if="errors.email" class="field-error">{{ errors.email }}</span>
@@ -89,37 +92,37 @@ function resetForm() {
             </div>
 
             <div class="form-group">
-              <label class="form-label">Subject *</label>
+              <label class="form-label">{{ t('contact.subject') }} *</label>
               <select
                 v-model="form.subject"
                 class="form-input form-select"
                 :class="{ error: errors.subject }"
               >
-                <option value="" disabled>Select a subject…</option>
-                <option value="General Enquiry">General Enquiry</option>
-                <option value="Order Enquiry">Order Enquiry</option>
-                <option value="Custom Piece">Custom Piece Request</option>
-                <option value="Wholesale">Wholesale</option>
-                <option value="Press & Media">Press & Media</option>
+                <option value="" disabled>{{ t('contact.subjectPlaceholder') }}</option>
+                <option value="General Enquiry">{{ t('contact.subjects.general') }}</option>
+                <option value="Order Enquiry">{{ t('contact.subjects.order') }}</option>
+                <option value="Custom Piece">{{ t('contact.subjects.custom') }}</option>
+                <option value="Wholesale">{{ t('contact.subjects.wholesale') }}</option>
+                <option value="Press & Media">{{ t('contact.subjects.press') }}</option>
               </select>
               <span v-if="errors.subject" class="field-error">{{ errors.subject }}</span>
             </div>
 
             <div class="form-group">
-              <label class="form-label">Message *</label>
+              <label class="form-label">{{ t('contact.message') }} *</label>
               <textarea
                 v-model="form.message"
                 class="form-input form-textarea"
                 :class="{ error: errors.message }"
-                placeholder="Tell us how we can help…"
+                :placeholder="t('contact.messagePlaceholder')"
                 rows="5"
               ></textarea>
               <span v-if="errors.message" class="field-error">{{ errors.message }}</span>
             </div>
 
             <button type="submit" class="send-btn" :disabled="submitting">
-              <span v-if="submitting">Sending…</span>
-              <span v-else>Send Message →</span>
+              <span v-if="submitting">{{ t('contact.sending') }}</span>
+              <span v-else>{{ t('contact.send') }}</span>
             </button>
           </form>
         </Transition>
@@ -130,7 +133,7 @@ function resetForm() {
         <div class="info-block">
           <div class="info-icon">📍</div>
           <div>
-            <div class="info-label">Address</div>
+            <div class="info-label">{{ t('contact.address') }}</div>
             <div class="info-value">Rua das Flores, 12<br>2780-001 Oeiras<br>Lisboa — Portugal</div>
           </div>
         </div>
@@ -138,7 +141,7 @@ function resetForm() {
         <div class="info-block">
           <div class="info-icon">📞</div>
           <div>
-            <div class="info-label">Phone</div>
+            <div class="info-label">{{ t('contact.phone') }}</div>
             <a href="tel:+351210000000" class="info-value info-link">+351 21 000 00 00</a>
           </div>
         </div>
@@ -146,7 +149,7 @@ function resetForm() {
         <div class="info-block">
           <div class="info-icon">💬</div>
           <div>
-            <div class="info-label">WhatsApp</div>
+            <div class="info-label">{{ t('contact.whatsapp') }}</div>
             <a
               href="https://wa.me/351910000000"
               target="_blank"
@@ -159,7 +162,7 @@ function resetForm() {
         <div class="info-block">
           <div class="info-icon">🕐</div>
           <div>
-            <div class="info-label">Opening Hours</div>
+            <div class="info-label">{{ t('contact.openingHours') }}</div>
             <div class="info-value">
               Mon – Fri: 10:00 – 18:30<br>
               Sat: 10:00 – 14:00<br>

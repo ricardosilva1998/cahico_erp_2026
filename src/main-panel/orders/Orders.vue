@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const activeSection = ref<'history' | 'processing' | 'shipped'>('history')
 
 const completedOrders = [
@@ -87,8 +89,8 @@ const shippedOrders = [
 <template>
   <div class="orders-panel">
     <div class="panel-header">
-      <h2 class="panel-title">Orders</h2>
-      <p class="panel-subtitle">Track and manage your jewellery orders</p>
+      <h2 class="panel-title">{{ t('orders.title') }}</h2>
+      <p class="panel-subtitle">{{ t('orders.subtitle') }}</p>
     </div>
 
     <!-- Section tabs -->
@@ -97,21 +99,21 @@ const shippedOrders = [
         :class="['section-tab', { active: activeSection === 'history' }]"
         @click="activeSection = 'history'"
       >
-        Order History
+        {{ t('orders.history') }}
         <span class="tab-badge">{{ completedOrders.length }}</span>
       </button>
       <button
         :class="['section-tab', { active: activeSection === 'processing' }]"
         @click="activeSection = 'processing'"
       >
-        Processing
+        {{ t('orders.processing') }}
         <span class="tab-badge processing">{{ processingOrders.length }}</span>
       </button>
       <button
         :class="['section-tab', { active: activeSection === 'shipped' }]"
         @click="activeSection = 'shipped'"
       >
-        Shipped
+        {{ t('orders.shipped') }}
         <span class="tab-badge shipped">{{ shippedOrders.length }}</span>
       </button>
     </div>
@@ -123,7 +125,7 @@ const shippedOrders = [
         <div class="order-info">
           <div class="order-top">
             <span class="order-id">{{ order.id }}</span>
-            <span class="status-badge completed">{{ order.status }}</span>
+            <span class="status-badge completed">{{ t('orders.completed') }}</span>
           </div>
           <div class="order-date">{{ order.date }}</div>
           <div class="order-items">{{ order.items.join(' · ') }}</div>
@@ -139,9 +141,9 @@ const shippedOrders = [
         <div class="order-info">
           <div class="order-top">
             <span class="order-id">{{ order.id }}</span>
-            <span class="status-badge processing">{{ order.status }}</span>
+            <span class="status-badge processing">{{ t('orders.processing') }}</span>
           </div>
-          <div class="order-date">Placed {{ order.date }}</div>
+          <div class="order-date">{{ t('orders.placed') }} {{ order.date }}</div>
           <div class="order-items">{{ order.items.join(' · ') }}</div>
           <div class="order-dispatch">{{ order.dispatch }}</div>
         </div>
@@ -156,12 +158,12 @@ const shippedOrders = [
         <div class="order-info">
           <div class="order-top">
             <span class="order-id">{{ order.id }}</span>
-            <span class="status-badge shipped">{{ order.status }}</span>
+            <span class="status-badge shipped">{{ t('orders.shipped') }}</span>
           </div>
-          <div class="order-date">Shipped {{ order.date }}</div>
+          <div class="order-date">{{ t('orders.shippedOn') }} {{ order.date }}</div>
           <div class="order-items">{{ order.items.join(' · ') }}</div>
           <div class="order-tracking">
-            <span class="tracking-label">Tracking:</span>
+            <span class="tracking-label">{{ t('orders.tracking') }}</span>
             <a :href="order.trackingUrl" target="_blank" rel="noopener" class="tracking-link">
               {{ order.tracking }} ↗
             </a>

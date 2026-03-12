@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { useTabManager } from '@/composables/useTabManager'
+import { useI18n } from 'vue-i18n'
 
 const { setTab } = useTabManager()
+const { t } = useI18n()
 
 function navigateToCollection() {
   setTab('Stock')
@@ -16,7 +18,7 @@ function navigateToCollection() {
         <!-- Column 1: Brand + Social -->
         <div class="footer-col">
           <span class="footer-logo">CAHICO</span>
-          <p class="footer-tagline">Porcelanas &amp; Jewelry</p>
+          <p class="footer-tagline">{{ t('footer.tagline') }}</p>
           <div class="footer-social">
             <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -33,29 +35,29 @@ function navigateToCollection() {
 
         <!-- Column 2: Categories -->
         <div class="footer-col">
-          <h4 class="footer-heading">Categories</h4>
+          <h4 class="footer-heading">{{ t('footer.categories') }}</h4>
           <ul class="footer-links">
-            <li><a @click="navigateToCollection">Rings</a></li>
-            <li><a @click="navigateToCollection">Necklaces</a></li>
-            <li><a @click="navigateToCollection">Bracelets</a></li>
-            <li><a @click="navigateToCollection">Earrings</a></li>
+            <li><a @click="navigateToCollection">{{ t('footer.rings') }}</a></li>
+            <li><a @click="navigateToCollection">{{ t('footer.necklaces') }}</a></li>
+            <li><a @click="navigateToCollection">{{ t('footer.bracelets') }}</a></li>
+            <li><a @click="navigateToCollection">{{ t('footer.earrings') }}</a></li>
           </ul>
         </div>
 
         <!-- Column 3: Information -->
         <div class="footer-col">
-          <h4 class="footer-heading">Information</h4>
+          <h4 class="footer-heading">{{ t('footer.information') }}</h4>
           <ul class="footer-links">
-            <li><a href="#">Terms &amp; Conditions</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Refund Policy</a></li>
-            <li><a href="#">Shipping</a></li>
+            <li><a href="#">{{ t('footer.terms') }}</a></li>
+            <li><a href="#">{{ t('footer.privacy') }}</a></li>
+            <li><a href="#">{{ t('footer.refund') }}</a></li>
+            <li><a href="#">{{ t('footer.shipping') }}</a></li>
           </ul>
         </div>
 
         <!-- Column 4: Contact -->
         <div class="footer-col">
-          <h4 class="footer-heading">Contact</h4>
+          <h4 class="footer-heading">{{ t('footer.contact') }}</h4>
           <div class="footer-contact">
             <p>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" class="contact-icon">
@@ -80,7 +82,7 @@ function navigateToCollection() {
 
       <!-- Payment methods -->
       <div class="footer-payment">
-        <span class="payment-label">Secure payments</span>
+        <span class="payment-label">{{ t('footer.securePayments') }}</span>
         <div class="payment-icons">
           <span class="payment-badge">Visa</span>
           <span class="payment-badge">Mastercard</span>
@@ -91,7 +93,7 @@ function navigateToCollection() {
 
       <!-- Copyright -->
       <div class="footer-copyright">
-        <p>&copy; 2026 CAHICO. All rights reserved.</p>
+        <p>{{ t('footer.copyright') }}</p>
       </div>
     </div>
   </footer>

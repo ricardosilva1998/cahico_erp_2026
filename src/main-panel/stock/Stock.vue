@@ -1,85 +1,76 @@
 <script setup lang="ts">
-const collections = [
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t, tm } = useI18n()
+
+const collections = computed(() => [
   {
-    icon: '💍',
-    name: 'Rings',
+    img: 'https://cdnx.jumpseller.com/cahico/image/73462296/thumb/299/399?1771499425',
+    key: 'rings',
     count: 24,
-    description: 'Engagement, wedding bands & statement rings crafted in gold and silver.',
-    tags: ['Engagement', 'Wedding', 'Statement'],
   },
   {
-    icon: '📿',
-    name: 'Necklaces',
+    img: 'https://cdnx.jumpseller.com/cahico/image/73507472/thumb/299/399?1771500213',
+    key: 'necklaces',
     count: 18,
-    description: 'Delicate chains, layered pendants and chokers for every occasion.',
-    tags: ['Chains', 'Pendants', 'Chokers'],
   },
   {
-    icon: '✨',
-    name: 'Earrings',
+    img: 'https://cdnx.jumpseller.com/cahico/image/73464402/thumb/299/399?1771427526',
+    key: 'earrings',
     count: 31,
-    description: 'From minimalist studs to dramatic hoops and drop earrings.',
-    tags: ['Studs', 'Hoops', 'Drops'],
   },
   {
-    icon: '⌚',
-    name: 'Bracelets',
+    img: 'https://cdnx.jumpseller.com/cahico/image/73508788/thumb/299/399?1771514251',
+    key: 'bracelets',
     count: 15,
-    description: 'Charm bracelets, tennis bracelets and elegant bangles.',
-    tags: ['Bangles', 'Charm', 'Tennis'],
   },
   {
-    icon: '🌊',
-    name: 'Anklets',
+    img: 'https://cdnx.jumpseller.com/cahico/image/74201663/thumb/299/399?1772729987',
+    key: 'anklets',
     count: 8,
-    description: 'Delicate ankle chains and beaded styles for a relaxed look.',
-    tags: ['Chains', 'Beaded', 'Boho'],
   },
   {
-    icon: '🌸',
-    name: 'Brooches',
+    img: 'https://cdnx.jumpseller.com/cahico/image/74305850/thumb/299/399?1772902538',
+    key: 'brooches',
     count: 12,
-    description: 'Floral, geometric and vintage-inspired brooches to pin on anything.',
-    tags: ['Floral', 'Geometric', 'Vintage'],
   },
   {
-    icon: '🔮',
-    name: 'Pendants',
+    img: 'https://cdnx.jumpseller.com/cahico/image/73511629/thumb/299/399?1772565002',
+    key: 'pendants',
     count: 20,
-    description: 'Gemstone, locket and symbolic pendants to be worn close to the heart.',
-    tags: ['Gemstone', 'Locket', 'Symbolic'],
   },
   {
-    icon: '🎩',
-    name: 'Cufflinks',
+    img: 'https://cdnx.jumpseller.com/cahico/image/74305962/thumb/299/399?1772902991',
+    key: 'cufflinks',
     count: 9,
-    description: 'Classic and engraved cufflinks that elevate every formal look.',
-    tags: ['Classic', 'Engraved', 'Novelty'],
   },
-]
+])
 </script>
 
 <template>
   <div class="collections-panel">
     <div class="panel-header">
-      <h2 class="panel-title">Collections</h2>
-      <p class="panel-subtitle">Browse our handcrafted jewellery by category</p>
+      <h2 class="panel-title">{{ t('collections.title') }}</h2>
+      <p class="panel-subtitle">{{ t('collections.subtitle') }}</p>
     </div>
 
     <div class="collections-grid">
-      <div v-for="col in collections" :key="col.name" class="collection-card">
-        <div class="card-icon">{{ col.icon }}</div>
+      <div v-for="col in collections" :key="col.key" class="collection-card">
+        <div class="card-image-wrap">
+          <img :src="col.img" :alt="t(`collections.${col.key}`)" class="card-image" />
+        </div>
         <div class="card-body">
           <div class="card-top">
-            <h3 class="card-name">{{ col.name }}</h3>
-            <span class="card-count">{{ col.count }} items</span>
+            <h3 class="card-name">{{ t(`collections.${col.key}`) }}</h3>
+            <span class="card-count">{{ t('collections.items', { count: col.count }) }}</span>
           </div>
-          <p class="card-description">{{ col.description }}</p>
+          <p class="card-description">{{ t(`collections.${col.key}Desc`) }}</p>
           <div class="card-tags">
-            <span v-for="tag in col.tags" :key="tag" class="tag">{{ tag }}</span>
+            <span v-for="tag in (tm(`collections.${col.key}Tags`) as string[])" :key="tag" class="tag">{{ tag }}</span>
           </div>
         </div>
-        <a class="card-cta">View Collection →</a>
+        <a class="card-cta">{{ t('collections.viewCollection') }}</a>
       </div>
     </div>
   </div>
@@ -132,10 +123,10 @@ const collections = [
   background: $color-white;
   border: 1px solid $color-border;
   border-radius: 12px;
-  padding: 1.5rem;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0;
   transition: box-shadow 0.2s, transform 0.2s;
   cursor: pointer;
 
@@ -145,9 +136,25 @@ const collections = [
   }
 }
 
-.card-icon {
-  font-size: 2rem;
-  line-height: 1;
+.card-image-wrap {
+  width: 100%;
+  height: 160px;
+  overflow: hidden;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+
+  .collection-card:hover & {
+    transform: scale(1.05);
+  }
+}
+
+.card-body {
+  padding: 1.25rem;
 }
 
 .card-body {
@@ -155,6 +162,7 @@ const collections = [
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  padding: 0;
 }
 
 .card-top {

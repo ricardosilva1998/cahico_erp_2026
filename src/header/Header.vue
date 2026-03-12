@@ -1,21 +1,24 @@
 <script setup lang="ts">
 import Logo from './logo/Logo.vue'
 import AccountSection from './account/AccountSection.vue'
-import { ref } from 'vue'
+import LanguageSwitcher from './LanguageSwitcher.vue'
+import { ref, computed } from 'vue'
 import { useTabManager } from '@/composables/useTabManager'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
 const { currentTab, setTab } = useTabManager()
 const router = useRouter()
 const mobileMenuOpen = ref(false)
+const { t } = useI18n()
 
-const navItems = [
-  { label: 'Home', tab: '' },
-  { label: 'Collections', tab: 'Stock' },
-  { label: 'Orders', tab: 'Orders' },
-  { label: 'Materials', tab: 'Materials' },
-  { label: 'Contact', tab: 'Contact' },
-]
+const navItems = computed(() => [
+  { label: t('nav.home'), tab: '' },
+  { label: t('nav.collections'), tab: 'Stock' },
+  { label: t('nav.orders'), tab: 'Orders' },
+  { label: t('nav.materials'), tab: 'Materials' },
+  { label: t('nav.contact'), tab: 'Contact' },
+])
 
 function handleNavClick(tab: string) {
   setTab(tab)
@@ -47,6 +50,7 @@ function toggleMobileMenu() {
       </nav>
 
       <div class="header-right">
+        <LanguageSwitcher />
         <AccountSection />
       </div>
 
@@ -144,6 +148,7 @@ function toggleMobileMenu() {
 .header-right {
   display: flex;
   align-items: center;
+  gap: 0.75rem;
 }
 
 .mobile-toggle {

@@ -2,10 +2,12 @@
 import { ref, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
 const authStore = useAuthStore()
 const router = useRouter()
 const route = useRoute()
+const { t } = useI18n()
 
 const email = ref('')
 const password = ref('')
@@ -34,7 +36,7 @@ watch(
   <div class="login-page">
     <div class="login-card">
       <h1 class="login-title">CAHICO</h1>
-      <p class="login-subtitle">Sign in to your account</p>
+      <p class="login-subtitle">{{ t('auth.signInAccount') }}</p>
 
       <div v-if="authStore.error" class="error-message">
         {{ authStore.error }}
@@ -43,36 +45,36 @@ watch(
 
       <form class="login-form" @submit.prevent="handleEmailLogin">
         <div class="form-group">
-          <label for="email">Email</label>
+          <label for="email">{{ t('auth.email') }}</label>
           <input
             id="email"
             v-model="email"
             type="email"
-            placeholder="your@email.com"
+            :placeholder="t('auth.emailPlaceholder')"
             required
             autocomplete="email"
           />
         </div>
 
         <div class="form-group">
-          <label for="password">Password</label>
+          <label for="password">{{ t('auth.password') }}</label>
           <input
             id="password"
             v-model="password"
             type="password"
-            placeholder="Your password"
+            :placeholder="t('auth.passwordPlaceholder')"
             required
             autocomplete="current-password"
           />
         </div>
 
         <button type="submit" class="btn btn-primary" :disabled="authStore.loading">
-          {{ authStore.loading ? 'Signing in...' : 'Sign In' }}
+          {{ authStore.loading ? t('auth.signingIn') : t('auth.signIn') }}
         </button>
       </form>
 
       <div class="divider">
-        <span>or</span>
+        <span>{{ t('auth.or') }}</span>
       </div>
 
       <button class="btn btn-google" @click="handleGoogleLogin" :disabled="authStore.loading">
@@ -94,12 +96,12 @@ watch(
             d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
           />
         </svg>
-        Continue with Google
+        {{ t('auth.continueWithGoogle') }}
       </button>
 
       <p class="register-link">
-        Don't have an account?
-        <RouterLink to="/register">Create one</RouterLink>
+        {{ t('auth.noAccount') }}
+        <RouterLink to="/register">{{ t('auth.createOne') }}</RouterLink>
       </p>
     </div>
   </div>

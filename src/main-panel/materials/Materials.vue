@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
 const materials = [
   {
     name: 'Gold 18k',
@@ -86,8 +90,8 @@ const materials = [
 <template>
   <div class="materials-panel">
     <div class="panel-header">
-      <h2 class="panel-title">Materials</h2>
-      <p class="panel-subtitle">Specifications and applications of every material used in CAHICO jewellery</p>
+      <h2 class="panel-title">{{ t('materials.title') }}</h2>
+      <p class="panel-subtitle">{{ t('materials.subtitle') }}</p>
     </div>
 
     <div class="materials-grid">
@@ -98,7 +102,7 @@ const materials = [
             <h3 class="material-name">{{ mat.name }}</h3>
             <div class="card-badges">
               <span class="grade-badge">{{ mat.grade }}</span>
-              <span class="category-badge" :class="mat.category.toLowerCase()">{{ mat.category }}</span>
+              <span class="category-badge" :class="mat.category.toLowerCase()">{{ t(`materials.categories.${mat.category.toLowerCase()}`) }}</span>
             </div>
           </div>
         </div>
@@ -108,7 +112,7 @@ const materials = [
         </div>
 
         <div class="usage-section">
-          <span class="usage-label">How we use it</span>
+          <span class="usage-label">{{ t('materials.howWeUseIt') }}</span>
           <p class="usage-text">{{ mat.usage }}</p>
         </div>
       </div>

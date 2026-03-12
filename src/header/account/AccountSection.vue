@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
 const authStore = useAuthStore()
 const router = useRouter()
+const { t } = useI18n()
 
 function goToLogin() {
   router.push('/login')
@@ -37,7 +39,7 @@ function goToProfile() {
     </template>
     <template v-else>
       <div class="guest-section">
-        <div class="avatar avatar-guest" @click="goToLogin" title="Sign in">
+        <div class="avatar avatar-guest" @click="goToLogin" :title="t('auth.signIn')">
           <svg viewBox="0 0 24 24" fill="none" width="20" height="20" aria-hidden="true">
             <path
               d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"
@@ -45,7 +47,7 @@ function goToProfile() {
             />
           </svg>
         </div>
-        <button class="login-btn" @click="goToLogin">Login</button>
+        <button class="login-btn" @click="goToLogin">{{ t('auth.login') }}</button>
       </div>
     </template>
   </div>

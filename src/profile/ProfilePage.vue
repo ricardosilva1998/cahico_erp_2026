@@ -1,18 +1,27 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useAuthStore } from '@/stores/auth'
+import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import MyOrders from './sections/MyOrders.vue'
 import PaymentMethods from './sections/PaymentMethods.vue'
 import EditProfile from './sections/EditProfile.vue'
 
 const authStore = useAuthStore()
+const router = useRouter()
+const { t } = useI18n()
 const activeSection = ref<'orders' | 'payments' | 'edit'>('orders')
 
-const sections = [
-  { key: 'orders' as const, label: 'My Orders' },
-  { key: 'payments' as const, label: 'Payment Methods' },
-  { key: 'edit' as const, label: 'Edit Profile' },
-]
+async function handleLogout() {
+  await authStore.logout()
+  router.push('/')
+}
+
+const sections = computed(() => [
+  { key: 'orders' as const, label: t('profile.myOrders') },
+  { key: 'payments' as const, label: t('profile.paymentMethods') },
+  { key: 'edit' as const, label: t('profile.editProfile') },
+])
 </script>
 
 <template>
@@ -37,7 +46,7 @@ const sections = [
           <h1 class="profile-name">{{ authStore.userDisplayName }}</h1>
           <p class="profile-email">{{ authStore.userEmail }}</p>
         </div>
-        <button class="logout-btn" @click="authStore.logout()">Logout</button>
+        <button class="logout-btn" @click="handleLogout">{{ t('profile.logout') }}</button>
       </div>
 
       <nav class="profile-nav">

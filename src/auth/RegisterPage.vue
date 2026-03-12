@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
+import { useI18n } from 'vue-i18n'
 
 const authStore = useAuthStore()
+const { t } = useI18n()
 
 const email = ref('')
 const password = ref('')
@@ -15,12 +17,12 @@ async function handleRegister() {
   authStore.clearError()
 
   if (password.value.length < 6) {
-    validationError.value = 'Password must be at least 6 characters'
+    validationError.value = t('auth.passwordShort')
     return
   }
 
   if (password.value !== confirmPassword.value) {
-    validationError.value = 'Passwords do not match'
+    validationError.value = t('auth.passwordMismatch')
     return
   }
 
@@ -35,12 +37,12 @@ async function handleRegister() {
 <template>
   <div class="register-page">
     <div class="register-card">
-      <h1 class="register-title">Create Account</h1>
-      <p class="register-subtitle">Join CAHICO Jewelry</p>
+      <h1 class="register-title">{{ t('auth.createAccount') }}</h1>
+      <p class="register-subtitle">{{ t('auth.joinCahico') }}</p>
 
       <div v-if="registrationSuccess" class="success-message">
-        Check your email to confirm your account, then sign in.
-        <RouterLink to="/login" class="success-link">Go to Sign In</RouterLink>
+        {{ t('auth.checkEmail') }}
+        <RouterLink to="/login" class="success-link">{{ t('auth.goToSignIn') }}</RouterLink>
       </div>
 
       <template v-else>
@@ -56,49 +58,49 @@ async function handleRegister() {
 
         <form class="register-form" @submit.prevent="handleRegister">
           <div class="form-group">
-            <label for="email">Email</label>
+            <label for="email">{{ t('auth.email') }}</label>
             <input
               id="email"
               v-model="email"
               type="email"
-              placeholder="your@email.com"
+              :placeholder="t('auth.emailPlaceholder')"
               required
               autocomplete="email"
             />
           </div>
 
           <div class="form-group">
-            <label for="password">Password</label>
+            <label for="password">{{ t('auth.password') }}</label>
             <input
               id="password"
               v-model="password"
               type="password"
-              placeholder="At least 6 characters"
+              :placeholder="t('auth.passwordMinLength')"
               required
               autocomplete="new-password"
             />
           </div>
 
           <div class="form-group">
-            <label for="confirm-password">Confirm Password</label>
+            <label for="confirm-password">{{ t('auth.confirmPassword') }}</label>
             <input
               id="confirm-password"
               v-model="confirmPassword"
               type="password"
-              placeholder="Repeat your password"
+              :placeholder="t('auth.confirmPasswordPlaceholder')"
               required
               autocomplete="new-password"
             />
           </div>
 
           <button type="submit" class="btn btn-primary" :disabled="authStore.loading">
-            {{ authStore.loading ? 'Creating account...' : 'Create Account' }}
+            {{ authStore.loading ? t('auth.creatingAccount') : t('auth.createAccount') }}
           </button>
         </form>
 
         <p class="login-link">
-          Already have an account?
-          <RouterLink to="/login">Sign in</RouterLink>
+          {{ t('auth.haveAccount') }}
+          <RouterLink to="/login">{{ t('auth.signInLink') }}</RouterLink>
         </p>
       </template>
     </div>
