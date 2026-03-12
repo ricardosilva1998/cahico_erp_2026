@@ -57,9 +57,15 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     try {
-      const { data } = await supabase.auth.getSession()
-      session.value = data.session
-      user.value = data.session?.user ?? null
+      const sessionResult = await Promise.race([
+        supabase.auth.getSession(),
+        new Promise<null>((resolve) => setTimeout(() => resolve(null), 5000)),
+      ])
+
+      if (sessionResult) {
+        session.value = sessionResult.data.session
+        user.value = sessionResult.data.session?.user ?? null
+      }
 
       supabase.auth.onAuthStateChange((_event, newSession) => {
         session.value = newSession
