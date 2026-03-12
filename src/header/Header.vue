@@ -32,7 +32,7 @@ const navItems = computed(() => {
 
 function handleNavClick(tab: string) {
   setTab(tab)
-  if (tab === '') {
+  if (router.currentRoute.value.path !== '/') {
     router.push('/')
   }
   mobileMenuOpen.value = false

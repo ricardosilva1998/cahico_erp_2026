@@ -31,6 +31,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.3s, color 0.3s;
+  overflow-x: hidden;
 }
 </style>
 
@@ -53,7 +54,7 @@ body {
 
 @media (max-width: 480px) {
   .app-main {
-    padding: 0 0.5rem;
+    padding: 0 1rem;
   }
 }
 </style>

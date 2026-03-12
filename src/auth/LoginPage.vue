@@ -116,6 +116,7 @@ watch(
   justify-content: center;
   min-height: 100vh;
   padding: 1rem;
+  background-color: var(--color-bg-body);
 }
 
 .login-card {
@@ -184,7 +185,7 @@ watch(
   }
 
   input {
-    background: var(--color-white);
+    background: var(--color-bg-section);
     border: 1px solid var(--color-input-border);
     border-radius: 8px;
     color: var(--color-text-primary);
