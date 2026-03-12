@@ -1,20 +1,46 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
+import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 
 const authStore = useAuthStore()
+const router = useRouter()
 const { t } = useI18n()
 
 const email = ref('')
 const password = ref('')
 const confirmPassword = ref('')
 const validationError = ref<string | null>(null)
-const registrationSuccess = ref(false)
+const emailError = ref<string | null>(null)
+
+// Verification step
+const showVerification = ref(false)
+const verificationCode = ref('')
+const verificationSuccess = ref(false)
+const codeSentMessage = ref(false)
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
+
+function validateEmail(): boolean {
+  if (!EMAIL_REGEX.test(email.value)) {
+    emailError.value = t('contact.errors.email')
+    return false
+  }
+  emailError.value = null
+  return true
+}
+
+function onEmailBlur() {
+  if (email.value) validateEmail()
+}
 
 async function handleRegister() {
   validationError.value = null
+  emailError.value = null
   authStore.clearError()
+
+  if (!validateEmail()) return
 
   if (password.value.length < 6) {
     validationError.value = t('auth.passwordShort')
@@ -29,8 +55,27 @@ async function handleRegister() {
   await authStore.registerWithEmail(email.value, password.value)
 
   if (!authStore.error) {
-    registrationSuccess.value = true
+    showVerification.value = true
   }
+}
+
+async function handleVerify() {
+  authStore.clearError()
+  const success = await authStore.verifyEmail(email.value, verificationCode.value)
+  if (success) {
+    verificationSuccess.value = true
+    setTimeout(() => {
+      router.push({ path: '/login', query: { verified: '1' } })
+    }, 1500)
+  }
+}
+
+function handleResend() {
+  authStore.resendVerificationCode(email.value)
+  codeSentMessage.value = true
+  setTimeout(() => {
+    codeSentMessage.value = false
+  }, 3000)
 }
 </script>
 
@@ -40,11 +85,49 @@ async function handleRegister() {
       <h1 class="register-title">{{ t('auth.createAccount') }}</h1>
       <p class="register-subtitle">{{ t('auth.joinCahico') }}</p>
 
-      <div v-if="registrationSuccess" class="success-message">
-        {{ t('auth.checkEmail') }}
+      <!-- Verification Success -->
+      <div v-if="verificationSuccess" class="success-message">
+        {{ t('verify.verified') }}
         <RouterLink to="/login" class="success-link">{{ t('auth.goToSignIn') }}</RouterLink>
       </div>
 
+      <!-- Verification Step -->
+      <template v-else-if="showVerification">
+        <div class="verify-section">
+          <h2 class="verify-title">{{ t('verify.title') }}</h2>
+          <p class="verify-subtitle">{{ t('verify.subtitle', { email: email }) }}</p>
+
+          <div v-if="authStore.error" class="error-message">
+            {{ authStore.error }}
+            <button class="error-dismiss" @click="authStore.clearError()">x</button>
+          </div>
+
+          <div v-if="codeSentMessage" class="info-message">
+            {{ t('verify.codeSent') }}
+          </div>
+
+          <div class="form-group">
+            <input
+              v-model="verificationCode"
+              type="text"
+              :placeholder="t('verify.codePlaceholder')"
+              maxlength="6"
+              class="verify-input"
+              autocomplete="one-time-code"
+            />
+          </div>
+
+          <button class="btn btn-primary" @click="handleVerify" :disabled="verificationCode.length < 6">
+            {{ t('verify.verify') }}
+          </button>
+
+          <button class="btn-resend" @click="handleResend">
+            {{ t('verify.resendCode') }}
+          </button>
+        </div>
+      </template>
+
+      <!-- Registration Form -->
       <template v-else>
         <div v-if="authStore.error || validationError" class="error-message">
           {{ validationError || authStore.error }}
@@ -66,7 +149,9 @@ async function handleRegister() {
               :placeholder="t('auth.emailPlaceholder')"
               required
               autocomplete="email"
+              @blur="onEmailBlur"
             />
+            <span v-if="emailError" class="field-error">{{ emailError }}</span>
           </div>
 
           <div class="form-group">
@@ -181,6 +266,17 @@ async function handleRegister() {
   font-size: 0.875rem;
 }
 
+.info-message {
+  background: var(--color-success-bg);
+  border: 1px solid var(--color-success);
+  color: var(--color-success);
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
 .error-dismiss {
   background: none;
   border: none;
@@ -226,6 +322,11 @@ async function handleRegister() {
   }
 }
 
+.field-error {
+  color: var(--color-error);
+  font-size: 0.8rem;
+}
+
 .btn {
   padding: 0.75rem 1rem;
   border-radius: 8px;
@@ -265,6 +366,46 @@ async function handleRegister() {
     &:hover {
       text-decoration: underline;
     }
+  }
+}
+
+/* Verification */
+.verify-section {
+  text-align: center;
+}
+
+.verify-title {
+  font-family: $font-headline;
+  color: var(--color-teal);
+  font-size: 1.2rem;
+  margin: 0 0 0.5rem;
+}
+
+.verify-subtitle {
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  margin: 0 0 1.5rem;
+  line-height: 1.5;
+}
+
+.verify-input {
+  text-align: center;
+  font-size: 1.5rem !important;
+  letter-spacing: 0.5rem;
+  font-weight: 700;
+}
+
+.btn-resend {
+  background: none;
+  border: none;
+  color: var(--color-teal);
+  cursor: pointer;
+  font-size: 0.85rem;
+  margin-top: 1rem;
+  text-decoration: underline;
+
+  &:hover {
+    color: var(--color-teal-dark);
   }
 }
 

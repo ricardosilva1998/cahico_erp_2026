@@ -1,19 +1,25 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { useToast } from '@/composables/useToast'
+import { useCartStore } from '@/stores/cart'
+import { useRouter } from 'vue-router'
 import type { Product } from '@/data/products'
 
 const props = defineProps<{ product: Product }>()
 
 const { t } = useI18n()
 const { show } = useToast()
+const cartStore = useCartStore()
+const router = useRouter()
 
 function addToCart() {
+  cartStore.addItem(props.product.id)
   show(t('product.addedToCart'), 'success')
 }
 
 function buyNow() {
-  show(t('product.orderPlaced'), 'info')
+  cartStore.addItem(props.product.id)
+  router.push('/cart')
 }
 </script>
 

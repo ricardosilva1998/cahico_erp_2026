@@ -6,12 +6,14 @@ import { ref, computed } from 'vue'
 import { useTabManager } from '@/composables/useTabManager'
 import { useTheme } from '@/composables/useTheme'
 import { useAuthStore } from '@/stores/auth'
+import { useCartStore } from '@/stores/cart'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 
 const { currentTab, setTab } = useTabManager()
 const { theme, toggleTheme } = useTheme()
 const authStore = useAuthStore()
+const cartStore = useCartStore()
 const router = useRouter()
 const mobileMenuOpen = ref(false)
 const { t } = useI18n()
@@ -71,6 +73,14 @@ function toggleMobileMenu() {
           <svg v-else width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
           </svg>
+        </button>
+        <button class="cart-btn" @click="router.push('/cart')" :aria-label="t('cart.title')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <path d="M16 10a4 4 0 01-8 0" />
+          </svg>
+          <span v-if="cartStore.cartCount > 0" class="cart-badge">{{ cartStore.cartCount }}</span>
         </button>
         <AccountSection />
       </div>
@@ -184,6 +194,45 @@ function toggleMobileMenu() {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+}
+
+.cart-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  padding: 0.4rem;
+  border-radius: 6px;
+  transition: all 0.2s;
+  min-width: 36px;
+  min-height: 36px;
+
+  &:hover {
+    background-color: var(--color-bg-alt);
+    color: var(--color-teal);
+  }
+}
+
+.cart-badge {
+  position: absolute;
+  top: 0;
+  right: -2px;
+  background-color: var(--color-teal);
+  color: var(--color-text-on-dark);
+  font-size: 0.65rem;
+  font-weight: 700;
+  min-width: 17px;
+  height: 17px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  line-height: 1;
 }
 
 .theme-toggle {

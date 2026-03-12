@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import MyOrders from './sections/MyOrders.vue'
 import PaymentMethods from './sections/PaymentMethods.vue'
@@ -9,19 +9,36 @@ import EditProfile from './sections/EditProfile.vue'
 
 const authStore = useAuthStore()
 const router = useRouter()
+const route = useRoute()
 const { t } = useI18n()
-const activeSection = ref<'orders' | 'payments' | 'edit'>('orders')
+
+type SectionKey = 'orders' | 'payments' | 'edit' | 'favorites' | 'history'
+const activeSection = ref<SectionKey>('orders')
+
+const sections = computed(() => [
+  { key: 'orders' as const, label: t('profile.myOrders') },
+  { key: 'payments' as const, label: t('profile.paymentMethods') },
+  { key: 'favorites' as const, label: t('profile.favorites') },
+  { key: 'history' as const, label: t('profile.purchaseHistory') },
+  { key: 'edit' as const, label: t('profile.editProfile') },
+])
+
+const validSections: SectionKey[] = ['orders', 'payments', 'edit', 'favorites', 'history']
+
+function applySectionFromQuery() {
+  const q = route.query.section as string | undefined
+  if (q && validSections.includes(q as SectionKey)) {
+    activeSection.value = q as SectionKey
+  }
+}
+
+onMounted(applySectionFromQuery)
+watch(() => route.query.section, applySectionFromQuery)
 
 async function handleLogout() {
   await authStore.logout()
   router.push('/')
 }
-
-const sections = computed(() => [
-  { key: 'orders' as const, label: t('profile.myOrders') },
-  { key: 'payments' as const, label: t('profile.paymentMethods') },
-  { key: 'edit' as const, label: t('profile.editProfile') },
-])
 </script>
 
 <template>
@@ -64,6 +81,20 @@ const sections = computed(() => [
         <MyOrders v-if="activeSection === 'orders'" />
         <PaymentMethods v-else-if="activeSection === 'payments'" />
         <EditProfile v-else-if="activeSection === 'edit'" />
+        <div v-else-if="activeSection === 'favorites'" class="placeholder-section">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+          </svg>
+          <p>{{ t('profile.favorites') }}</p>
+          <span class="placeholder-hint">Coming soon</span>
+        </div>
+        <div v-else-if="activeSection === 'history'" class="placeholder-section">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
+          </svg>
+          <p>{{ t('profile.purchaseHistory') }}</p>
+          <span class="placeholder-hint">Coming soon</span>
+        </div>
       </div>
     </div>
   </div>
@@ -180,6 +211,30 @@ const sections = computed(() => [
 
 .profile-content {
   padding: 1.5rem 2rem;
+}
+
+.placeholder-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 1rem;
+  color: var(--color-text-secondary);
+
+  svg {
+    opacity: 0.3;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem;
+  }
+
+  .placeholder-hint {
+    font-size: 0.85rem;
+    opacity: 0.6;
+  }
 }
 
 @media (max-width: 600px) {

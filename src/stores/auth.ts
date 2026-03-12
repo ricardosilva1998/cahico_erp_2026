@@ -149,10 +149,11 @@ export const useAuthStore = defineStore('auth', () => {
         loading.value = false
         return
       }
-      const name = (email.split('@')[0] ?? email).replace(/[._-]/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase())
-      const mockUser = createMockUser(email, name)
-      user.value = mockUser
-      localStorage.setItem(MOCK_USER_KEY, JSON.stringify(mockUser))
+      // Store a mock verification code — don't auto-login
+      const code = String(Math.floor(100000 + Math.random() * 900000))
+      localStorage.setItem(`cahico_verify_${email}`, code)
+       
+      console.log(`[Mock] Verification code for ${email}: ${code}`)
       loading.value = false
       return
     }
@@ -162,6 +163,32 @@ export const useAuthStore = defineStore('auth', () => {
       error.value = authError.message
     }
     loading.value = false
+  }
+
+  async function verifyEmail(email: string, code: string): Promise<boolean> {
+    error.value = null
+
+    if (!supabase) {
+      const storedCode = localStorage.getItem(`cahico_verify_${email}`)
+      if (storedCode && storedCode === code) {
+        localStorage.removeItem(`cahico_verify_${email}`)
+        return true
+      }
+      error.value = 'Invalid verification code.'
+      return false
+    }
+
+    // Supabase handles email verification via magic link — this is a no-op
+    return true
+  }
+
+  function resendVerificationCode(email: string) {
+    if (!supabase) {
+      const code = String(Math.floor(100000 + Math.random() * 900000))
+      localStorage.setItem(`cahico_verify_${email}`, code)
+       
+      console.log(`[Mock] New verification code for ${email}: ${code}`)
+    }
   }
 
   async function logout() {
@@ -197,6 +224,8 @@ export const useAuthStore = defineStore('auth', () => {
     loginWithGoogle,
     loginWithEmail,
     registerWithEmail,
+    verifyEmail,
+    resendVerificationCode,
     logout,
     clearError,
   }
