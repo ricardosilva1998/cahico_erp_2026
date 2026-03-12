@@ -3,7 +3,7 @@ import { expect } from '@playwright/test'
 
 export function isMobile(page: Page): boolean {
   const viewport = page.viewportSize()
-  return !!viewport && viewport.width < 768
+  return !!viewport && viewport.width <= 768
 }
 
 export async function assertNoHorizontalOverflow(page: Page) {

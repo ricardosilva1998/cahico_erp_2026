@@ -61,15 +61,13 @@ function toggleMobileMenu() {
         </a>
       </nav>
 
-      <div class="header-right">
+      <div class="header-actions desktop-only">
         <LanguageSwitcher />
         <button class="theme-toggle" @click="toggleTheme" :aria-label="theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'">
-          <!-- Sun icon for dark mode (click to go light) -->
           <svg v-if="theme === 'dark'" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="5" />
             <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
           </svg>
-          <!-- Moon icon for light mode (click to go dark) -->
           <svg v-else width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
           </svg>
@@ -100,6 +98,27 @@ function toggleMobileMenu() {
     </div>
 
     <nav v-if="mobileMenuOpen" class="mobile-nav">
+      <div class="mobile-actions-row">
+        <button class="cart-btn" @click="router.push('/cart'); mobileMenuOpen = false" :aria-label="t('cart.title')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <path d="M16 10a4 4 0 01-8 0" />
+          </svg>
+          <span v-if="cartStore.cartCount > 0" class="cart-badge">{{ cartStore.cartCount }}</span>
+        </button>
+        <LanguageSwitcher />
+        <AccountSection />
+        <button class="theme-toggle" @click="toggleTheme" :aria-label="theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'">
+          <svg v-if="theme === 'dark'" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5" />
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+          </svg>
+          <svg v-else width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+        </button>
+      </div>
       <a
         v-for="item in navItems"
         :key="item.tab"
@@ -108,18 +127,6 @@ function toggleMobileMenu() {
       >
         {{ item.label }}
       </a>
-      <div class="mobile-theme-row">
-        <button class="theme-toggle" @click="toggleTheme">
-          <svg v-if="theme === 'dark'" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="5" />
-            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-          </svg>
-          <svg v-else width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-          </svg>
-          <span>{{ theme === 'dark' ? 'Light Mode' : 'Dark Mode' }}</span>
-        </button>
-      </div>
     </nav>
   </header>
 </template>
@@ -190,7 +197,7 @@ function toggleMobileMenu() {
   }
 }
 
-.header-right {
+.header-actions {
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -308,19 +315,13 @@ function toggleMobileMenu() {
   }
 }
 
-.mobile-theme-row {
-  padding-top: 0.75rem;
-  border-top: 1px solid var(--color-border);
-
-  .theme-toggle {
-    font-family: $font-headline;
-    font-size: 0.85rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    min-height: 44px;
-    padding: 0.5rem 0;
-  }
+.mobile-actions-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--color-border);
+  gap: 0.5rem;
 }
 
 .desktop-hide {
@@ -336,16 +337,21 @@ function toggleMobileMenu() {
     display: flex;
   }
 
+  .header-inner {
+    justify-content: center;
+    position: relative;
+  }
+
   .mobile-toggle {
     display: flex;
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   .mobile-nav {
     display: flex;
-  }
-
-  .header-right {
-    margin-right: 0.5rem;
   }
 }
 
