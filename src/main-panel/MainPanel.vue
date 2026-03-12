@@ -2,6 +2,7 @@
 import Stock from './stock/Stock.vue'
 import Orders from './orders/Orders.vue'
 import Materials from './materials/Materials.vue'
+import Contact from './contact/Contact.vue'
 import JewelryHome from './home/JewelryHome.vue'
 import { useTabManager } from '@/composables/useTabManager'
 
@@ -18,6 +19,7 @@ const { currentTab } = useTabManager()
       <Stock v-if="currentTab === 'Stock'" />
       <Orders v-if="currentTab === 'Orders'" />
       <Materials v-if="currentTab === 'Materials'" />
+      <Contact v-if="currentTab === 'Contact'" />
     </div>
   </div>
 </template>
@@ -31,14 +33,9 @@ const { currentTab } = useTabManager()
 }
 
 .main-bubble {
-  width: auto;
-  height: 100%;
-  background-color: $color-beige;
-  border: 1px solid $color-border;
-  border-radius: 10px;
-  padding: 10px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
+  width: 100%;
+  min-height: calc(100vh - 64px);
+  background-color: $color-light-gray;
+  border-top: 1px solid $color-border;
 }
 </style>

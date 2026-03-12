@@ -3,6 +3,19 @@ import { defineStore } from 'pinia'
 import { supabase } from '@/lib/supabase'
 import type { User, Session } from '@supabase/supabase-js'
 
+const MOCK_USER_KEY = 'cahico_mock_user'
+
+function createMockUser(email: string, fullName: string, avatarUrl = ''): User {
+  return {
+    id: 'mock-' + Math.random().toString(36).slice(2),
+    email,
+    user_metadata: { full_name: fullName, name: fullName, avatar_url: avatarUrl },
+    app_metadata: {},
+    aud: 'authenticated',
+    created_at: new Date().toISOString(),
+  } as unknown as User
+}
+
 export const useAuthStore = defineStore('auth', () => {
   const user = ref<User | null>(null)
   const session = ref<Session | null>(null)
@@ -22,6 +35,15 @@ export const useAuthStore = defineStore('auth', () => {
     if (isInitialized.value) return
 
     if (!supabase) {
+      // Mock auth: restore session from localStorage
+      try {
+        const stored = localStorage.getItem(MOCK_USER_KEY)
+        if (stored) {
+          user.value = JSON.parse(stored) as User
+        }
+      } catch {
+        // ignore corrupt storage
+      }
       isInitialized.value = true
       loading.value = false
       return
@@ -45,8 +67,20 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function loginWithGoogle() {
-    if (!supabase) return
     error.value = null
+
+    if (!supabase) {
+      // Mock: sign in as a demo Google user
+      const mockUser = createMockUser(
+        'demo@google.com',
+        'Google User',
+        'https://lh3.googleusercontent.com/a/default-user'
+      )
+      user.value = mockUser
+      localStorage.setItem(MOCK_USER_KEY, JSON.stringify(mockUser))
+      return
+    }
+
     const { error: authError } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: { redirectTo: window.location.origin },
@@ -57,13 +91,25 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function loginWithEmail(email: string, password: string) {
-    if (!supabase) return
     error.value = null
     loading.value = true
-    const { error: authError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
+
+    if (!supabase) {
+      // Mock: accept any credentials
+      if (!email || !password) {
+        error.value = 'Please enter your email and password.'
+        loading.value = false
+        return
+      }
+      const name = (email.split('@')[0] ?? email).replace(/[._-]/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase())
+      const mockUser = createMockUser(email, name)
+      user.value = mockUser
+      localStorage.setItem(MOCK_USER_KEY, JSON.stringify(mockUser))
+      loading.value = false
+      return
+    }
+
+    const { error: authError } = await supabase.auth.signInWithPassword({ email, password })
     if (authError) {
       error.value = authError.message
     }
@@ -71,13 +117,25 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function registerWithEmail(email: string, password: string) {
-    if (!supabase) return
     error.value = null
     loading.value = true
-    const { error: authError } = await supabase.auth.signUp({
-      email,
-      password,
-    })
+
+    if (!supabase) {
+      // Mock: register as a new user
+      if (!email || !password) {
+        error.value = 'Please fill in all fields.'
+        loading.value = false
+        return
+      }
+      const name = (email.split('@')[0] ?? email).replace(/[._-]/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase())
+      const mockUser = createMockUser(email, name)
+      user.value = mockUser
+      localStorage.setItem(MOCK_USER_KEY, JSON.stringify(mockUser))
+      loading.value = false
+      return
+    }
+
+    const { error: authError } = await supabase.auth.signUp({ email, password })
     if (authError) {
       error.value = authError.message
     }
@@ -85,7 +143,13 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function logout() {
-    if (!supabase) return
+    if (!supabase) {
+      // Mock: clear localStorage
+      user.value = null
+      session.value = null
+      localStorage.removeItem(MOCK_USER_KEY)
+      return
+    }
     const { error: authError } = await supabase.auth.signOut()
     if (authError) {
       error.value = authError.message

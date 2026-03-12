@@ -14,6 +14,7 @@ const navItems = [
   { label: 'Collections', tab: 'Stock' },
   { label: 'Orders', tab: 'Orders' },
   { label: 'Materials', tab: 'Materials' },
+  { label: 'Contact', tab: 'Contact' },
 ]
 
 function handleNavClick(tab: string) {
@@ -43,7 +44,6 @@ function toggleMobileMenu() {
         >
           {{ item.label }}
         </a>
-        <a class="nav-link" href="#contact">Contact</a>
       </nav>
 
       <div class="header-right">
@@ -73,7 +73,6 @@ function toggleMobileMenu() {
       >
         {{ item.label }}
       </a>
-      <a class="mobile-link" href="#contact" @click="mobileMenuOpen = false">Contact</a>
     </nav>
   </header>
 </template>

@@ -36,7 +36,17 @@ function goToProfile() {
       </div>
     </template>
     <template v-else>
-      <button class="login-btn" @click="goToLogin">Login</button>
+      <div class="guest-section">
+        <div class="avatar avatar-guest" @click="goToLogin" title="Sign in">
+          <svg viewBox="0 0 24 24" fill="none" width="20" height="20" aria-hidden="true">
+            <path
+              d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"
+              fill="currentColor"
+            />
+          </svg>
+        </div>
+        <button class="login-btn" @click="goToLogin">Login</button>
+      </div>
     </template>
   </div>
 </template>
@@ -90,6 +100,27 @@ function goToProfile() {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.guest-section {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.avatar-guest {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $color-bg-alt;
+  color: $color-tan;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+
+  &:hover {
+    background-color: rgba(23, 89, 118, 0.08);
+    color: $color-teal;
+  }
 }
 
 .login-btn {

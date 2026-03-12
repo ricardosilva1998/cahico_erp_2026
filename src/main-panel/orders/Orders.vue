@@ -1,49 +1,408 @@
 <script setup lang="ts">
-import Bubble from '../bubble-items/Bubble.vue'
+import { ref } from 'vue'
+
+const activeSection = ref<'history' | 'processing' | 'shipped'>('history')
+
+const completedOrders = [
+  {
+    id: '#ORD-2024-0091',
+    date: '12 Jan 2025',
+    items: ['Gold 18k Solitaire Ring', 'Pearl Drop Earrings'],
+    total: '€ 1 240,00',
+    status: 'Completed',
+  },
+  {
+    id: '#ORD-2024-0078',
+    date: '3 Dec 2024',
+    items: ['Sterling Silver Choker', 'Rose Gold Bracelet'],
+    total: '€ 520,00',
+    status: 'Completed',
+  },
+  {
+    id: '#ORD-2024-0065',
+    date: '18 Nov 2024',
+    items: ['Diamond Stud Earrings (pair)'],
+    total: '€ 2 100,00',
+    status: 'Completed',
+  },
+  {
+    id: '#ORD-2024-0047',
+    date: '5 Oct 2024',
+    items: ['Sapphire Pendant', 'Gold Chain 45cm'],
+    total: '€ 870,00',
+    status: 'Completed',
+  },
+]
+
+const processingOrders = [
+  {
+    id: '#ORD-2025-0112',
+    date: '8 Mar 2025',
+    items: ['Emerald Statement Ring', 'Enamel Floral Brooch'],
+    total: '€ 1 650,00',
+    status: 'Processing',
+    dispatch: 'Est. dispatch: 14 Mar 2025',
+  },
+  {
+    id: '#ORD-2025-0108',
+    date: '5 Mar 2025',
+    items: ['Platinum Wedding Band Set'],
+    total: '€ 3 200,00',
+    status: 'Processing',
+    dispatch: 'Est. dispatch: 13 Mar 2025',
+  },
+]
+
+const shippedOrders = [
+  {
+    id: '#ORD-2025-0099',
+    date: '25 Feb 2025',
+    items: ['Rose Gold Anklet', 'Charm Bracelet'],
+    total: '€ 390,00',
+    status: 'Shipped',
+    tracking: 'PT048921763PT',
+    trackingUrl: 'https://www.ctt.pt/feapl_2/app/open/objectSearch/objectSearch.jspx?objects=PT048921763PT',
+  },
+  {
+    id: '#ORD-2025-0094',
+    date: '20 Feb 2025',
+    items: ['Gold 9k Hoop Earrings'],
+    total: '€ 285,00',
+    status: 'Shipped',
+    tracking: 'PT037815490PT',
+    trackingUrl: 'https://www.ctt.pt/feapl_2/app/open/objectSearch/objectSearch.jspx?objects=PT037815490PT',
+  },
+  {
+    id: '#ORD-2025-0087',
+    date: '14 Feb 2025',
+    items: ["Valentine's Gold Locket Pendant", 'Sterling Silver Heart Ring'],
+    total: '€ 740,00',
+    status: 'Shipped',
+    tracking: 'PT026304817PT',
+    trackingUrl: 'https://www.ctt.pt/feapl_2/app/open/objectSearch/objectSearch.jspx?objects=PT026304817PT',
+  },
+]
 </script>
+
 <template>
-  <div style="display: flex; flex-direction: column">
-    <div class="bubble-title">
-      <span>Orders</span>
+  <div class="orders-panel">
+    <div class="panel-header">
+      <h2 class="panel-title">Orders</h2>
+      <p class="panel-subtitle">Track and manage your jewellery orders</p>
     </div>
-    <div class="orders-row">
-      <Bubble :text="'Order 1'" :width="400" :height="200" />
-      <Bubble :text="'Order 2'" :width="400" :height="200" />
-      <Bubble :text="'Order 3'" :width="400" :height="200" />
+
+    <!-- Section tabs -->
+    <div class="section-tabs">
+      <button
+        :class="['section-tab', { active: activeSection === 'history' }]"
+        @click="activeSection = 'history'"
+      >
+        Order History
+        <span class="tab-badge">{{ completedOrders.length }}</span>
+      </button>
+      <button
+        :class="['section-tab', { active: activeSection === 'processing' }]"
+        @click="activeSection = 'processing'"
+      >
+        Processing
+        <span class="tab-badge processing">{{ processingOrders.length }}</span>
+      </button>
+      <button
+        :class="['section-tab', { active: activeSection === 'shipped' }]"
+        @click="activeSection = 'shipped'"
+      >
+        Shipped
+        <span class="tab-badge shipped">{{ shippedOrders.length }}</span>
+      </button>
     </div>
-    <div class="orders-row">
-      <Bubble :text="'Order 4'" :width="400" :height="200" />
-      <Bubble :text="'Order 5'" :width="400" :height="200" />
-      <Bubble :text="'Order 6'" :width="400" :height="200" />
+
+    <!-- Order History -->
+    <div v-if="activeSection === 'history'" class="orders-list">
+      <div v-for="order in completedOrders" :key="order.id" class="order-card">
+        <div class="order-icon">🛍️</div>
+        <div class="order-info">
+          <div class="order-top">
+            <span class="order-id">{{ order.id }}</span>
+            <span class="status-badge completed">{{ order.status }}</span>
+          </div>
+          <div class="order-date">{{ order.date }}</div>
+          <div class="order-items">{{ order.items.join(' · ') }}</div>
+        </div>
+        <div class="order-total">{{ order.total }}</div>
+      </div>
     </div>
-    <div class="orders-row">
-      <Bubble :text="'Order 7'" :width="400" :height="200" />
-      <Bubble :text="'Order 8'" :width="400" :height="200" />
-      <Bubble :text="'Order 9'" :width="400" :height="200" />
+
+    <!-- Processing Orders -->
+    <div v-if="activeSection === 'processing'" class="orders-list">
+      <div v-for="order in processingOrders" :key="order.id" class="order-card">
+        <div class="order-icon">⚙️</div>
+        <div class="order-info">
+          <div class="order-top">
+            <span class="order-id">{{ order.id }}</span>
+            <span class="status-badge processing">{{ order.status }}</span>
+          </div>
+          <div class="order-date">Placed {{ order.date }}</div>
+          <div class="order-items">{{ order.items.join(' · ') }}</div>
+          <div class="order-dispatch">{{ order.dispatch }}</div>
+        </div>
+        <div class="order-total">{{ order.total }}</div>
+      </div>
+    </div>
+
+    <!-- Shipped Orders -->
+    <div v-if="activeSection === 'shipped'" class="orders-list">
+      <div v-for="order in shippedOrders" :key="order.id" class="order-card">
+        <div class="order-icon">📦</div>
+        <div class="order-info">
+          <div class="order-top">
+            <span class="order-id">{{ order.id }}</span>
+            <span class="status-badge shipped">{{ order.status }}</span>
+          </div>
+          <div class="order-date">Shipped {{ order.date }}</div>
+          <div class="order-items">{{ order.items.join(' · ') }}</div>
+          <div class="order-tracking">
+            <span class="tracking-label">Tracking:</span>
+            <a :href="order.trackingUrl" target="_blank" rel="noopener" class="tracking-link">
+              {{ order.tracking }} ↗
+            </a>
+          </div>
+        </div>
+        <div class="order-total">{{ order.total }}</div>
+      </div>
     </div>
   </div>
 </template>
+
 <style lang="scss" scoped>
-.orders-row {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-content: flex-end;
-  gap: 10px;
-  margin-bottom: 10px;
+@use '@/styles/variables' as *;
+
+.orders-panel {
+  width: 100%;
+  padding: 2rem;
 }
 
-.bubble-title {
-  padding: 10px 20px;
-  width: auto;
-  max-width: 100px;
+.panel-header {
+  margin-bottom: 1.75rem;
+}
+
+.panel-title {
+  font-family: $font-headline;
+  font-size: 2rem;
+  font-weight: 700;
+  color: $color-dark-brown;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin: 0 0 0.4rem;
+}
+
+.panel-subtitle {
+  font-family: $font-body;
+  font-size: 0.95rem;
+  color: $color-text-secondary;
+  margin: 0;
+}
+
+// Section tabs
+.section-tabs {
   display: flex;
-  justify-content: center;
-  align-content: center;
-  background-color: #175976;
-  border: 1px solid #175976;
-  color: #FFFFFF;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid $color-border;
+  padding-bottom: 0;
+}
+
+.section-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: $font-headline;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: $color-text-secondary;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: 0.65rem 1.25rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: -2px;
+
+  &:hover {
+    color: $color-teal;
+  }
+
+  &.active {
+    color: $color-teal;
+    border-bottom-color: $color-teal;
+  }
+}
+
+.tab-badge {
+  font-family: $font-body;
+  font-size: 0.7rem;
+  font-weight: 700;
+  background-color: $color-bg-alt;
+  color: $color-text-secondary;
+  border-radius: 20px;
+  padding: 0.1rem 0.45rem;
+
+  &.processing {
+    background-color: rgba(217, 130, 43, 0.15);
+    color: #D9822B;
+  }
+
+  &.shipped {
+    background-color: rgba(23, 89, 118, 0.12);
+    color: $color-teal;
+  }
+}
+
+// Orders list
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.order-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  background: $color-white;
+  border: 1px solid $color-border;
   border-radius: 10px;
-  margin-bottom: 10px;
+  padding: 1.25rem 1.5rem;
+  transition: box-shadow 0.2s;
+
+  &:hover {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+  }
+}
+
+.order-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.order-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.order-top {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.order-id {
+  font-family: $font-headline;
+  font-size: 1rem;
+  font-weight: 700;
+  color: $color-dark-brown;
+  letter-spacing: 0.5px;
+}
+
+.order-date {
+  font-family: $font-body;
+  font-size: 0.8rem;
+  color: $color-text-muted;
+}
+
+.order-items {
+  font-family: $font-body;
+  font-size: 0.875rem;
+  color: $color-text-secondary;
+}
+
+.order-dispatch {
+  font-family: $font-body;
+  font-size: 0.8rem;
+  color: #D9822B;
+  font-weight: 500;
+}
+
+.order-tracking {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: $font-body;
+  font-size: 0.8rem;
+}
+
+.tracking-label {
+  color: $color-text-muted;
+}
+
+.tracking-link {
+  color: $color-teal;
+  text-decoration: none;
+  font-weight: 600;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.order-total {
+  font-family: $font-headline;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: $color-dark-brown;
+  white-space: nowrap;
+  flex-shrink: 0;
+  align-self: center;
+}
+
+// Status badges
+.status-badge {
+  font-family: $font-body;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: 20px;
+  padding: 0.2rem 0.6rem;
+
+  &.completed {
+    background-color: rgba(93, 122, 58, 0.12);
+    color: $color-success;
+  }
+
+  &.processing {
+    background-color: rgba(217, 130, 43, 0.15);
+    color: #D9822B;
+  }
+
+  &.shipped {
+    background-color: rgba(23, 89, 118, 0.12);
+    color: $color-teal;
+  }
+}
+
+@media (max-width: 600px) {
+  .orders-panel {
+    padding: 1.25rem;
+  }
+
+  .order-card {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .order-total {
+    align-self: flex-start;
+    font-size: 1rem;
+  }
+
+  .section-tab {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+  }
 }
 </style>
