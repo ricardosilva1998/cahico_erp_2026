@@ -97,7 +97,7 @@ function handleExplore() {
           <img :src="collection.img" :alt="collection.name" class="collection-img" />
           <h3 class="collection-name">{{ collection.name }}</h3>
           <p class="collection-desc">{{ collection.description }}</p>
-          <button class="collection-btn" @click="handleExplore">{{ t('home.explore') }}</button>
+          <button class="collection-btn" @click="$router.push('/collection/' + collection.id)">{{ t('home.explore') }}</button>
         </div>
       </div>
     </section>

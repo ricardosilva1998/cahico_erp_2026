@@ -76,7 +76,7 @@ const collections = computed(() =>
             <span v-for="tag in (tm(`collections.${col.key}Tags`) as string[])" :key="tag" class="tag">{{ tag }}</span>
           </div>
         </div>
-        <a class="card-cta">{{ t('collections.viewCollection') }}</a>
+        <router-link :to="'/collection/' + col.key" class="card-cta">{{ t('collections.viewCollection') }}</router-link>
       </div>
     </div>
   </div>

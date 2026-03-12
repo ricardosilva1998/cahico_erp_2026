@@ -26,6 +26,12 @@ const router = createRouter({
       meta: { requiresAuth: false },
     },
     {
+      path: '/collection/:category',
+      name: 'Collection',
+      component: () => import('@/collection/CollectionPage.vue'),
+      meta: { requiresAuth: false },
+    },
+    {
       path: '/product/:id',
       name: 'ProductDetail',
       component: () => import('@/product/ProductDetail.vue'),
