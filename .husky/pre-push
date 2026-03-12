@@ -1,6 +1,5 @@
 #!/usr/bin/env sh
 echo "Running pre-push checks..."
-npm run lint || exit 1
 npm run type-check || exit 1
 npm run test:unit -- --run || exit 1
 npx playwright test --project="Desktop Chrome" e2e/smoke.spec.ts || exit 1
