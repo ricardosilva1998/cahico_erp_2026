@@ -141,6 +141,7 @@ const currentLabel = () => languages.find(l => l.code === locale.value)?.label ?
   transition: all 0.15s;
 
   &:hover {
+    background-color: rgba(23, 89, 118, 0.07);
     background-color: color-mix(in srgb, var(--color-teal) 7%, transparent);
     color: var(--color-teal);
   }

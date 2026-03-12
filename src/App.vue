@@ -20,7 +20,7 @@ const { currentTab } = useTabManager()
   </div>
 </template>
 
-<style>
+<style lang="scss">
 @use '@/styles/theme';
 
 body {

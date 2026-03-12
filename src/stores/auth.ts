@@ -24,6 +24,13 @@ export const useAuthStore = defineStore('auth', () => {
   const isInitialized = ref(false)
 
   const isAuthenticated = computed(() => !!user.value)
+  const isAdmin = computed(() => {
+    if (!user.value) return false
+    return (
+      user.value.app_metadata?.role === 'admin' ||
+      user.value.email === 'admin@cahico.com'
+    )
+  })
   const userEmail = computed(() => user.value?.email)
   const userDisplayName = computed(() => {
     const meta = user.value?.user_metadata
@@ -101,6 +108,15 @@ export const useAuthStore = defineStore('auth', () => {
         loading.value = false
         return
       }
+      // Admin super user
+      if (email === 'admin' && password === 'admin') {
+        const adminUser = createMockUser('admin@cahico.com', 'Admin')
+        adminUser.app_metadata = { role: 'admin' }
+        user.value = adminUser
+        localStorage.setItem(MOCK_USER_KEY, JSON.stringify(adminUser))
+        loading.value = false
+        return
+      }
       const name = (email.split('@')[0] ?? email).replace(/[._-]/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase())
       const mockUser = createMockUser(email, name)
       user.value = mockUser
@@ -167,6 +183,7 @@ export const useAuthStore = defineStore('auth', () => {
     error,
     isInitialized,
     isAuthenticated,
+    isAdmin,
     userEmail,
     userDisplayName,
     userAvatarUrl,

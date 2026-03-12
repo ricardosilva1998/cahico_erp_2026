@@ -74,6 +74,7 @@ function goToProfile() {
   transition: background-color 0.2s;
 
   &:hover {
+    background-color: rgba(38, 28, 21, 0.05);
     background-color: color-mix(in srgb, var(--color-text-primary) 5%, transparent);
   }
 }
@@ -120,6 +121,7 @@ function goToProfile() {
   transition: background-color 0.2s, color 0.2s;
 
   &:hover {
+    background-color: rgba(23, 89, 118, 0.08);
     background-color: color-mix(in srgb, var(--color-teal) 8%, transparent);
     color: var(--color-teal);
   }

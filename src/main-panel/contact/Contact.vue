@@ -310,6 +310,7 @@ form {
 
   &:focus {
     border-color: var(--color-teal);
+    box-shadow: 0 0 0 3px rgba(23, 89, 118, 0.1);
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-teal) 10%, transparent);
     background: var(--color-white);
   }

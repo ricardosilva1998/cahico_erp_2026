@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useAdminStore } from '@/stores/admin'
 
 const { t, tm } = useI18n()
+const adminStore = useAdminStore()
 
-const collections = computed(() => [
+const allCollections = computed(() => [
   {
     img: 'https://cdnx.jumpseller.com/cahico/image/73462296/thumb/299/399?1771499425',
     key: 'rings',
@@ -46,6 +48,10 @@ const collections = computed(() => [
     count: 9,
   },
 ])
+
+const collections = computed(() =>
+  allCollections.value.filter(c => adminStore.isCollectionVisible(c.key))
+)
 </script>
 
 <template>
@@ -208,7 +214,9 @@ const collections = computed(() => [
   font-family: $font-body;
   font-size: 0.7rem;
   color: var(--color-teal);
+  background-color: rgba(23, 89, 118, 0.08);
   background-color: color-mix(in srgb, var(--color-teal) 8%, transparent);
+  border: 1px solid rgba(23, 89, 118, 0.2);
   border: 1px solid color-mix(in srgb, var(--color-teal) 20%, transparent);
   border-radius: 4px;
   padding: 0.2rem 0.6rem;

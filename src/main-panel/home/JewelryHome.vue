@@ -1,46 +1,60 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
+import { useAdminStore } from '@/stores/admin'
 import { useTabManager } from '@/composables/useTabManager'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { computed } from 'vue'
 
 const authStore = useAuthStore()
+const adminStore = useAdminStore()
 const { setTab } = useTabManager()
 const router = useRouter()
 const { t } = useI18n()
 
-const collections = computed(() => [
+const allCollections = computed(() => [
   {
+    id: 'rings',
     img: 'https://cdnx.jumpseller.com/cahico/image/73462296/thumb/299/399?1771499425',
     name: t('home.rings'),
     description: t('home.ringsDesc'),
   },
   {
+    id: 'necklaces',
     img: 'https://cdnx.jumpseller.com/cahico/image/73507472/thumb/299/399?1771500213',
     name: t('home.necklaces'),
     description: t('home.necklacesDesc'),
   },
   {
+    id: 'bracelets',
     img: 'https://cdnx.jumpseller.com/cahico/image/73508788/thumb/299/399?1771514251',
     name: t('home.bracelets'),
     description: t('home.braceletsDesc'),
   },
   {
+    id: 'earrings',
     img: 'https://cdnx.jumpseller.com/cahico/image/73464402/thumb/299/399?1771427526',
     name: t('home.earrings'),
     description: t('home.earringsDesc'),
   },
 ])
 
-const featuredPieces = [
-  { name: 'Alfama Ring', material: '18k Gold · Diamond', price: '€1,240', img: 'https://cdnx.jumpseller.com/cahico/image/73462296/thumb/299/399?1771499425' },
-  { name: 'Alfama Necklace', material: 'Sterling Silver · Pearl', price: '€680', img: 'https://cdnx.jumpseller.com/cahico/image/73507472/thumb/299/399?1771500213' },
-  { name: 'Alfama Bracelet', material: '18k Rose Gold', price: '€920', img: 'https://cdnx.jumpseller.com/cahico/image/73508788/thumb/299/399?1771514251' },
-  { name: 'Alfama Earrings', material: '14k Gold · Topaz', price: '€540', img: 'https://cdnx.jumpseller.com/cahico/image/73464402/thumb/299/399?1771427526' },
-  { name: 'Chiado Ring', material: 'Sterling Silver · Onyx', price: '€380', img: 'https://cdnx.jumpseller.com/cahico/image/74201642/thumb/299/399?1772729926' },
-  { name: 'Chiado Necklace', material: '18k Gold · Emerald', price: '€1,580', img: 'https://cdnx.jumpseller.com/cahico/image/74201707/thumb/299/399?1772730169' },
+const collections = computed(() =>
+  allCollections.value.filter(c => adminStore.isCollectionVisible(c.id))
+)
+
+const allFeaturedPieces = [
+  { id: 'alfama-ring', name: 'Alfama Ring', material: '18k Gold · Diamond', price: '€1,240', img: 'https://cdnx.jumpseller.com/cahico/image/73462296/thumb/299/399?1771499425' },
+  { id: 'alfama-necklace', name: 'Alfama Necklace', material: 'Sterling Silver · Pearl', price: '€680', img: 'https://cdnx.jumpseller.com/cahico/image/73507472/thumb/299/399?1771500213' },
+  { id: 'alfama-bracelet', name: 'Alfama Bracelet', material: '18k Rose Gold', price: '€920', img: 'https://cdnx.jumpseller.com/cahico/image/73508788/thumb/299/399?1771514251' },
+  { id: 'alfama-earrings', name: 'Alfama Earrings', material: '14k Gold · Topaz', price: '€540', img: 'https://cdnx.jumpseller.com/cahico/image/73464402/thumb/299/399?1771427526' },
+  { id: 'chiado-ring', name: 'Chiado Ring', material: 'Sterling Silver · Onyx', price: '€380', img: 'https://cdnx.jumpseller.com/cahico/image/74201642/thumb/299/399?1772729926' },
+  { id: 'chiado-necklace', name: 'Chiado Necklace', material: '18k Gold · Emerald', price: '€1,580', img: 'https://cdnx.jumpseller.com/cahico/image/74201707/thumb/299/399?1772730169' },
 ]
+
+const featuredPieces = computed(() =>
+  allFeaturedPieces.filter(p => adminStore.isFeaturedVisible(p.id))
+)
 
 function handleExplore() {
   setTab('Stock')
@@ -54,7 +68,7 @@ function handleLogin() {
 <template>
   <div class="jewelry-home">
     <!-- Hero Section -->
-    <section class="hero">
+    <section v-if="adminStore.config.heroVisible" class="hero">
       <div class="hero-content">
         <p class="hero-tagline">{{ t('home.tagline') }}</p>
         <h1 class="hero-title">{{ t('home.title') }}</h1>
@@ -121,7 +135,7 @@ function handleLogin() {
     </section>
 
     <!-- Brand Story -->
-    <section class="brand-story">
+    <section v-if="adminStore.config.storyVisible" class="brand-story">
       <div class="story-grid">
         <div class="story-text-block">
           <p class="story-label">{{ t('home.ourStory') }}</p>
@@ -186,6 +200,7 @@ function handleLogin() {
     width: 300px;
     height: 300px;
     border-radius: 50%;
+    background: rgba(186, 160, 48, 0.06);
     background: color-mix(in srgb, var(--color-gold) 6%, transparent);
     pointer-events: none;
   }
@@ -257,6 +272,7 @@ function handleLogin() {
   &:hover {
     background-color: var(--color-teal-dark);
     transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(23, 89, 118, 0.25);
     box-shadow: 0 4px 12px color-mix(in srgb, var(--color-teal) 25%, transparent);
   }
 }
@@ -551,7 +567,7 @@ function handleLogin() {
 }
 
 .story-badge {
-  background: linear-gradient(135deg, $color-teal, $color-primary-dark);
+  background: linear-gradient(135deg, var(--color-teal), var(--color-primary-dark));
   color: white;
   border-radius: 12px;
   padding: 2rem 2.5rem;
@@ -574,7 +590,7 @@ function handleLogin() {
     font-family: $font-headline;
     font-size: 3rem;
     font-weight: 700;
-    color: $color-gold-light;
+    color: var(--color-gold-light);
     line-height: 1;
     margin-bottom: 0.25rem;
   }

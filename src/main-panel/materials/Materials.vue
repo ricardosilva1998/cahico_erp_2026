@@ -1,9 +1,16 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useAdminStore } from '@/stores/admin'
 
 const { t } = useI18n()
+const adminStore = useAdminStore()
 
-const materials = [
+function toMaterialId(name: string): string {
+  return name.toLowerCase().replace(/\s+/g, '-')
+}
+
+const allMaterials = [
   {
     name: 'Gold 18k',
     swatch: '#C9A84C',
@@ -85,6 +92,10 @@ const materials = [
     usage: 'Applied to brooches and accent pieces. The enamel is hand-applied in layers and kiln-fired to produce a smooth, glass-like surface with lasting colour.',
   },
 ]
+
+const materials = computed(() =>
+  allMaterials.filter(m => adminStore.isMaterialVisible(toMaterialId(m.name)))
+)
 </script>
 
 <template>

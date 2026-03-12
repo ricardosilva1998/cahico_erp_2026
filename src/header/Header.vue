@@ -5,22 +5,30 @@ import LanguageSwitcher from './LanguageSwitcher.vue'
 import { ref, computed } from 'vue'
 import { useTabManager } from '@/composables/useTabManager'
 import { useTheme } from '@/composables/useTheme'
+import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 
 const { currentTab, setTab } = useTabManager()
 const { theme, toggleTheme } = useTheme()
+const authStore = useAuthStore()
 const router = useRouter()
 const mobileMenuOpen = ref(false)
 const { t } = useI18n()
 
-const navItems = computed(() => [
-  { label: t('nav.home'), tab: '' },
-  { label: t('nav.collections'), tab: 'Stock' },
-  { label: t('nav.orders'), tab: 'Orders' },
-  { label: t('nav.materials'), tab: 'Materials' },
-  { label: t('nav.contact'), tab: 'Contact' },
-])
+const navItems = computed(() => {
+  const items = [
+    { label: t('nav.home'), tab: '' },
+    { label: t('nav.collections'), tab: 'Stock' },
+    { label: t('nav.orders'), tab: 'Orders' },
+    { label: t('nav.materials'), tab: 'Materials' },
+    { label: t('nav.contact'), tab: 'Contact' },
+  ]
+  if (authStore.isAdmin) {
+    items.push({ label: t('nav.admin'), tab: 'Admin' })
+  }
+  return items
+})
 
 function handleNavClick(tab: string) {
   setTab(tab)
@@ -150,6 +158,7 @@ function toggleMobileMenu() {
 
   &:hover {
     color: var(--color-teal);
+    background-color: rgba(23, 89, 118, 0.06);
     background-color: color-mix(in srgb, var(--color-teal) 6%, transparent);
   }
 

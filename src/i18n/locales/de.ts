@@ -6,6 +6,7 @@ export default {
     materials: 'Materialien',
     contact: 'Kontakt',
     toggleMenu: 'Menü öffnen',
+    admin: 'Admin',
   },
   auth: {
     login: 'Anmelden',
@@ -173,6 +174,18 @@ export default {
     shipping: 'Versand',
     securePayments: 'Sichere Zahlungen',
     copyright: '© 2026 CAHICO. Alle Rechte vorbehalten.',
+  },
+  admin: {
+    title: 'Admin-Panel',
+    subtitle: 'Sichtbarkeit der Inhalte im Shop verwalten',
+    homeSections: 'Startseiten-Bereiche',
+    collections: 'Kollektionen',
+    materials: 'Materialien',
+    featured: 'Ausgewählte Stücke',
+    hero: 'Hero-Bereich',
+    story: 'Unsere Geschichte',
+    visible: 'Sichtbar',
+    hidden: 'Versteckt',
   },
   profile: {
     logout: 'Abmelden',

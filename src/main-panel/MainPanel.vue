@@ -3,6 +3,7 @@ import Stock from './stock/Stock.vue'
 import Orders from './orders/Orders.vue'
 import Materials from './materials/Materials.vue'
 import Contact from './contact/Contact.vue'
+import AdminPanel from './admin/AdminPanel.vue'
 import JewelryHome from './home/JewelryHome.vue'
 import { useTabManager } from '@/composables/useTabManager'
 
@@ -20,6 +21,7 @@ const { currentTab } = useTabManager()
       <Orders v-if="currentTab === 'Orders'" />
       <Materials v-if="currentTab === 'Materials'" />
       <Contact v-if="currentTab === 'Contact'" />
+      <AdminPanel v-if="currentTab === 'Admin'" />
     </div>
   </div>
 </template>

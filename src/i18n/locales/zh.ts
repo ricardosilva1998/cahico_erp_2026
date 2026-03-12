@@ -6,6 +6,7 @@ export default {
     materials: '材料',
     contact: '联系我们',
     toggleMenu: '打开菜单',
+    admin: '管理',
   },
   auth: {
     login: '登录',
@@ -173,6 +174,18 @@ export default {
     shipping: '配送',
     securePayments: '安全支付',
     copyright: '© 2026 CAHICO。保留所有权利。',
+  },
+  admin: {
+    title: '管理面板',
+    subtitle: '管理商店内容的可见性',
+    homeSections: '首页部分',
+    collections: '系列',
+    materials: '材料',
+    featured: '精选作品',
+    hero: '主横幅',
+    story: '品牌故事',
+    visible: '可见',
+    hidden: '隐藏',
   },
   profile: {
     logout: '退出登录',
