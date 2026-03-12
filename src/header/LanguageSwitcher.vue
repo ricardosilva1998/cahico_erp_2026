@@ -78,21 +78,21 @@ const currentLabel = () => languages.find(l => l.code === locale.value)?.label ?
   align-items: center;
   gap: 0.3rem;
   background: none;
-  border: 1px solid $color-border;
+  border: 1px solid var(--color-border);
   border-radius: 6px;
   padding: 0.3rem 0.6rem;
   font-family: $font-headline;
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.5px;
-  color: $color-text-secondary;
+  color: var(--color-text-secondary);
   cursor: pointer;
   transition: all 0.2s;
   white-space: nowrap;
 
   &:hover {
-    color: $color-teal;
-    border-color: $color-teal;
+    color: var(--color-teal);
+    border-color: var(--color-teal);
   }
 }
 
@@ -114,10 +114,10 @@ const currentLabel = () => languages.find(l => l.code === locale.value)?.label ?
   position: absolute;
   top: calc(100% + 6px);
   right: 0;
-  background: $color-white;
-  border: 1px solid $color-border;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-card-hover);
   padding: 0.3rem;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -131,7 +131,7 @@ const currentLabel = () => languages.find(l => l.code === locale.value)?.label ?
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.5px;
-  color: $color-text-secondary;
+  color: var(--color-text-secondary);
   background: none;
   border: none;
   border-radius: 5px;
@@ -141,13 +141,13 @@ const currentLabel = () => languages.find(l => l.code === locale.value)?.label ?
   transition: all 0.15s;
 
   &:hover {
-    background-color: rgba(23, 89, 118, 0.07);
-    color: $color-teal;
+    background-color: color-mix(in srgb, var(--color-teal) 7%, transparent);
+    color: var(--color-teal);
   }
 
   &.active {
-    background-color: $color-teal;
-    color: $color-white;
+    background-color: var(--color-teal);
+    color: var(--color-text-on-dark);
   }
 }
 </style>

@@ -119,18 +119,19 @@ async function handleRegister() {
 }
 
 .register-card {
-  background: white;
-  border: 1px solid $color-border;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
   border-radius: 12px;
   padding: 2.5rem;
   width: 100%;
   max-width: 400px;
-  box-shadow: 0 8px 32px rgba(61, 43, 31, 0.12);
+  box-shadow: var(--shadow-card-hover);
+  transition: background-color 0.3s, border-color 0.3s;
 }
 
 .register-title {
   font-family: $font-brand;
-  color: $color-marine;
+  color: var(--color-teal);
   font-size: 1.75rem;
   text-align: center;
   margin: 0 0 0.25rem;
@@ -138,16 +139,16 @@ async function handleRegister() {
 }
 
 .register-subtitle {
-  color: $color-text-secondary;
+  color: var(--color-text-secondary);
   text-align: center;
   margin: 0 0 1.5rem;
   font-size: 0.9rem;
 }
 
 .success-message {
-  background: $color-success-bg;
-  border: 1px solid $color-success;
-  color: $color-success;
+  background: var(--color-success-bg);
+  border: 1px solid var(--color-success);
+  color: var(--color-success);
   padding: 1.25rem;
   border-radius: 8px;
   text-align: center;
@@ -158,7 +159,7 @@ async function handleRegister() {
 .success-link {
   display: inline-block;
   margin-top: 0.75rem;
-  color: $color-marine;
+  color: var(--color-teal);
   font-weight: 600;
   text-decoration: none;
 
@@ -168,9 +169,9 @@ async function handleRegister() {
 }
 
 .error-message {
-  background: $color-error-bg;
-  border: 1px solid $color-error;
-  color: $color-error;
+  background: var(--color-error-bg);
+  border: 1px solid var(--color-error);
+  color: var(--color-error);
   padding: 0.75rem 1rem;
   border-radius: 8px;
   margin-bottom: 1rem;
@@ -183,7 +184,7 @@ async function handleRegister() {
 .error-dismiss {
   background: none;
   border: none;
-  color: $color-error;
+  color: var(--color-error);
   cursor: pointer;
   font-size: 1rem;
   padding: 0 0.25rem;
@@ -201,26 +202,26 @@ async function handleRegister() {
   gap: 0.375rem;
 
   label {
-    color: $color-text-primary;
+    color: var(--color-text-primary);
     font-size: 0.875rem;
   }
 
   input {
-    background: white;
-    border: 1px solid $color-input-border;
+    background: var(--color-white);
+    border: 1px solid var(--color-input-border);
     border-radius: 8px;
-    color: $color-text-primary;
+    color: var(--color-text-primary);
     padding: 0.75rem 1rem;
     font-size: 0.9rem;
     outline: none;
     transition: border-color 0.2s;
 
     &::placeholder {
-      color: #b0a090;
+      color: var(--color-text-muted);
     }
 
     &:focus {
-      border-color: $color-marine;
+      border-color: var(--color-teal);
     }
   }
 }
@@ -233,6 +234,7 @@ async function handleRegister() {
   cursor: pointer;
   border: none;
   transition: all 0.2s;
+  min-height: 44px;
 
   &:disabled {
     opacity: 0.6;
@@ -241,28 +243,42 @@ async function handleRegister() {
 }
 
 .btn-primary {
-  background: $color-marine;
-  color: white;
+  background: var(--color-teal);
+  color: var(--color-text-on-dark);
   margin-top: 0.5rem;
 
   &:hover:not(:disabled) {
-    background: $color-navy;
+    background: var(--color-teal-dark);
   }
 }
 
 .login-link {
   text-align: center;
-  color: $color-text-secondary;
+  color: var(--color-text-secondary);
   font-size: 0.875rem;
   margin-top: 1.25rem;
 
   a {
-    color: $color-gold;
+    color: var(--color-gold);
     text-decoration: none;
 
     &:hover {
       text-decoration: underline;
     }
+  }
+}
+
+@media (max-width: 480px) {
+  .register-card {
+    padding: 2rem 1.5rem;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    max-width: 100%;
+  }
+
+  .form-group input {
+    min-height: 44px;
   }
 }
 </style>

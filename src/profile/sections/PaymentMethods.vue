@@ -117,40 +117,46 @@ function cardLabel(type: string) {
 .section-title {
   font-family: $font-headline;
   font-size: 1.1rem;
-  color: $color-text-primary;
+  color: var(--color-text-primary);
   margin: 0;
 }
 
 .add-btn {
   background: none;
-  border: 1px solid $color-marine;
-  color: $color-marine;
+  border: 1px solid var(--color-teal);
+  color: var(--color-teal);
   padding: 0.35rem 0.75rem;
   border-radius: 6px;
   font-size: 0.8rem;
   cursor: pointer;
   font-weight: 600;
+  min-height: 36px;
 
   &:hover {
-    background-color: $color-marine;
-    color: white;
+    background-color: var(--color-teal);
+    color: var(--color-text-on-dark);
   }
 }
 
 .add-form {
-  border: 1px solid $color-border;
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   padding: 1rem;
   margin-bottom: 1rem;
-  background-color: $color-beige;
+  background-color: var(--color-bg-section);
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  transition: background-color 0.3s, border-color 0.3s;
 }
 
 .form-row {
   display: flex;
   gap: 0.75rem;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+  }
 }
 
 .form-group {
@@ -161,43 +167,45 @@ function cardLabel(type: string) {
 
   label {
     font-size: 0.8rem;
-    color: $color-text-secondary;
+    color: var(--color-text-secondary);
   }
 
   input,
   select {
     padding: 0.5rem;
-    border: 1px solid $color-input-border;
+    border: 1px solid var(--color-input-border);
     border-radius: 6px;
     font-size: 0.85rem;
-    color: $color-text-primary;
-    background: white;
+    color: var(--color-text-primary);
+    background: var(--color-white);
+    transition: border-color 0.2s;
 
     &:focus {
       outline: none;
-      border-color: $color-marine;
+      border-color: var(--color-teal);
     }
   }
 }
 
 .save-btn {
-  background-color: $color-marine;
-  color: white;
+  background-color: var(--color-teal);
+  color: var(--color-text-on-dark);
   border: none;
   padding: 0.5rem;
   border-radius: 6px;
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
+  min-height: 44px;
 
   &:hover {
-    background-color: $color-navy;
+    background-color: var(--color-teal-dark);
   }
 }
 
 .loading,
 .empty-state {
-  color: $color-text-secondary;
+  color: var(--color-text-secondary);
   font-size: 0.9rem;
   padding: 2rem 0;
   text-align: center;
@@ -210,12 +218,19 @@ function cardLabel(type: string) {
 }
 
 .card-item {
-  border: 1px solid $color-border;
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   padding: 0.75rem 1rem;
   display: flex;
   align-items: center;
   gap: 1rem;
+  transition: background-color 0.3s, border-color 0.3s;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
 }
 
 .card-info {
@@ -223,28 +238,32 @@ function cardLabel(type: string) {
   align-items: center;
   gap: 0.75rem;
   flex: 1;
+
+  @media (max-width: 480px) {
+    flex-wrap: wrap;
+  }
 }
 
 .card-type {
   font-weight: 600;
-  color: $color-marine;
+  color: var(--color-teal);
   font-size: 0.85rem;
 }
 
 .card-number {
   font-family: monospace;
-  color: $color-text-primary;
+  color: var(--color-text-primary);
   font-size: 0.9rem;
 }
 
 .card-expiry {
-  color: $color-text-secondary;
+  color: var(--color-text-secondary);
   font-size: 0.8rem;
 }
 
 .default-badge {
-  background-color: rgba(198, 166, 100, 0.2);
-  color: $color-brown;
+  background-color: color-mix(in srgb, var(--color-gold) 20%, transparent);
+  color: var(--color-text-primary);
   font-size: 0.7rem;
   padding: 0.1rem 0.4rem;
   border-radius: 4px;
@@ -252,14 +271,14 @@ function cardLabel(type: string) {
 }
 
 .card-holder {
-  color: $color-text-secondary;
+  color: var(--color-text-secondary);
   font-size: 0.8rem;
 }
 
 .delete-btn {
   background: none;
   border: none;
-  color: $color-error;
+  color: var(--color-error);
   font-size: 0.8rem;
   cursor: pointer;
 

@@ -4,10 +4,12 @@ import AccountSection from './account/AccountSection.vue'
 import LanguageSwitcher from './LanguageSwitcher.vue'
 import { ref, computed } from 'vue'
 import { useTabManager } from '@/composables/useTabManager'
+import { useTheme } from '@/composables/useTheme'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 
 const { currentTab, setTab } = useTabManager()
+const { theme, toggleTheme } = useTheme()
 const router = useRouter()
 const mobileMenuOpen = ref(false)
 const { t } = useI18n()
@@ -51,6 +53,17 @@ function toggleMobileMenu() {
 
       <div class="header-right">
         <LanguageSwitcher />
+        <button class="theme-toggle" @click="toggleTheme" :aria-label="theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'">
+          <!-- Sun icon for dark mode (click to go light) -->
+          <svg v-if="theme === 'dark'" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5" />
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+          </svg>
+          <!-- Moon icon for light mode (click to go dark) -->
+          <svg v-else width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+        </button>
         <AccountSection />
       </div>
 
@@ -77,6 +90,18 @@ function toggleMobileMenu() {
       >
         {{ item.label }}
       </a>
+      <div class="mobile-theme-row">
+        <button class="theme-toggle" @click="toggleTheme">
+          <svg v-if="theme === 'dark'" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5" />
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+          </svg>
+          <svg v-else width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+          <span>{{ theme === 'dark' ? 'Light Mode' : 'Dark Mode' }}</span>
+        </button>
+      </div>
     </nav>
   </header>
 </template>
@@ -88,8 +113,9 @@ function toggleMobileMenu() {
   position: sticky;
   top: 0;
   z-index: 100;
-  background-color: $color-white;
-  border-bottom: 1px solid $color-border;
+  background-color: var(--color-white);
+  border-bottom: 1px solid var(--color-border);
+  transition: background-color 0.3s, border-color 0.3s;
 }
 
 .header-inner {
@@ -114,7 +140,7 @@ function toggleMobileMenu() {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: $color-text-secondary;
+  color: var(--color-text-secondary);
   text-decoration: none;
   padding: 0.5rem 1rem;
   border-radius: 4px;
@@ -123,12 +149,12 @@ function toggleMobileMenu() {
   user-select: none;
 
   &:hover {
-    color: $color-teal;
-    background-color: rgba(23, 89, 118, 0.06);
+    color: var(--color-teal);
+    background-color: color-mix(in srgb, var(--color-teal) 6%, transparent);
   }
 
   &.active {
-    color: $color-teal;
+    color: var(--color-teal);
     font-weight: 700;
     position: relative;
 
@@ -139,7 +165,7 @@ function toggleMobileMenu() {
       left: 1rem;
       right: 1rem;
       height: 2px;
-      background-color: $color-teal;
+      background-color: var(--color-teal);
       border-radius: 1px;
     }
   }
@@ -151,17 +177,42 @@ function toggleMobileMenu() {
   gap: 0.75rem;
 }
 
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  background: none;
+  border: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  padding: 0.4rem;
+  border-radius: 6px;
+  transition: all 0.2s;
+  min-width: 36px;
+  min-height: 36px;
+
+  &:hover {
+    background-color: var(--color-bg-alt);
+    color: var(--color-teal);
+  }
+}
+
 .mobile-toggle {
   display: none;
   background: none;
   border: none;
-  color: $color-text-primary;
+  color: var(--color-text-primary);
   cursor: pointer;
   padding: 0.5rem;
   border-radius: 6px;
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
-    background-color: $color-bg-alt;
+    background-color: var(--color-bg-alt);
   }
 }
 
@@ -169,8 +220,8 @@ function toggleMobileMenu() {
   display: none;
   flex-direction: column;
   padding: 0.5rem 1.5rem 1rem;
-  border-top: 1px solid $color-border;
-  background-color: $color-white;
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-white);
 }
 
 .mobile-link {
@@ -179,20 +230,38 @@ function toggleMobileMenu() {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: $color-text-secondary;
+  color: var(--color-text-secondary);
   text-decoration: none;
   padding: 0.75rem 0;
   cursor: pointer;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid var(--color-border);
   transition: color 0.2s;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
 
   &:hover,
   &.active {
-    color: $color-teal;
+    color: var(--color-teal);
   }
 
   &:last-child {
     border-bottom: none;
+  }
+}
+
+.mobile-theme-row {
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-border);
+
+  .theme-toggle {
+    font-family: $font-headline;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-height: 44px;
+    padding: 0.5rem 0;
   }
 }
 
@@ -219,6 +288,17 @@ function toggleMobileMenu() {
 
   .header-right {
     margin-right: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-inner {
+    padding: 0 0.75rem;
+    height: 56px;
+  }
+
+  .mobile-nav {
+    padding: 0.5rem 1rem 1rem;
   }
 }
 </style>

@@ -79,11 +79,12 @@ const sections = computed(() => [
 }
 
 .profile-card {
-  background: white;
-  border: 1px solid $color-border;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 16px rgba(61, 43, 31, 0.08);
+  box-shadow: var(--shadow-card);
+  transition: background-color 0.3s, border-color 0.3s;
 }
 
 .profile-header {
@@ -91,15 +92,16 @@ const sections = computed(() => [
   align-items: center;
   gap: 1rem;
   padding: 1.5rem 2rem;
-  background-color: $color-beige;
-  border-bottom: 1px solid $color-border;
+  background-color: var(--color-bg-section);
+  border-bottom: 1px solid var(--color-border);
+  transition: background-color 0.3s, border-color 0.3s;
 }
 
 .profile-avatar {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  border: 2px solid $color-gold;
+  border: 2px solid var(--color-gold);
   object-fit: cover;
   flex-shrink: 0;
 }
@@ -108,8 +110,8 @@ const sections = computed(() => [
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: $color-sand;
-  color: $color-brown;
+  background-color: var(--color-bg-alt);
+  color: var(--color-text-primary);
 }
 
 .profile-info {
@@ -119,20 +121,20 @@ const sections = computed(() => [
 .profile-name {
   font-family: $font-headline;
   font-size: 1.25rem;
-  color: $color-text-primary;
+  color: var(--color-text-primary);
   margin: 0;
 }
 
 .profile-email {
   font-size: 0.85rem;
-  color: $color-text-secondary;
+  color: var(--color-text-secondary);
   margin: 0.15rem 0 0;
 }
 
 .logout-btn {
   background: none;
-  border: 1px solid $color-border;
-  color: $color-text-secondary;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
   padding: 0.4rem 1rem;
   border-radius: 6px;
   font-size: 0.8rem;
@@ -140,15 +142,17 @@ const sections = computed(() => [
   transition: all 0.2s;
 
   &:hover {
-    border-color: $color-error;
-    color: $color-error;
+    border-color: var(--color-error);
+    color: var(--color-error);
   }
 }
 
 .profile-nav {
   display: flex;
-  border-bottom: 1px solid $color-border;
+  border-bottom: 1px solid var(--color-border);
   padding: 0 1rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .nav-btn {
@@ -156,23 +160,48 @@ const sections = computed(() => [
   background: none;
   border: none;
   border-bottom: 2px solid transparent;
-  color: $color-text-secondary;
+  color: var(--color-text-secondary);
   font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.2s;
+  white-space: nowrap;
+  min-height: 44px;
 
   &:hover {
-    color: $color-text-primary;
+    color: var(--color-text-primary);
   }
 
   &.active {
-    color: $color-marine;
-    border-bottom-color: $color-marine;
+    color: var(--color-teal);
+    border-bottom-color: var(--color-teal);
     font-weight: 600;
   }
 }
 
 .profile-content {
   padding: 1.5rem 2rem;
+}
+
+@media (max-width: 600px) {
+  .profile-page {
+    padding: 0;
+    margin: 1rem auto;
+  }
+
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.25rem;
+  }
+
+  .profile-content {
+    padding: 1.25rem;
+  }
+
+  .profile-card {
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
 }
 </style>

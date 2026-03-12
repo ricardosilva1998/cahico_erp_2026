@@ -74,7 +74,7 @@ function goToProfile() {
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: color-mix(in srgb, var(--color-text-primary) 5%, transparent);
   }
 }
 
@@ -82,7 +82,7 @@ function goToProfile() {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  border: 2px solid $color-gold;
+  border: 2px solid var(--color-gold);
   object-fit: cover;
 }
 
@@ -90,13 +90,13 @@ function goToProfile() {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: $color-bg-alt;
-  color: $color-text-secondary;
+  background-color: var(--color-bg-alt);
+  color: var(--color-text-secondary);
 }
 
 .account-name {
   font-size: 0.85rem;
-  color: $color-text-primary;
+  color: var(--color-text-primary);
   font-weight: 500;
   max-width: 120px;
   overflow: hidden;
@@ -114,20 +114,20 @@ function goToProfile() {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: $color-bg-alt;
-  color: $color-tan;
+  background-color: var(--color-bg-alt);
+  color: var(--color-tan);
   cursor: pointer;
   transition: background-color 0.2s, color 0.2s;
 
   &:hover {
-    background-color: rgba(23, 89, 118, 0.08);
-    color: $color-teal;
+    background-color: color-mix(in srgb, var(--color-teal) 8%, transparent);
+    color: var(--color-teal);
   }
 }
 
 .login-btn {
-  background-color: $color-teal;
-  color: $color-text-on-dark;
+  background-color: var(--color-teal);
+  color: var(--color-text-on-dark);
   border: none;
   padding: 0.5rem 1.25rem;
   border-radius: 6px;
@@ -140,7 +140,7 @@ function goToProfile() {
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: $color-primary-dark;
+    background-color: var(--color-teal-dark);
   }
 }
 </style>

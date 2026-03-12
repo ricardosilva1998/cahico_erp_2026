@@ -102,6 +102,7 @@ function navigateToCollection() {
 <style lang="scss" scoped>
 @use '@/styles/variables' as *;
 
+// Footer keeps dark background in both themes
 .site-footer {
   background-color: $color-dark-brown;
   color: $color-white;
@@ -259,6 +260,12 @@ function navigateToCollection() {
     font-size: 0.78rem;
     margin: 0;
     opacity: 0.7;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-inner {
+    padding: 2rem 1rem 1rem;
   }
 }
 </style>

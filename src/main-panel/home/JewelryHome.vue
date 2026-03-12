@@ -170,12 +170,13 @@ function handleLogin() {
   align-items: center;
   justify-content: space-between;
   padding: 4rem 3rem 3.5rem;
-  background: linear-gradient(135deg, $color-white 0%, $color-off-white 60%, $color-light-gray 100%);
+  background: linear-gradient(135deg, var(--color-white) 0%, var(--color-off-white) 60%, var(--color-bg-section) 100%);
   border-radius: 12px;
   margin-bottom: 1.5rem;
   min-height: 340px;
   position: relative;
   overflow: hidden;
+  transition: background 0.3s;
 
   &::before {
     content: '';
@@ -185,7 +186,7 @@ function handleLogin() {
     width: 300px;
     height: 300px;
     border-radius: 50%;
-    background: rgba(186, 160, 48, 0.06);
+    background: color-mix(in srgb, var(--color-gold) 6%, transparent);
     pointer-events: none;
   }
 }
@@ -200,7 +201,7 @@ function handleLogin() {
   font-family: $font-headline;
   font-size: 0.85rem;
   letter-spacing: 2px;
-  color: $color-gold;
+  color: var(--color-gold);
   text-transform: uppercase;
   margin: 0 0 0.75rem;
   font-weight: 600;
@@ -210,7 +211,7 @@ function handleLogin() {
   font-family: $font-brand;
   font-size: 3.5rem;
   font-weight: 700;
-  color: $color-teal;
+  color: var(--color-teal);
   letter-spacing: 8px;
   margin: 0 0 0.5rem;
   line-height: 1;
@@ -220,13 +221,13 @@ function handleLogin() {
   font-family: $font-headline;
   font-size: 1.5rem;
   font-weight: 400;
-  color: $color-dark-brown;
+  color: var(--color-text-primary);
   margin: 0 0 1rem;
   line-height: 1.4;
 }
 
 .hero-description {
-  color: $color-text-secondary;
+  color: var(--color-text-secondary);
   font-size: 0.95rem;
   line-height: 1.7;
   margin: 0 0 2rem;
@@ -240,8 +241,8 @@ function handleLogin() {
 }
 
 .btn-primary {
-  background-color: $color-teal;
-  color: $color-text-on-dark;
+  background-color: var(--color-teal);
+  color: var(--color-text-on-dark);
   border: none;
   padding: 0.75rem 1.75rem;
   border-radius: 6px;
@@ -254,16 +255,16 @@ function handleLogin() {
   transition: all 0.2s;
 
   &:hover {
-    background-color: $color-primary-dark;
+    background-color: var(--color-teal-dark);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(23, 89, 118, 0.25);
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--color-teal) 25%, transparent);
   }
 }
 
 .btn-outline {
   background: transparent;
-  color: $color-teal;
-  border: 1.5px solid $color-teal;
+  color: var(--color-teal);
+  border: 1.5px solid var(--color-teal);
   padding: 0.75rem 1.75rem;
   border-radius: 6px;
   font-family: $font-headline;
@@ -275,8 +276,8 @@ function handleLogin() {
   transition: all 0.2s;
 
   &:hover {
-    background-color: $color-teal;
-    color: $color-text-on-dark;
+    background-color: var(--color-teal);
+    color: var(--color-text-on-dark);
     transform: translateY(-1px);
   }
 }
@@ -287,7 +288,7 @@ function handleLogin() {
   height: 320px;
   border-radius: 12px;
   overflow: hidden;
-  border: 2px solid $color-gold;
+  border: 2px solid var(--color-gold);
   box-shadow: 0 8px 32px rgba(38, 28, 21, 0.18);
   margin-left: 2rem;
 
@@ -314,12 +315,12 @@ function handleLogin() {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: $color-text-primary;
+  color: var(--color-text-primary);
   margin: 0 0 0.4rem;
 }
 
 .section-subtitle {
-  color: $color-text-secondary;
+  color: var(--color-text-secondary);
   font-size: 0.9rem;
   margin: 0;
 }
@@ -328,34 +329,39 @@ function handleLogin() {
 .collections {
   margin-bottom: 1.5rem;
   padding: 2.5rem 2rem;
-  background-color: $color-white;
-  border: 1px solid $color-border;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
   border-radius: 12px;
+  transition: background-color 0.3s, border-color 0.3s;
 }
 
 .collections-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
+  gap: 1.5rem;
 
   @media (max-width: 900px) {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .collection-card {
-  background-color: $color-off-white;
-  border: 1px solid $color-border;
+  background-color: var(--color-off-white);
+  border: 1px solid var(--color-border);
   border-radius: 10px;
-  padding: 1.75rem 1.25rem;
+  padding: 2rem 1.5rem;
   text-align: center;
   transition: all 0.25s;
   cursor: default;
 
   &:hover {
-    border-color: $color-gold;
+    border-color: var(--color-gold);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(186, 160, 48, 0.12);
+    box-shadow: var(--shadow-card-hover);
   }
 }
 
@@ -364,7 +370,7 @@ function handleLogin() {
   height: 120px;
   object-fit: cover;
   border-radius: 6px;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1.25rem;
   display: block;
 }
 
@@ -374,21 +380,21 @@ function handleLogin() {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: $color-text-primary;
-  margin: 0 0 0.5rem;
+  color: var(--color-text-primary);
+  margin: 0 0 0.75rem;
 }
 
 .collection-desc {
-  color: $color-text-secondary;
+  color: var(--color-text-secondary);
   font-size: 0.82rem;
   line-height: 1.5;
-  margin: 0 0 1.25rem;
+  margin: 0 0 1.5rem;
 }
 
 .collection-btn {
   background: none;
-  border: 1px solid $color-teal;
-  color: $color-teal;
+  border: 1px solid var(--color-teal);
+  color: var(--color-teal);
   padding: 0.4rem 1rem;
   border-radius: 6px;
   font-family: $font-headline;
@@ -400,8 +406,8 @@ function handleLogin() {
   transition: all 0.2s;
 
   &:hover {
-    background-color: $color-teal;
-    color: $color-text-on-dark;
+    background-color: var(--color-teal);
+    color: var(--color-text-on-dark);
   }
 }
 
@@ -409,32 +415,37 @@ function handleLogin() {
 .featured {
   margin-bottom: 1.5rem;
   padding: 2.5rem 2rem;
-  background-color: $color-light-gray;
-  border: 1px solid $color-border;
+  background-color: var(--color-bg-section);
+  border: 1px solid var(--color-border);
   border-radius: 12px;
+  transition: background-color 0.3s, border-color 0.3s;
 }
 
 .featured-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
+  gap: 1.5rem;
 
   @media (max-width: 900px) {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .piece-card {
-  background: $color-white;
-  border: 1px solid $color-border;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
   border-radius: 10px;
   overflow: hidden;
   transition: all 0.25s;
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(38, 28, 21, 0.08);
-    border-color: $color-gold;
+    box-shadow: var(--shadow-card-hover);
+    border-color: var(--color-gold);
   }
 }
 
@@ -455,26 +466,26 @@ function handleLogin() {
 }
 
 .piece-info {
-  padding: 1rem;
+  padding: 1.25rem 1.25rem 1.5rem;
 }
 
 .piece-name {
   font-family: $font-headline;
   font-size: 1rem;
   font-weight: 600;
-  color: $color-text-primary;
+  color: var(--color-text-primary);
   margin: 0 0 0.25rem;
 }
 
 .piece-material {
-  color: $color-text-secondary;
+  color: var(--color-text-secondary);
   font-size: 0.78rem;
   margin: 0 0 0.5rem;
 }
 
 .piece-price {
   font-weight: 700;
-  color: $color-teal;
+  color: var(--color-teal);
   font-size: 1rem;
   margin: 0;
 }
@@ -483,9 +494,10 @@ function handleLogin() {
 .brand-story {
   margin-bottom: 1.5rem;
   padding: 3rem 2.5rem;
-  background-color: $color-white;
-  border: 1px solid $color-border;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
   border-radius: 12px;
+  transition: background-color 0.3s, border-color 0.3s;
 }
 
 .story-grid {
@@ -504,7 +516,7 @@ function handleLogin() {
   font-family: $font-headline;
   font-size: 0.85rem;
   letter-spacing: 2px;
-  color: $color-gold;
+  color: var(--color-gold);
   text-transform: uppercase;
   font-weight: 600;
   margin: 0 0 0.75rem;
@@ -514,13 +526,13 @@ function handleLogin() {
   font-family: $font-headline;
   font-size: 1.6rem;
   font-weight: 700;
-  color: $color-text-primary;
+  color: var(--color-text-primary);
   margin: 0 0 1.25rem;
   line-height: 1.3;
 }
 
 .story-body {
-  color: $color-text-secondary;
+  color: var(--color-text-secondary);
   font-size: 0.9rem;
   line-height: 1.8;
   margin: 0 0 1rem;
@@ -589,11 +601,74 @@ function handleLogin() {
   font-family: $font-headline;
   font-size: 1.6rem;
   font-weight: 700;
-  color: $color-teal;
+  color: var(--color-teal);
 }
 
 .stat-label {
   font-size: 0.78rem;
-  color: $color-text-secondary;
+  color: var(--color-text-secondary);
+}
+
+// ── Mobile ──────────────────────────────────────────────────────────────────
+@media (max-width: 768px) {
+  .hero {
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .hero-content {
+    max-width: 100%;
+  }
+
+  .hero-description {
+    max-width: 100%;
+  }
+
+  .hero-actions {
+    justify-content: center;
+  }
+
+  .collections,
+  .featured,
+  .brand-story {
+    padding: 2rem 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 2rem 1rem;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
+    letter-spacing: 4px;
+  }
+
+  .hero-subtitle {
+    font-size: 1.2rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+
+    .btn-primary,
+    .btn-outline {
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  .collections,
+  .featured,
+  .brand-story {
+    padding: 1.5rem 1rem;
+  }
+
+  .story-stats {
+    flex-direction: column;
+    gap: 1rem;
+  }
 }
 </style>

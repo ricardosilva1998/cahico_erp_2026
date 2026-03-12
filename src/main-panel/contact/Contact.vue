@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -7,13 +7,19 @@ const { t } = useI18n()
 const form = reactive({
   name: '',
   email: '',
+  phone: '',
   subject: '',
+  orderRef: '',
   message: '',
 })
 
 const submitted = ref(false)
 const submitting = ref(false)
 const errors = reactive({ name: '', email: '', subject: '', message: '' })
+
+const showOrderRef = computed(() =>
+  form.subject === 'Order Enquiry' || form.subject === 'Order Status'
+)
 
 function validate(): boolean {
   let valid = true
@@ -28,7 +34,6 @@ function validate(): boolean {
 async function handleSubmit() {
   if (!validate()) return
   submitting.value = true
-  // Simulate a short send delay
   await new Promise(resolve => setTimeout(resolve, 900))
   submitting.value = false
   submitted.value = true
@@ -37,7 +42,9 @@ async function handleSubmit() {
 function resetForm() {
   form.name = ''
   form.email = ''
+  form.phone = ''
   form.subject = ''
+  form.orderRef = ''
   form.message = ''
   submitted.value = false
 }
@@ -64,19 +71,20 @@ function resetForm() {
 
           <!-- Form -->
           <form v-else key="form" @submit.prevent="handleSubmit" novalidate>
+            <div class="form-group">
+              <label class="form-label">{{ t('contact.fullName') }} *</label>
+              <input
+                v-model="form.name"
+                type="text"
+                class="form-input"
+                :class="{ error: errors.name }"
+                :placeholder="t('contact.fullNamePlaceholder')"
+                autocomplete="name"
+              />
+              <span v-if="errors.name" class="field-error">{{ errors.name }}</span>
+            </div>
+
             <div class="form-row">
-              <div class="form-group">
-                <label class="form-label">{{ t('contact.fullName') }} *</label>
-                <input
-                  v-model="form.name"
-                  type="text"
-                  class="form-input"
-                  :class="{ error: errors.name }"
-                  :placeholder="t('contact.fullNamePlaceholder')"
-                  autocomplete="name"
-                />
-                <span v-if="errors.name" class="field-error">{{ errors.name }}</span>
-              </div>
               <div class="form-group">
                 <label class="form-label">{{ t('contact.emailAddress') }} *</label>
                 <input
@@ -88,6 +96,16 @@ function resetForm() {
                   autocomplete="email"
                 />
                 <span v-if="errors.email" class="field-error">{{ errors.email }}</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label">{{ t('contact.phoneLabel') }}</label>
+                <input
+                  v-model="form.phone"
+                  type="tel"
+                  class="form-input"
+                  :placeholder="t('contact.phonePlaceholder')"
+                  autocomplete="tel"
+                />
               </div>
             </div>
 
@@ -101,11 +119,22 @@ function resetForm() {
                 <option value="" disabled>{{ t('contact.subjectPlaceholder') }}</option>
                 <option value="General Enquiry">{{ t('contact.subjects.general') }}</option>
                 <option value="Order Enquiry">{{ t('contact.subjects.order') }}</option>
+                <option value="Order Status">{{ t('contact.subjects.orderStatus') }}</option>
                 <option value="Custom Piece">{{ t('contact.subjects.custom') }}</option>
                 <option value="Wholesale">{{ t('contact.subjects.wholesale') }}</option>
                 <option value="Press & Media">{{ t('contact.subjects.press') }}</option>
               </select>
               <span v-if="errors.subject" class="field-error">{{ errors.subject }}</span>
+            </div>
+
+            <div v-if="showOrderRef" class="form-group">
+              <label class="form-label">{{ t('contact.orderRefLabel') }}</label>
+              <input
+                v-model="form.orderRef"
+                type="text"
+                class="form-input"
+                :placeholder="t('contact.orderRefPlaceholder')"
+              />
             </div>
 
             <div class="form-group">
@@ -199,7 +228,7 @@ function resetForm() {
   font-family: $font-headline;
   font-size: 2rem;
   font-weight: 700;
-  color: $color-dark-brown;
+  color: var(--color-text-primary);
   letter-spacing: 1px;
   text-transform: uppercase;
   margin: 0 0 0.4rem;
@@ -208,7 +237,7 @@ function resetForm() {
 .panel-subtitle {
   font-family: $font-body;
   font-size: 0.95rem;
-  color: $color-text-secondary;
+  color: var(--color-text-secondary);
   margin: 0;
 }
 
@@ -225,10 +254,12 @@ function resetForm() {
 
 // Form card
 .form-card {
-  background: $color-white;
-  border: 1px solid $color-border;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
   border-radius: 12px;
   padding: 2rem;
+  box-shadow: var(--shadow-card);
+  transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
 }
 
 form {
@@ -259,33 +290,33 @@ form {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: $color-text-secondary;
+  color: var(--color-text-secondary);
 }
 
 .form-input {
   font-family: $font-body;
   font-size: 0.9rem;
-  color: $color-text-primary;
-  background: $color-off-white;
-  border: 1px solid $color-input-border;
+  color: var(--color-text-primary);
+  background: var(--color-off-white);
+  border: 1px solid var(--color-input-border);
   border-radius: 8px;
   padding: 0.65rem 0.9rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
   outline: none;
 
   &::placeholder {
-    color: $color-tan;
+    color: var(--color-text-muted);
   }
 
   &:focus {
-    border-color: $color-teal;
-    box-shadow: 0 0 0 3px rgba(23, 89, 118, 0.1);
-    background: $color-white;
+    border-color: var(--color-teal);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-teal) 10%, transparent);
+    background: var(--color-white);
   }
 
   &.error {
-    border-color: $color-error;
-    box-shadow: 0 0 0 3px $color-error-bg;
+    border-color: var(--color-error);
+    box-shadow: 0 0 0 3px var(--color-error-bg);
   }
 }
 
@@ -307,7 +338,7 @@ form {
 .field-error {
   font-family: $font-body;
   font-size: 0.75rem;
-  color: $color-error;
+  color: var(--color-error);
 }
 
 .send-btn {
@@ -316,17 +347,18 @@ form {
   font-weight: 700;
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  color: $color-white;
-  background-color: $color-teal;
+  color: var(--color-text-on-dark);
+  background-color: var(--color-teal);
   border: none;
   border-radius: 8px;
   padding: 0.85rem 2rem;
   cursor: pointer;
   transition: background-color 0.2s, opacity 0.2s;
   align-self: flex-start;
+  min-height: 44px;
 
   &:hover:not(:disabled) {
-    background-color: $color-teal-dark;
+    background-color: var(--color-teal-dark);
   }
 
   &:disabled {
@@ -353,7 +385,7 @@ form {
   font-family: $font-headline;
   font-size: 1.5rem;
   font-weight: 700;
-  color: $color-dark-brown;
+  color: var(--color-text-primary);
   text-transform: uppercase;
   letter-spacing: 1px;
   margin: 0;
@@ -362,7 +394,7 @@ form {
 .success-text {
   font-family: $font-body;
   font-size: 0.95rem;
-  color: $color-text-secondary;
+  color: var(--color-text-secondary);
   max-width: 340px;
   line-height: 1.55;
   margin: 0;
@@ -370,13 +402,15 @@ form {
 
 // Sidebar
 .contact-sidebar {
-  background: $color-white;
-  border: 1px solid $color-border;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
   border-radius: 12px;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  box-shadow: var(--shadow-card);
+  transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
 }
 
 .info-block {
@@ -397,20 +431,20 @@ form {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: $color-gold;
+  color: var(--color-gold);
   margin-bottom: 0.2rem;
 }
 
 .info-value {
   font-family: $font-body;
   font-size: 0.875rem;
-  color: $color-text-secondary;
+  color: var(--color-text-secondary);
   line-height: 1.55;
 }
 
 .info-link {
   text-decoration: none;
-  color: $color-teal;
+  color: var(--color-teal);
   font-weight: 500;
 
   &:hover {
@@ -435,6 +469,11 @@ form {
 
   .form-card {
     padding: 1.25rem;
+  }
+
+  .send-btn {
+    width: 100%;
+    text-align: center;
   }
 }
 </style>

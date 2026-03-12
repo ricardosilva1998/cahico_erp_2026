@@ -92,7 +92,7 @@ const collections = computed(() => [
   font-family: $font-headline;
   font-size: 2rem;
   font-weight: 700;
-  color: $color-dark-brown;
+  color: var(--color-text-primary);
   letter-spacing: 1px;
   text-transform: uppercase;
   margin: 0 0 0.4rem;
@@ -101,14 +101,14 @@ const collections = computed(() => [
 .panel-subtitle {
   font-family: $font-body;
   font-size: 0.95rem;
-  color: $color-text-secondary;
+  color: var(--color-text-secondary);
   margin: 0;
 }
 
 .collections-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.25rem;
+  gap: 1.5rem;
 
   @media (max-width: 1024px) {
     grid-template-columns: repeat(2, 1fr);
@@ -120,18 +120,18 @@ const collections = computed(() => [
 }
 
 .collection-card {
-  background: $color-white;
-  border: 1px solid $color-border;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
   border-radius: 12px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   gap: 0;
-  transition: box-shadow 0.2s, transform 0.2s;
+  transition: box-shadow 0.2s, transform 0.2s, background-color 0.3s, border-color 0.3s;
   cursor: pointer;
 
   &:hover {
-    box-shadow: 0 4px 20px rgba(23, 89, 118, 0.12);
+    box-shadow: var(--shadow-card-hover);
     transform: translateY(-2px);
   }
 }
@@ -154,15 +154,11 @@ const collections = computed(() => [
 }
 
 .card-body {
-  padding: 1.25rem;
-}
-
-.card-body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  padding: 0;
+  gap: 0.75rem;
+  padding: 1.25rem;
 }
 
 .card-top {
@@ -176,7 +172,7 @@ const collections = computed(() => [
   font-family: $font-headline;
   font-size: 1.2rem;
   font-weight: 700;
-  color: $color-dark-brown;
+  color: var(--color-text-primary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin: 0;
@@ -186,8 +182,8 @@ const collections = computed(() => [
   font-family: $font-body;
   font-size: 0.75rem;
   font-weight: 600;
-  color: $color-white;
-  background-color: $color-teal;
+  color: var(--color-text-on-dark);
+  background-color: var(--color-teal);
   padding: 0.15rem 0.5rem;
   border-radius: 20px;
   white-space: nowrap;
@@ -196,7 +192,7 @@ const collections = computed(() => [
 .card-description {
   font-family: $font-body;
   font-size: 0.875rem;
-  color: $color-text-secondary;
+  color: var(--color-text-secondary);
   line-height: 1.5;
   margin: 0;
 }
@@ -204,18 +200,18 @@ const collections = computed(() => [
 .card-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem;
+  gap: 0.5rem;
   margin-top: 0.25rem;
 }
 
 .tag {
   font-family: $font-body;
   font-size: 0.7rem;
-  color: $color-teal;
-  background-color: rgba(23, 89, 118, 0.08);
-  border: 1px solid rgba(23, 89, 118, 0.2);
+  color: var(--color-teal);
+  background-color: color-mix(in srgb, var(--color-teal) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-teal) 20%, transparent);
   border-radius: 4px;
-  padding: 0.1rem 0.45rem;
+  padding: 0.2rem 0.6rem;
 }
 
 .card-cta {
@@ -223,14 +219,21 @@ const collections = computed(() => [
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.5px;
-  color: $color-teal;
+  color: var(--color-teal);
   text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
   transition: color 0.2s;
+  padding: 0 1.25rem 1.25rem;
 
   &:hover {
-    color: $color-teal-dark;
+    color: var(--color-teal-dark);
+  }
+}
+
+@media (max-width: 600px) {
+  .collections-panel {
+    padding: 1.25rem;
   }
 }
 </style>

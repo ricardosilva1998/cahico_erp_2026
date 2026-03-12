@@ -60,13 +60,13 @@ function formatDate(dateStr: string) {
 .section-title {
   font-family: $font-headline;
   font-size: 1.1rem;
-  color: $color-text-primary;
+  color: var(--color-text-primary);
   margin: 0 0 1rem;
 }
 
 .loading,
 .empty-state {
-  color: $color-text-secondary;
+  color: var(--color-text-secondary);
   font-size: 0.9rem;
   padding: 2rem 0;
   text-align: center;
@@ -79,9 +79,10 @@ function formatDate(dateStr: string) {
 }
 
 .order-card {
-  border: 1px solid $color-border;
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   padding: 1rem;
+  transition: background-color 0.3s, border-color 0.3s;
 }
 
 .order-header {
@@ -93,7 +94,7 @@ function formatDate(dateStr: string) {
 
 .order-date {
   font-size: 0.85rem;
-  color: $color-text-secondary;
+  color: var(--color-text-secondary);
 }
 
 .badge {
@@ -105,28 +106,28 @@ function formatDate(dateStr: string) {
 }
 
 .badge-success {
-  background-color: $color-success-bg;
-  color: $color-success;
+  background-color: var(--color-success-bg);
+  color: var(--color-success);
 }
 
 .badge-info {
-  background-color: rgba(27, 58, 92, 0.1);
-  color: $color-marine;
+  background-color: color-mix(in srgb, var(--color-teal) 10%, transparent);
+  color: var(--color-teal);
 }
 
 .badge-warning {
-  background-color: rgba(198, 166, 100, 0.15);
-  color: $color-brown;
+  background-color: color-mix(in srgb, var(--color-gold) 15%, transparent);
+  color: var(--color-text-primary);
 }
 
 .badge-error {
-  background-color: $color-error-bg;
-  color: $color-error;
+  background-color: var(--color-error-bg);
+  color: var(--color-error);
 }
 
 .badge-default {
-  background-color: rgba(0, 0, 0, 0.06);
-  color: $color-text-secondary;
+  background-color: color-mix(in srgb, var(--color-text-primary) 6%, transparent);
+  color: var(--color-text-secondary);
 }
 
 .order-items {
@@ -138,8 +139,8 @@ function formatDate(dateStr: string) {
 
 .order-item {
   font-size: 0.85rem;
-  color: $color-text-primary;
-  background-color: $color-beige;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-section);
   padding: 0.15rem 0.5rem;
   border-radius: 4px;
 }
@@ -147,6 +148,6 @@ function formatDate(dateStr: string) {
 .order-total {
   font-size: 0.9rem;
   font-weight: 600;
-  color: $color-marine;
+  color: var(--color-teal);
 }
 </style>

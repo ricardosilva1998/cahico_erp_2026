@@ -191,7 +191,7 @@ const shippedOrders = [
   font-family: $font-headline;
   font-size: 2rem;
   font-weight: 700;
-  color: $color-dark-brown;
+  color: var(--color-text-primary);
   letter-spacing: 1px;
   text-transform: uppercase;
   margin: 0 0 0.4rem;
@@ -200,7 +200,7 @@ const shippedOrders = [
 .panel-subtitle {
   font-family: $font-body;
   font-size: 0.95rem;
-  color: $color-text-secondary;
+  color: var(--color-text-secondary);
   margin: 0;
 }
 
@@ -209,8 +209,10 @@ const shippedOrders = [
   display: flex;
   gap: 0.5rem;
   margin-bottom: 1.5rem;
-  border-bottom: 2px solid $color-border;
+  border-bottom: 2px solid var(--color-border);
   padding-bottom: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .section-tab {
@@ -222,7 +224,7 @@ const shippedOrders = [
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: $color-text-secondary;
+  color: var(--color-text-secondary);
   background: none;
   border: none;
   border-bottom: 3px solid transparent;
@@ -230,14 +232,16 @@ const shippedOrders = [
   cursor: pointer;
   transition: all 0.2s;
   margin-bottom: -2px;
+  white-space: nowrap;
+  min-height: 44px;
 
   &:hover {
-    color: $color-teal;
+    color: var(--color-teal);
   }
 
   &.active {
-    color: $color-teal;
-    border-bottom-color: $color-teal;
+    color: var(--color-teal);
+    border-bottom-color: var(--color-teal);
   }
 }
 
@@ -245,8 +249,8 @@ const shippedOrders = [
   font-family: $font-body;
   font-size: 0.7rem;
   font-weight: 700;
-  background-color: $color-bg-alt;
-  color: $color-text-secondary;
+  background-color: var(--color-bg-alt);
+  color: var(--color-text-secondary);
   border-radius: 20px;
   padding: 0.1rem 0.45rem;
 
@@ -256,8 +260,8 @@ const shippedOrders = [
   }
 
   &.shipped {
-    background-color: rgba(23, 89, 118, 0.12);
-    color: $color-teal;
+    background-color: color-mix(in srgb, var(--color-teal) 12%, transparent);
+    color: var(--color-teal);
   }
 }
 
@@ -272,14 +276,14 @@ const shippedOrders = [
   display: flex;
   align-items: flex-start;
   gap: 1rem;
-  background: $color-white;
-  border: 1px solid $color-border;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
   border-radius: 10px;
   padding: 1.25rem 1.5rem;
-  transition: box-shadow 0.2s;
+  transition: box-shadow 0.2s, background-color 0.3s, border-color 0.3s;
 
   &:hover {
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+    box-shadow: var(--shadow-card);
   }
 }
 
@@ -306,20 +310,20 @@ const shippedOrders = [
   font-family: $font-headline;
   font-size: 1rem;
   font-weight: 700;
-  color: $color-dark-brown;
+  color: var(--color-text-primary);
   letter-spacing: 0.5px;
 }
 
 .order-date {
   font-family: $font-body;
   font-size: 0.8rem;
-  color: $color-text-muted;
+  color: var(--color-text-muted);
 }
 
 .order-items {
   font-family: $font-body;
   font-size: 0.875rem;
-  color: $color-text-secondary;
+  color: var(--color-text-secondary);
 }
 
 .order-dispatch {
@@ -338,11 +342,11 @@ const shippedOrders = [
 }
 
 .tracking-label {
-  color: $color-text-muted;
+  color: var(--color-text-muted);
 }
 
 .tracking-link {
-  color: $color-teal;
+  color: var(--color-teal);
   text-decoration: none;
   font-weight: 600;
 
@@ -355,7 +359,7 @@ const shippedOrders = [
   font-family: $font-headline;
   font-size: 1.05rem;
   font-weight: 700;
-  color: $color-dark-brown;
+  color: var(--color-text-primary);
   white-space: nowrap;
   flex-shrink: 0;
   align-self: center;
@@ -372,8 +376,8 @@ const shippedOrders = [
   padding: 0.2rem 0.6rem;
 
   &.completed {
-    background-color: rgba(93, 122, 58, 0.12);
-    color: $color-success;
+    background-color: var(--color-success-bg);
+    color: var(--color-success);
   }
 
   &.processing {
@@ -382,8 +386,8 @@ const shippedOrders = [
   }
 
   &.shipped {
-    background-color: rgba(23, 89, 118, 0.12);
-    color: $color-teal;
+    background-color: color-mix(in srgb, var(--color-teal) 12%, transparent);
+    color: var(--color-teal);
   }
 }
 

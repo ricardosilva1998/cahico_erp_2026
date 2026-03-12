@@ -25,8 +25,6 @@ const { currentTab } = useTabManager()
 </template>
 
 <style lang="scss" scoped>
-@use '@/styles/variables' as *;
-
 .main-container {
   margin-top: 10px;
   width: 100%;
@@ -35,7 +33,8 @@ const { currentTab } = useTabManager()
 .main-bubble {
   width: 100%;
   min-height: calc(100vh - 64px);
-  background-color: $color-light-gray;
-  border-top: 1px solid $color-border;
+  background-color: var(--color-bg-section);
+  border-top: 1px solid var(--color-border);
+  transition: background-color 0.3s, border-color 0.3s;
 }
 </style>

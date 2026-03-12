@@ -1,0 +1,81 @@
+// Theme CSS custom properties — light (default) and dark mode overrides
+// SCSS variables in _variables.scss remain unchanged for build-time use
+
+:root {
+  // Core palette
+  --color-dark-brown: #261C15;
+  --color-teal: #175976;
+  --color-teal-dark: #0E3F55;
+  --color-gold: #BAA030;
+  --color-gold-light: #D4C060;
+  --color-off-white: #F7F7F2;
+  --color-tan: #B9B294;
+  --color-white: #FFFFFF;
+  --color-light-gray: #F6F6F6;
+
+  // Semantic
+  --color-primary: var(--color-teal);
+  --color-primary-dark: var(--color-teal-dark);
+  --color-accent: var(--color-gold);
+  --color-bg-body: var(--color-white);
+  --color-bg-section: var(--color-light-gray);
+  --color-bg-alt: var(--color-off-white);
+
+  // Text
+  --color-text-primary: #261C15;
+  --color-text-secondary: #5A4A3A;
+  --color-text-on-dark: #FFFFFF;
+  --color-text-muted: #B9B294;
+
+  // Status
+  --color-error: #C0392B;
+  --color-error-bg: rgba(192, 57, 43, 0.1);
+  --color-success: #5D7A3A;
+  --color-success-bg: rgba(93, 122, 58, 0.1);
+
+  // Borders
+  --color-border: #E0D8C8;
+  --color-input-border: #C9B99A;
+
+  // Shadows
+  --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.06);
+  --shadow-card-hover: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] {
+  // Core palette — warm dark tones
+  --color-dark-brown: #E8E0D8;
+  --color-teal: #4AAFCF;
+  --color-teal-dark: #3A9ABB;
+  --color-gold: #D4C060;
+  --color-gold-light: #E0D070;
+  --color-off-white: #252525;
+  --color-tan: #8A8070;
+  --color-white: #1E1E1E;
+  --color-light-gray: #252525;
+
+  // Semantic
+  --color-bg-body: #141414;
+  --color-bg-section: #1E1E1E;
+  --color-bg-alt: #252525;
+
+  // Text
+  --color-text-primary: #E8E0D8;
+  --color-text-secondary: #B0A898;
+  --color-text-on-dark: #FFFFFF;
+  --color-text-muted: #8A8070;
+
+  // Status
+  --color-error: #E74C3C;
+  --color-error-bg: rgba(231, 76, 60, 0.15);
+  --color-success: #7DA04A;
+  --color-success-bg: rgba(125, 160, 74, 0.15);
+
+  // Borders
+  --color-border: #3A3530;
+  --color-input-border: #4A4540;
+
+  // Shadows
+  --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.2);
+  --shadow-card-hover: 0 4px 20px rgba(0, 0, 0, 0.3);
+}

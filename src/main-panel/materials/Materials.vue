@@ -136,7 +136,7 @@ const materials = [
   font-family: $font-headline;
   font-size: 2rem;
   font-weight: 700;
-  color: $color-dark-brown;
+  color: var(--color-text-primary);
   letter-spacing: 1px;
   text-transform: uppercase;
   margin: 0 0 0.4rem;
@@ -145,7 +145,7 @@ const materials = [
 .panel-subtitle {
   font-family: $font-body;
   font-size: 0.95rem;
-  color: $color-text-secondary;
+  color: var(--color-text-secondary);
   margin: 0;
 }
 
@@ -160,17 +160,17 @@ const materials = [
 }
 
 .material-card {
-  background: $color-white;
-  border: 1px solid $color-border;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
   border-radius: 12px;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  transition: box-shadow 0.2s;
+  transition: box-shadow 0.2s, background-color 0.3s, border-color 0.3s;
 
   &:hover {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--shadow-card-hover);
   }
 }
 
@@ -184,7 +184,7 @@ const materials = [
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  border: 2px solid $color-border;
+  border: 2px solid var(--color-border);
   flex-shrink: 0;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.15);
 }
@@ -200,7 +200,7 @@ const materials = [
   font-family: $font-headline;
   font-size: 1.15rem;
   font-weight: 700;
-  color: $color-dark-brown;
+  color: var(--color-text-primary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin: 0;
@@ -217,9 +217,9 @@ const materials = [
   font-family: $font-body;
   font-size: 0.75rem;
   font-weight: 600;
-  background-color: $color-light-gray;
-  color: $color-text-secondary;
-  border: 1px solid $color-border;
+  background-color: var(--color-bg-section);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
   border-radius: 4px;
   padding: 0.15rem 0.5rem;
 }
@@ -234,23 +234,23 @@ const materials = [
   padding: 0.15rem 0.5rem;
 
   &.metal {
-    background-color: rgba(186, 160, 48, 0.12);
+    background-color: color-mix(in srgb, var(--color-gold) 12%, transparent);
     color: #9A851A;
   }
 
   &.gemstone {
-    background-color: rgba(23, 89, 118, 0.1);
-    color: $color-teal;
+    background-color: color-mix(in srgb, var(--color-teal) 10%, transparent);
+    color: var(--color-teal);
   }
 
   &.organic {
-    background-color: rgba(93, 122, 58, 0.1);
-    color: $color-success;
+    background-color: var(--color-success-bg);
+    color: var(--color-success);
   }
 
   &.finishing {
-    background-color: rgba(38, 28, 21, 0.07);
-    color: $color-dark-brown;
+    background-color: color-mix(in srgb, var(--color-text-primary) 7%, transparent);
+    color: var(--color-text-primary);
   }
 }
 
@@ -263,15 +263,15 @@ const materials = [
 .property-chip {
   font-family: $font-body;
   font-size: 0.75rem;
-  color: $color-text-secondary;
-  background-color: $color-off-white;
-  border: 1px solid $color-border;
+  color: var(--color-text-secondary);
+  background-color: var(--color-off-white);
+  border: 1px solid var(--color-border);
   border-radius: 20px;
   padding: 0.2rem 0.6rem;
 }
 
 .usage-section {
-  border-top: 1px solid $color-border;
+  border-top: 1px solid var(--color-border);
   padding-top: 0.85rem;
   display: flex;
   flex-direction: column;
@@ -284,13 +284,13 @@ const materials = [
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: $color-gold;
+  color: var(--color-gold);
 }
 
 .usage-text {
   font-family: $font-body;
   font-size: 0.875rem;
-  color: $color-text-secondary;
+  color: var(--color-text-secondary);
   line-height: 1.55;
   margin: 0;
 }

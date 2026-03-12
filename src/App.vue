@@ -21,12 +21,16 @@ const { currentTab } = useTabManager()
 </template>
 
 <style>
+@use '@/styles/theme';
+
 body {
   font-family: 'DM Sans', sans-serif;
-  background-color: #ffffff;
+  background-color: var(--color-bg-body);
+  color: var(--color-text-primary);
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s, color 0.3s;
 }
 </style>
 
@@ -45,5 +49,11 @@ body {
   width: 100%;
   margin: 0 auto;
   box-sizing: border-box;
+}
+
+@media (max-width: 480px) {
+  .app-main {
+    padding: 0 0.5rem;
+  }
 }
 </style>

@@ -10,6 +10,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;700&family=Barlow+Condensed:wght@400;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   </head>
   <body>
+    <script>
+      (function() {
+        var t = localStorage.getItem('cahico_theme');
+        if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', t);
+      })();
+    </script>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>

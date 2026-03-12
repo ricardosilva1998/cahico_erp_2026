@@ -74,14 +74,14 @@ async function handleSave() {
 .section-title {
   font-family: $font-headline;
   font-size: 1.1rem;
-  color: $color-text-primary;
+  color: var(--color-text-primary);
   margin: 0 0 1rem;
 }
 
 .error-msg {
-  background-color: $color-error-bg;
-  border: 1px solid $color-error;
-  color: $color-error;
+  background-color: var(--color-error-bg);
+  border: 1px solid var(--color-error);
+  color: var(--color-error);
   padding: 0.6rem 0.75rem;
   border-radius: 6px;
   font-size: 0.85rem;
@@ -89,9 +89,9 @@ async function handleSave() {
 }
 
 .success-msg {
-  background-color: $color-success-bg;
-  border: 1px solid $color-success;
-  color: $color-success;
+  background-color: var(--color-success-bg);
+  border: 1px solid var(--color-success);
+  color: var(--color-success);
   padding: 0.6rem 0.75rem;
   border-radius: 6px;
   font-size: 0.85rem;
@@ -111,26 +111,27 @@ async function handleSave() {
 
   label {
     font-size: 0.85rem;
-    color: $color-text-secondary;
+    color: var(--color-text-secondary);
   }
 
   input,
   textarea {
     padding: 0.6rem 0.75rem;
-    border: 1px solid $color-input-border;
+    border: 1px solid var(--color-input-border);
     border-radius: 8px;
     font-size: 0.9rem;
-    color: $color-text-primary;
-    background: white;
+    color: var(--color-text-primary);
+    background: var(--color-white);
     font-family: inherit;
+    transition: border-color 0.2s;
 
     &::placeholder {
-      color: #b0a090;
+      color: var(--color-text-muted);
     }
 
     &:focus {
       outline: none;
-      border-color: $color-marine;
+      border-color: var(--color-teal);
     }
   }
 
@@ -140,8 +141,8 @@ async function handleSave() {
 }
 
 .save-btn {
-  background-color: $color-marine;
-  color: white;
+  background-color: var(--color-teal);
+  color: var(--color-text-on-dark);
   border: none;
   padding: 0.65rem;
   border-radius: 8px;
@@ -149,9 +150,10 @@ async function handleSave() {
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s;
+  min-height: 44px;
 
   &:hover:not(:disabled) {
-    background-color: $color-navy;
+    background-color: var(--color-teal-dark);
   }
 
   &:disabled {
