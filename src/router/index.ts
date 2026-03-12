@@ -3,6 +3,9 @@ import { useAuthStore } from '@/stores/auth'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+  scrollBehavior() {
+    return { top: 0 }
+  },
   routes: [
     {
       path: '/login',
@@ -20,6 +23,12 @@ const router = createRouter({
       path: '/',
       name: 'Home',
       component: () => import('@/main-panel/MainPanel.vue'),
+      meta: { requiresAuth: false },
+    },
+    {
+      path: '/product/:id',
+      name: 'ProductDetail',
+      component: () => import('@/product/ProductDetail.vue'),
       meta: { requiresAuth: false },
     },
     {

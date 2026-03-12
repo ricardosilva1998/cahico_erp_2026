@@ -109,16 +109,23 @@ function handleExplore() {
         <p class="section-subtitle">{{ t('home.featuredSubtitle') }}</p>
       </div>
       <div class="featured-grid">
-        <div v-for="piece in featuredPieces" :key="piece.name" class="piece-card">
-          <div class="piece-image">
-            <img :src="piece.img" :alt="piece.name" class="piece-photo" />
+        <router-link
+          v-for="piece in featuredPieces"
+          :key="piece.name"
+          :to="'/product/' + piece.id"
+          class="piece-card-link"
+        >
+          <div class="piece-card">
+            <div class="piece-image">
+              <img :src="piece.img" :alt="piece.name" class="piece-photo" />
+            </div>
+            <div class="piece-info">
+              <h3 class="piece-name">{{ piece.name }}</h3>
+              <p class="piece-material">{{ piece.material }}</p>
+              <p class="piece-price">{{ piece.price }}</p>
+            </div>
           </div>
-          <div class="piece-info">
-            <h3 class="piece-name">{{ piece.name }}</h3>
-            <p class="piece-material">{{ piece.material }}</p>
-            <p class="piece-price">{{ piece.price }}</p>
-          </div>
-        </div>
+        </router-link>
       </div>
     </section>
 
@@ -437,6 +444,11 @@ function handleExplore() {
   @media (max-width: 480px) {
     grid-template-columns: 1fr;
   }
+}
+
+.piece-card-link {
+  text-decoration: none;
+  color: inherit;
 }
 
 .piece-card {

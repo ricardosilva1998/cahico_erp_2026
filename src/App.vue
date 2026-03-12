@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Header from './header/Header.vue'
 import Footer from './footer/Footer.vue'
+import ToastContainer from '@/components/ToastContainer.vue'
 import { useTabManager } from '@/composables/useTabManager'
 import { useAuthStore } from '@/stores/auth'
 
@@ -17,6 +18,7 @@ const { currentTab } = useTabManager()
       <router-view />
     </main>
     <Footer />
+    <ToastContainer />
   </div>
 </template>
 
