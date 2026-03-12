@@ -1,6 +1,6 @@
 import { computed, ref } from 'vue'
 
-let currentTab = ref<string>('')
+const currentTab = ref<string>('')
 
 export function useTabManager(initialTab?: string) {
   if (initialTab && currentTab.value === '') {

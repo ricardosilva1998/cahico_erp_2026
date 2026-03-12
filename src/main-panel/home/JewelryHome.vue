@@ -2,14 +2,12 @@
 import { useAuthStore } from '@/stores/auth'
 import { useAdminStore } from '@/stores/admin'
 import { useTabManager } from '@/composables/useTabManager'
-import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { computed } from 'vue'
 
 const authStore = useAuthStore()
 const adminStore = useAdminStore()
 const { setTab } = useTabManager()
-const router = useRouter()
 const { t } = useI18n()
 
 const allCollections = computed(() => [
@@ -60,9 +58,6 @@ function handleExplore() {
   setTab('Stock')
 }
 
-function handleLogin() {
-  router.push('/login')
-}
 </script>
 
 <template>
@@ -76,13 +71,6 @@ function handleLogin() {
         <p class="hero-description">{{ t('home.description') }}</p>
         <div class="hero-actions">
           <button class="btn-primary" @click="handleExplore">{{ t('home.exploreCollection') }}</button>
-          <button
-            v-if="!authStore.isAuthenticated"
-            class="btn-outline"
-            @click="handleLogin"
-          >
-            {{ t('home.signIn') }}
-          </button>
         </div>
       </div>
       <div class="hero-image-wrap">

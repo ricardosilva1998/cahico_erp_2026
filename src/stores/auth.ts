@@ -109,7 +109,7 @@ export const useAuthStore = defineStore('auth', () => {
         return
       }
       // Admin super user
-      if (email === 'admin' && password === 'admin') {
+      if (email === 'admin@cahico.com' && password === 'admin') {
         const adminUser = createMockUser('admin@cahico.com', 'Admin')
         adminUser.app_metadata = { role: 'admin' }
         user.value = adminUser

@@ -1,6 +1,10 @@
 // Theme CSS custom properties — light (default) and dark mode overrides
 // SCSS variables in _variables.scss remain unchanged for build-time use
 
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 :root {
   // Core palette
   --color-dark-brown: #261C15;
