@@ -5,19 +5,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-npm run dev          # Start dev server (Vite)
-npm run build        # Type-check + build for production
-npm run lint         # ESLint with auto-fix
-npm run format       # Prettier format src/
-npm run type-check   # vue-tsc type checking only
+bun run dev          # Start dev server (Vite)
+bun run build        # Type-check + build for production
+bun run lint         # ESLint with auto-fix
+bun run format       # Prettier format src/
+bun run type-check   # vue-tsc type checking only
 
-npm run test:unit              # Run all unit tests (Vitest)
-npx vitest run src/__tests__/App.spec.ts  # Run a single test file
+bun run test:unit              # Run all unit tests (Vitest)
+bunx vitest run src/__tests__/App.spec.ts  # Run a single test file
 
-npm run build && npm run test:e2e          # E2E tests (requires build first)
-npm run test:e2e -- --project=chromium    # E2E on Chromium only
-npm run test:e2e -- tests/example.spec.ts # Single E2E file
-npm run test:e2e -- --debug               # E2E debug mode
+bun run build && bun run test:e2e          # E2E tests (requires build first)
+bun run test:e2e -- --project=chromium    # E2E on Chromium only
+bun run test:e2e -- tests/example.spec.ts # Single E2E file
+bun run test:e2e -- --debug               # E2E debug mode
 ```
 
 ## Git Workflow
