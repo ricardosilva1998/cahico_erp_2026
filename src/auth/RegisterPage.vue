@@ -3,14 +3,17 @@ import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { useNewsletter } from '@/composables/useNewsletter'
 
 const authStore = useAuthStore()
 const router = useRouter()
 const { t } = useI18n()
+const { subscribe } = useNewsletter()
 
 const email = ref('')
 const password = ref('')
 const confirmPassword = ref('')
+const newsletterOptIn = ref(false)
 const validationError = ref<string | null>(null)
 const emailError = ref<string | null>(null)
 
@@ -55,6 +58,9 @@ async function handleRegister() {
   await authStore.registerWithEmail(email.value, password.value)
 
   if (!authStore.error) {
+    if (newsletterOptIn.value) {
+      subscribe(email.value)
+    }
     showVerification.value = true
   }
 }
@@ -176,6 +182,13 @@ function handleResend() {
               required
               autocomplete="new-password"
             />
+          </div>
+
+          <div class="newsletter-opt-in">
+            <label class="checkbox-label">
+              <input v-model="newsletterOptIn" type="checkbox" />
+              <span>{{ t('auth.newsletterOptIn') }}</span>
+            </label>
           </div>
 
           <button type="submit" class="btn btn-primary" :disabled="authStore.loading">
@@ -406,6 +419,28 @@ function handleResend() {
 
   &:hover {
     color: var(--color-teal-dark);
+  }
+}
+
+.newsletter-opt-in {
+  margin-top: 0.25rem;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+
+  input[type='checkbox'] {
+    margin-top: 0.15rem;
+    accent-color: var(--color-teal);
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
   }
 }
 

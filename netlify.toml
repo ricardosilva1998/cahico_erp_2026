@@ -5,6 +5,10 @@
 [functions]
   directory = "netlify/functions"
 
+[[edge_functions]]
+  path = "/product/*"
+  function = "og-meta"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"

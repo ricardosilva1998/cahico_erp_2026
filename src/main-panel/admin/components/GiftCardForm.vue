@@ -55,6 +55,26 @@ function save() {
       createdAt: new Date().toISOString(),
     })
     showToast(t('admin.giftCardCreated'), 'success')
+
+    if (recipientEmail.value) {
+      fetch('/.netlify/functions/send-gift-card-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          recipientEmail: recipientEmail.value,
+          code: code.value.toUpperCase(),
+          valueEur: valueEur.value,
+          expiryDate: expiryDate.value,
+        }),
+      })
+        .then((res) => {
+          if (res.ok) showToast(t('admin.giftCardEmailSent'), 'success')
+        })
+        .catch((err) => {
+          console.warn('Gift card email failed:', err)
+          showToast(t('admin.giftCardEmailFailed'), 'info')
+        })
+    }
   }
   emit('close')
 }

@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { useAdminStore } from '@/stores/admin'
 import { useI18n } from 'vue-i18n'
+import { useNewsletter } from '@/composables/useNewsletter'
 
 const adminStore = useAdminStore()
 const { t } = useI18n()
+const { activeCount, totalCount } = useNewsletter()
 </script>
 
 <template>
@@ -72,6 +74,21 @@ const { t } = useI18n()
           >
             {{ item.visible ? t('admin.visible') : t('admin.hidden') }}
           </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Newsletter Subscribers -->
+    <div class="admin-section">
+      <h3 class="section-title">{{ t('admin.newsletterSubscribers') }}</h3>
+      <div class="toggle-list">
+        <div class="toggle-item">
+          <span class="toggle-label">{{ t('admin.newsletterActive') }}</span>
+          <span class="subscriber-count">{{ activeCount }}</span>
+        </div>
+        <div class="toggle-item">
+          <span class="toggle-label">{{ t('admin.newsletterTotal') }}</span>
+          <span class="subscriber-count">{{ totalCount }}</span>
         </div>
       </div>
     </div>
@@ -186,5 +203,12 @@ const { t } = useI18n()
   &:hover {
     opacity: 0.85;
   }
+}
+
+.subscriber-count {
+  font-family: $font-headline;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-teal);
 }
 </style>

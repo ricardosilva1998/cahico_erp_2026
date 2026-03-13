@@ -1,9 +1,25 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { useProfileStore } from '@/stores/profile'
+import { useAuthStore } from '@/stores/auth'
+import { useNewsletter } from '@/composables/useNewsletter'
 
 const profileStore = useProfileStore()
+const authStore = useAuthStore()
+const { isSubscribed, subscribe, unsubscribe } = useNewsletter()
 const saved = ref(false)
+
+const userEmail = computed(() => authStore.user?.email ?? '')
+const newsletterActive = computed(() => isSubscribed(userEmail.value))
+
+function toggleNewsletter() {
+  if (!userEmail.value) return
+  if (newsletterActive.value) {
+    unsubscribe(userEmail.value)
+  } else {
+    subscribe(userEmail.value)
+  }
+}
 
 const form = ref({
   display_name: '',
@@ -65,6 +81,21 @@ async function handleSave() {
         {{ profileStore.loading ? 'Saving...' : 'Save Changes' }}
       </button>
     </form>
+
+    <div v-if="userEmail" class="newsletter-section">
+      <h3 class="section-subtitle">Newsletter</h3>
+      <div class="newsletter-status">
+        <span class="newsletter-text">
+          {{ newsletterActive ? 'You are subscribed to our newsletter.' : 'You are not subscribed to our newsletter.' }}
+        </span>
+        <button
+          :class="['newsletter-btn', { subscribed: newsletterActive }]"
+          @click="toggleNewsletter"
+        >
+          {{ newsletterActive ? 'Unsubscribe' : 'Subscribe' }}
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -159,6 +190,57 @@ async function handleSave() {
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+  }
+}
+
+.newsletter-section {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.section-subtitle {
+  font-family: $font-headline;
+  font-size: 1rem;
+  color: var(--color-text-primary);
+  margin: 0 0 0.75rem;
+}
+
+.newsletter-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem;
+  background-color: var(--color-off-white);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+}
+
+.newsletter-text {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+}
+
+.newsletter-btn {
+  background-color: var(--color-teal);
+  color: var(--color-text-on-dark);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &.subscribed {
+    background: none;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
   }
 }
 </style>
