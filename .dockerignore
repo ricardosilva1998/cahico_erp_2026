@@ -1,0 +1,12 @@
+node_modules
+dist
+.git
+.claude
+.netlify
+.vscode
+.idea
+*.log
+coverage
+test-results
+playwright-report
+__screenshots__

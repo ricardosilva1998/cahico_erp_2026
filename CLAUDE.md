@@ -24,7 +24,7 @@ bun run test:e2e -- --debug               # E2E debug mode
 
 - Default push target is `dev` branch (exists locally + remote). Never push to `main` unless the user explicitly says "push to prod".
 - After changes: open `http://localhost:5173` in Chrome for visual review + run E2E tests before pushing.
-- Only push to `main` / deploy to Netlify when the user says "push to prod".
+- Only push to `main` / deploy to Railway when the user says "push to prod".
 
 ## Architecture
 

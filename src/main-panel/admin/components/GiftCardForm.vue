@@ -57,7 +57,7 @@ function save() {
     showToast(t('admin.giftCardCreated'), 'success')
 
     if (recipientEmail.value) {
-      fetch('/.netlify/functions/send-gift-card-email', {
+      fetch('/api/send-gift-card-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

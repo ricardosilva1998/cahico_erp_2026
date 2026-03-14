@@ -17,11 +17,14 @@
     "lint": "eslint . --fix --cache",
     "format": "prettier --write --experimental-cli src/",
     "prepare": "husky",
-    "test:smoke": "playwright test --project='Desktop Chrome' e2e/smoke.spec.ts"
+    "test:smoke": "playwright test --project='Desktop Chrome' e2e/smoke.spec.ts",
+    "start": "node server.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.99.1",
     "@types/topojson-client": "^3.1.5",
+    "express": "^5.2.1",
+    "node-cron": "^4.2.1",
     "pinia": "^3.0.4",
     "sass": "^1.97.3",
     "topojson-client": "^3.1.0",
